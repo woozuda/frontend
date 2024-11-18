@@ -10,6 +10,86 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontSize: {
+        h1: [
+          "24px",
+          {
+            lineHeight: "160%",
+            fontWeight: 700,
+          },
+        ],
+        h2: [
+          "22px",
+          {
+            lineHeight: "160%",
+            fontWeight: 700,
+          },
+        ],
+        h3: [
+          "20px",
+          {
+            lineHeight: "160%",
+            fontWeight: 700,
+          },
+        ],
+        sub1: [
+          "20px",
+          {
+            lineHeight: "160%",
+            fontWeight: 600,
+          },
+        ],
+        sub2: [
+          "18px",
+          {
+            lineHeight: "160%",
+            fontWeight: 700,
+          },
+        ],
+        sub3: [
+          "18px",
+          {
+            lineHeight: "160%",
+            fontWeight: 600,
+          },
+        ],
+        sub4: [
+          "16px",
+          {
+            lineHeight: "160%",
+            fontWeight: 700,
+          },
+        ],
+
+        body1: [
+          "18px",
+          {
+            lineHeight: "160%",
+            fontWeight: 400,
+          },
+        ],
+        body2: [
+          "16px",
+          {
+            lineHeight: "160%",
+            fontWeight: "normal",
+          },
+        ],
+        body3: [
+          "14px",
+          {
+            lineHeight: "160%",
+            fontWeight: "normal",
+          },
+        ],
+        cap1: [
+          "12px",
+          {
+            lineHeight: "160%",
+            fontWeight: 400,
+          },
+        ],
+      },
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
@@ -51,11 +131,63 @@ const config: Config = {
           "4": "hsl(var(--chart-4))",
           "5": "hsl(var(--chart-5))",
         },
+
+        app: {
+          gray: {
+            100: "#FAFBFC",
+            200: "#F5F7FA",
+            300: "#F0F2F7",
+            400: "#CFD4E1",
+            500: "#BEC5D3",
+            600: "#99A2B5",
+            700: "#99A2B5",
+            800: "#8C93AB",
+            900: "#6E748A",
+            1000: "#595E70",
+            1100: "#282E41",
+            1200: "#0D101C",
+            1300: "#020306",
+          },
+          border: {
+            100: "#DADADA",
+            200: "#D6D6D6",
+          },
+          blue: {
+            100: "#5AC6F4",
+            200: "#062271",
+          },
+          pink: {
+            100: "#FFC3DF",
+          },
+          red: {
+            // TODO: Danger 색상을 피그마 디자인과 맞춰야 합니다.
+            100: "#EF4444",
+          },
+        },
+        gradient: {
+          "01": {
+            100: "#5AC6F4",
+            200: "#FFC3DF",
+          },
+          "02": {
+            100: "#1238A4",
+            200: "#041135",
+          },
+          "03": {
+            100: "#334E98",
+            200: "#041135",
+            300: "#062271",
+          },
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      fontFamily: {
+        hans: ['"Black Han Sans"'],
+        start: ['"Press Start 2P"'],
       },
     },
   },

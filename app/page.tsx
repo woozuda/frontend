@@ -23,7 +23,7 @@ export default function Home() {
       <h1>WOOZUDA</h1>
       {/* <LoginButton />
       <LogoutButton /> */}
-      <p>Welcome to woozuda</p>
+      <p className="font-hans text-h1 text-app-blue-100">Welcome to woozuda</p>
       <NotificationDemo />
     </main>
   );
