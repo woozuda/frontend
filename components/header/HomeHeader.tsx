@@ -15,12 +15,12 @@ const HomeHeader = (props: HomeHeaderProps) => {
   const { date, onClick } = props;
 
   return (
-    <header className="h-14 p-1 flex items-center justify-between">
+    <header className="h-14 p-1 flex items-center justify-between text-app-gray-1300">
       <Link className="p-3 flex justify-center items-center" href="/">
-        <span className="text-lg font-bold">우주다</span>
+        <span className="text-lg font-bold text-app-gray-1300">우주다</span>
       </Link>
       <div className="flex items-center">
-        <p className="p-3 flex justify-center items-center">{date}</p>
+        <p className="p-3 flex justify-center items-center text-sub3">{date}</p>
         <button
           className="p-3 flex justify-center items-center"
           onClick={onClick}

@@ -17,7 +17,7 @@ const DefaultHeader = (props: DefaultHeaderProps) => {
   const { title, onShare, onClose } = props;
   const router = useRouter();
   return (
-    <header className="h-14 p-1 flex items-center">
+    <header className="h-14 p-1 flex items-center text-app-gray-1300">
       <button
         className="p-3 flex justify-center items-center"
         onClick={() => {
@@ -27,7 +27,7 @@ const DefaultHeader = (props: DefaultHeaderProps) => {
         <ArrowLeftIcon />
       </button>
       <div className="w-full h-full flex items-center p-3">
-        <p className="text-gray-900 text-lg">{title}</p>
+        <p className="text-sub3">{title}</p>
       </div>
       <button
         onClick={onShare}
