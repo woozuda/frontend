@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "@mswjs/http-middleware": "^0.10.2",
+    "@svgr/webpack": "^8.1.0",
     "@tanstack/eslint-plugin-query": "^5.60.1",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
