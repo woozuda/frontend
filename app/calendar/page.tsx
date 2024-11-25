@@ -30,7 +30,7 @@ export default function Page() {
     ref.current?.addEventListener("touchstart", onTouchStart);
     return () => {
       ref.current?.removeEventListener("touchmove", onTouchMove);
-      ref.current?.addEventListener("touchstart", onTouchStart);
+      ref.current?.removeEventListener("touchstart", onTouchStart);
     };
   }, [isTouchMoved]);
 
@@ -51,7 +51,7 @@ export default function Page() {
     ref.current?.addEventListener("touchstart", onTouchStart);
     return () => {
       ref.current?.removeEventListener("touchmove", onTouchMove);
-      ref.current?.addEventListener("touchstart", onTouchStart);
+      ref.current?.removeEventListener("touchstart", onTouchStart);
     };
   }, [isTouchMoved]);
 
