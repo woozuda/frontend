@@ -10,6 +10,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      backgroundImage: {
+        'auth': "url('/assets/images/background.png')"
+      },
       fontSize: {
         h1: [
           "24px",
