@@ -14,49 +14,56 @@ const config: Config = {
         h1: [
           "24px",
           {
-            lineHeight: "160%",
+            lineHeight: "100%",
             fontWeight: 700,
           },
         ],
         h2: [
           "22px",
           {
-            lineHeight: "160%",
+            lineHeight: "100%",
             fontWeight: 700,
           },
         ],
         h3: [
           "20px",
           {
-            lineHeight: "160%",
+            lineHeight: "100%",
             fontWeight: 700,
           },
         ],
         sub1: [
           "20px",
           {
-            lineHeight: "160%",
+            lineHeight: "100%",
             fontWeight: 600,
           },
         ],
         sub2: [
           "18px",
           {
-            lineHeight: "160%",
+            lineHeight: "100%",
             fontWeight: 700,
           },
         ],
         sub3: [
           "18px",
           {
-            lineHeight: "160%",
+            lineHeight: "100%",
             fontWeight: 600,
           },
         ],
         sub4: [
           "16px",
           {
-            lineHeight: "160%",
+            lineHeight: "100%",
+            fontWeight: 700,
+          },
+        ],
+        sub5: [
+          "14px",
+          {
+            lineHeight: "100%",
             fontWeight: 700,
           },
         ],
@@ -64,22 +71,22 @@ const config: Config = {
         body1: [
           "18px",
           {
-            lineHeight: "160%",
+            lineHeight: "150%",
             fontWeight: 400,
           },
         ],
         body2: [
           "16px",
           {
-            lineHeight: "160%",
-            fontWeight: "normal",
+            lineHeight: "150%",
+            fontWeight: 400,
           },
         ],
         body3: [
           "14px",
           {
-            lineHeight: "160%",
-            fontWeight: "normal",
+            lineHeight: "150%",
+            fontWeight: 400,
           },
         ],
         cap1: [
@@ -133,20 +140,25 @@ const config: Config = {
         },
 
         app: {
+          primary: {
+            100: "#0A2162",
+            200: "#1C306A",
+            300: "#566797",
+            400: "#425BA3",
+          },
           gray: {
-            100: "#FAFBFC",
-            200: "#F5F7FA",
-            300: "#F0F2F7",
-            400: "#CFD4E1",
-            500: "#BEC5D3",
-            600: "#99A2B5",
-            700: "#99A2B5",
-            800: "#8C93AB",
-            900: "#6E748A",
-            1000: "#595E70",
-            1100: "#282E41",
-            1200: "#0D101C",
-            1300: "#020306",
+            100: "#F5F7FA",
+            200: "#F0F2F7",
+            300: "#E9ECF5",
+            400: "#DFE4F0",
+            500: "#CCD3E0",
+            600: "#BCC3D1",
+            700: "#A0ABBD",
+            800: "#8A909E",
+            900: "#606570",
+            1000: "#2F3441",
+            1100: "#171B24",
+            1200: "#020305",
           },
           border: {
             100: "#DADADA",
@@ -160,11 +172,13 @@ const config: Config = {
             100: "#FFC3DF",
           },
           red: {
-            // TODO: Danger 색상을 피그마 디자인과 맞춰야 합니다.
-            100: "#EF4444",
+            100: "#E62828",
           },
+          // Opacity를 20%로 설정할 것
+          dim: "#000000",
         },
         gradient: {
+          // 0% 90%
           "01": {
             100: "#5AC6F4",
             200: "#FFC3DF",
