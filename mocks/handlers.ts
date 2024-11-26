@@ -17,6 +17,20 @@ export const handlers = [
       }
     );
   }),
+  //회원가입
+  http.post("api/signin", () => {
+    return HttpResponse.json(
+      {
+        userId: 2,
+        nickname: "woozuda2",
+      },
+      {
+        headers: {
+          "Set-Cookie": "connect.sid=msw-cookie;HttpOnly;Path=/",
+        },
+      }
+    );
+  }),
   //로그아웃
   http.post("api/logout", () => {
     return new HttpResponse(null, {
