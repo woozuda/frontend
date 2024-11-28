@@ -76,11 +76,11 @@ export default function CreateDiaryPage() {
   }
   const handleThemeKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === " ") {
-      e.preventDefault(); // 스페이스 기본 동작 방지
-      const trimmedValue = diaryThemeInput.trim(); // 공백 제거
+      e.preventDefault(); 
+      const trimmedValue = diaryThemeInput.trim(); 
       if (trimmedValue) {
-        setDiaryTheme((prevThemes) => [...prevThemes, trimmedValue]); // 칩 추가
-        setDiaryThemeInput(""); // 인풋 필드 초기화
+        setDiaryTheme((prevThemes) => [...prevThemes, trimmedValue]); 
+        setDiaryThemeInput("");
       }
     }
   };
@@ -168,7 +168,7 @@ export default function CreateDiaryPage() {
             placeholder="주제를 적어주세요"
             value={diaryThemeInput}
             onChange={handleThemeChange}
-            onKeyDown={handleThemeKeyDown}
+            onKeyUp={handleThemeKeyDown}
             className="w-full h-12 bg-slate-100 border-none p-4 font-light"
           />
         </div>
