@@ -1,3 +1,5 @@
+// @ts-expect-error 타입 추론이 필요하지 않음
+import scrollbarHide from "tailwind-scrollbar-hide";
 import type { Config } from "tailwindcss";
 import animatePlugin from "tailwindcss-animate";
 
@@ -11,7 +13,7 @@ const config: Config = {
   theme: {
     extend: {
       backgroundImage: {
-        'auth': "url('/assets/images/background.png')"
+        auth: "url('/assets/images/background.png')",
       },
       fontSize: {
         h1: [
@@ -187,8 +189,8 @@ const config: Config = {
             200: "#FFC3DF",
           },
           "02": {
-            100: "#1238A4",
-            200: "#041135",
+            100: "rgba(90, 198, 244, 0.7)",
+            200: "rgba(255, 195, 223, 0.7)",
           },
           "03": {
             100: "#334E98",
@@ -208,6 +210,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [animatePlugin],
+  plugins: [animatePlugin, scrollbarHide],
 };
 export default config;
