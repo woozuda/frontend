@@ -1,4 +1,6 @@
 import { http, HttpResponse } from "msw";
+import { handlers as diaries } from "./handlers/diary";
+import { handlers as notes } from "./handlers/note";
 
 export const handlers = [
   //로그인
