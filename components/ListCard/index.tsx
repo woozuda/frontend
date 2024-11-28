@@ -66,7 +66,7 @@ export interface ListCardDescriptionProps {
 const ListCardDescription = (props: ListCardDescriptionProps) => {
   const className = ClassNameLibs.merge(
     props,
-    "text-app-gray-500 text-body2 line-clamp-3"
+    "text-body2 line-clamp-3 text-white"
   );
   const { children } = props;
   return <p className={className}>{children}</p>;
@@ -75,11 +75,11 @@ const ListCardDescription = (props: ListCardDescriptionProps) => {
 export interface ListCardProps extends PropsWithChildren {
   className?: string;
 }
-const ListCard = (props: ListCardProps) => {
+const ListCardContainer = (props: ListCardProps) => {
   const { children } = props;
   const className = ClassNameLibs.merge(
     props,
-    "flex flex-col w-full gap-y-4 px-5 py-6 opacity-20 bg-app-dim"
+    "flex flex-col w-full gap-y-4 px-5 py-6 bg-opacity-20 bg-app-dim rounded-xl"
   );
 
   return <section className={className}>{children}</section>;
@@ -90,11 +90,14 @@ const ListCardHeader = Object.assign(
   { Default: ListCardHeaderDefault, Reflection: ListCardHeaderReflection }
 );
 
-const ListCardCompound = {
-  ListCard,
-  ListCardHeader,
-  ListCardThumbnail,
-  ListCardDescription,
-};
+const ListCard = Object.assign(
+  {},
+  {
+    Container: ListCardContainer,
+    Header: ListCardHeader,
+    Thumbnail: ListCardThumbnail,
+    Description: ListCardDescription,
+  }
+);
 
-export default ListCardCompound;
+export default ListCard;
