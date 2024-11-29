@@ -29,7 +29,7 @@ const navigations = [
   {
     text: "다이어리",
     icon: <DiarySvg />,
-    href: "/",
+    href: "/diary",
   },
   {
     text: "마이",

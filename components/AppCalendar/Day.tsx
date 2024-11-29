@@ -13,12 +13,16 @@ export interface AppCalendarDayProps {
 }
 
 export const AppCalendarDayDefault = (props: AppCalendarDayProps) => {
-  const { day, href = "/", type = CalendarDayType.DISABLED } = props;
+  const { day, href = "/", type = CalendarDayType.DISABLED, onClick } = props;
 
   switch (type) {
     case CalendarDayType.DISABLED: {
       return (
-        <div className="w-[34px] h-[34px] flex justify-center items-center">
+        <div
+          className="w-[34px] h-[34px] flex justify-center items-center"
+          role="button"
+          onClick={onClick}
+        >
           <span className="text-sub4 text-app-gray-900">
             {format(day, "dd")}
           </span>
@@ -37,9 +41,12 @@ export const AppCalendarDayDefault = (props: AppCalendarDayProps) => {
     }
     case CalendarDayType.TODAY: {
       return (
-        <div className="w-[34px] h-[34px] flex justify-center items-center rounded-[20px] bg-app-primary-200">
+        <Link
+          href={href}
+          className="w-[34px] h-[34px] flex justify-center items-center rounded-[20px] bg-app-primary-200"
+        >
           <span className="text-sub4 text-white">{format(day, "dd")}</span>
-        </div>
+        </Link>
       );
     }
     case CalendarDayType.SELECTED: {

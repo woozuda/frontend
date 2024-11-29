@@ -8,7 +8,7 @@ export class GNBLibs {
       };
     } else {
       return {
-        background: "bg-app-gray-900",
+        background: "bg-app-gray-900 bg-clip-text",
         text: "text-app-gray-900 text-cap1",
       };
     }

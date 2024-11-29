@@ -11,6 +11,6 @@ interface HasClassName {
 
 export class ClassNameLibs {
   static merge(props: HasClassName, className?: string) {
-    return cn(props.className, className);
+    return cn(className, props.className);
   }
 }
