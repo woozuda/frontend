@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import AppProvider from "./provider";
 import { MSWComponent } from "./provider/MSWComponent";
+import { Toaster } from "@/components/ui/sonner"
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -32,6 +33,7 @@ export default function RootLayout({
       >
         <MSWComponent />
         <AppProvider>{children}</AppProvider>
+        <Toaster />
       </body>
     </html>
   );
