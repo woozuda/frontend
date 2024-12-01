@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "mock": "npx tsx watch ./mocks/http.ts"
+    "mock": "npx tsx watch ./mocks/http.ts",
+    "svg": "npx tsx ./scripts/svg.ts"
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.1.2",
