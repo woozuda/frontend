@@ -1,0 +1,9 @@
+.ql-toolbar.ql-snow {
+  @apply border-0 border-y border-y-app-gray-400;
+
+  @apply sticky top-0 left-0 z-10 bg-white;
+}
+
+.ql-container.ql-snow {
+  @apply border-0;
+}
