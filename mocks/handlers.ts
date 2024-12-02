@@ -1,5 +1,6 @@
 import { http, HttpResponse } from "msw";
 import { handlers as diaries } from "./handlers/diary";
+import { handlers as images } from "./handlers/image";
 import { handlers as notes } from "./handlers/note";
 
 export const handlers = [
@@ -61,4 +62,5 @@ export const handlers = [
   }),
   ...diaries,
   ...notes,
+  ...images,
 ];

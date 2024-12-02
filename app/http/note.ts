@@ -1,6 +1,20 @@
 import { Http, HttpLibs } from "@/app/lib/http";
 import { DiaryNote } from "../models/diary";
 
+export interface CreateNoteProps {
+  diary: {
+    id: number;
+    title: string;
+  };
+  title: string;
+  tag: string[];
+  weather: string;
+  season: string;
+  feeling: string;
+  date: string;
+  content: string;
+}
+
 export class NoteAPI {
   http: Http;
   constructor(http: Http) {
@@ -41,13 +55,23 @@ export class NoteAPI {
     return HttpLibs.toJson<DiaryNote>(response);
   }
 
-  async createCommonNote(diaryId: number) {
-    const response = await this.http.post(`/api/diary/${diaryId}/note/common`);
+  async createCommonNote(props: CreateNoteProps) {
+    const { diary, ...params } = props;
+    const body = JSON.stringify({ ...params, diary: diary.title });
+    const response = await this.http.post(
+      `/api/diary/${diary.id}/note/common`,
+      {
+        body,
+      }
+    );
     return HttpLibs.toJson<{ id: number }>(response);
   }
-  async createQuestionNote(diaryId: number) {
+  async createQuestionNote(props: CreateNoteProps) {
+    const { diary, ...params } = props;
+    const body = JSON.stringify({ ...params, diary: diary.title });
     const response = await this.http.post(
-      `/api/diary/${diaryId}/note/question`
+      `/api/diary/${diary.id}/note/question`,
+      { body }
     );
     return HttpLibs.toJson<{ id: number }>(response);
   }

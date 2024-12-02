@@ -1,10 +1,8 @@
 "use client";
 
 import DiaryCard from "@/components/DiaryCard";
-import FloatingAction from "@/components/FloatingAction";
 import useDiaries from "../hooks/useDiaries";
 
-import PencilSvg from "@/app/assets/icons/Pencil.svg";
 import PlusSvg from "@/app/assets/icons/Plus.svg";
 import Star28Svg from "@/app/assets/icons/Star28.svg";
 import AddDiary from "@/components/AddDiary";
@@ -52,10 +50,6 @@ export default function Page() {
           </div>
         </div>
       </div>
-      <FloatingAction.Button
-        icon={<PencilSvg />}
-        className="absolute left-auto top-auto bottom-4 right-4 !from-[-10%]"
-      />
     </div>
   );
 }
