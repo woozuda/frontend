@@ -111,6 +111,7 @@ const AppCalendarHeader = () => {
 
 export interface AppCalendarWeekDayProps {
   className?: string;
+  textColor?: "black" | "white"
 }
 
 const AppCalendarWeekDay = (props: AppCalendarWeekDayProps) => {
@@ -127,7 +128,7 @@ const AppCalendarWeekDay = (props: AppCalendarWeekDayProps) => {
         {weekDays.map((day) => {
           return (
             <div key={day} className="flex justify-center items-center">
-              <span className="text-white text-body3">{day}</span>
+              <span className={`text-${props.textColor} text-body3`}>{day}</span>
             </div>
           );
         })}

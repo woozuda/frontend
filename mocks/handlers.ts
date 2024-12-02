@@ -1,6 +1,7 @@
 import { http, HttpResponse } from "msw";
 import { handlers as diaries } from "./handlers/diary";
 import { handlers as notes } from "./handlers/note";
+import { handlers as retrospects} from "./handlers/retrospect";
 
 export const handlers = [
   //로그인
@@ -60,4 +61,7 @@ export const handlers = [
         "https://www.google.com/url?sa=i&url=https%3A%2F%2Fpixabay.com%2Fimages%2Fsearch%2Fspace%2F&psig=AOvVaw1tbz6L4Y99OUU9fp7lslO4&ust=1732825335125000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCICbuser_YkDFQAAAAAdAAAAABAK",
     });
   }),
+  ...diaries,
+  ...notes,
+  ...retrospects,
 ];
