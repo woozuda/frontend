@@ -6,6 +6,9 @@ import ArrowLeftSvg from "@/app/assets/icons/ArrowLeft.svg";
 import useDiaries from "@/app/hooks/useDiaries";
 import useImageUpload from "@/app/hooks/useImageUpload";
 import useNoteCommonCreate from "@/app/hooks/useNoteCreate";
+import { CalendarDayType, CalendarLibs } from "@/app/lib/calendar";
+import AppCalendar from "@/components/AppCalendar";
+import AppCalendarDay from "@/components/AppCalendar/Day";
 import BottomSheetSelect from "@/components/BottomSheet/Select";
 import QuillEditor from "@/components/Editor";
 import {
@@ -17,7 +20,13 @@ import {
 } from "@/components/ui/sheet";
 import { format } from "date-fns";
 import Quill from "quill";
-import { ChangeEventHandler, MouseEventHandler, useRef, useState } from "react";
+import {
+  ChangeEventHandler,
+  MouseEventHandler,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 type Emoji = {
   icon: string;
@@ -57,7 +66,7 @@ export default function Page() {
   });
   const [diary, setDiary] = useState<{
     id: number;
-    text: string;
+    title: string;
     key: string;
   }>();
   const [textLength, setTextLength] = useState(0);
@@ -66,6 +75,10 @@ export default function Page() {
   const { mutateAsync: onNoteCreate } = useNoteCommonCreate();
   const [emoji, setEmoji] = useState<Emoji>();
   const [weather, setWeather] = useState<Emoji>();
+  const [title, setTitle] = useState<string>();
+  const [season, setSeason] = useState<string>();
+  const now = useMemo(() => new Date(), []);
+  const [selectedDate, setSelectedDate] = useState(now);
 
   const onFileChange: ChangeEventHandler<HTMLInputElement> = async (event) => {
     const files = Array.from(event.target.files ?? []);
@@ -86,8 +99,18 @@ export default function Page() {
   };
 
   const onSubmit: MouseEventHandler<HTMLButtonElement> = async (event) => {
-    if (diary) {
-      const { id } = await onNoteCreate(diary.id);
+    if (editorRef.current) {
+      const content = editorRef.current.getSemanticHTML();
+      const { id } = await onNoteCreate({
+        diary,
+        title,
+        emoji,
+        weather,
+        season,
+        date: selectedDate,
+        content,
+        tags: [],
+      });
     }
   };
 
@@ -115,7 +138,7 @@ export default function Page() {
               )}
               {diary && (
                 <h2 className="w-full text-body2 text-app-gray-700 text-start line-clamp-1">
-                  {diary.text}
+                  {diary.title}
                 </h2>
               )}
               <ArrowDownSvg className="flex shrink-0" />
@@ -128,13 +151,19 @@ export default function Page() {
             itemClassName="bg-white"
             className="bg-white"
             onClick={(item) => {
-              setDiary(item);
+              setDiary({ id: item.id, title: item.text, key: item.key });
             }}
           />
         </Sheet>
         <div className="w-full h-px bg-app-gray-400" />
         <div className="flex w-full h-[54px] items-center px-5 py-4">
-          <input className="!text-h2 w-full text-app-gray-700 p-0 outline-none" />
+          <input
+            className="!text-h2 w-full text-app-gray-700 p-0 outline-none"
+            type="text"
+            onChange={(event) => {
+              setTitle(event.target.value);
+            }}
+          />
         </div>
         <div className="w-full bg-white flex flex-col">
           <QuillEditor
@@ -211,7 +240,73 @@ export default function Page() {
           </SheetContent>
         </Sheet>
         <div className="w-full flex items-center justify-end">
-          <h5 className="text-sub5">{format("2024-12-01", "yyyy-MM-dd")}</h5>
+          <Sheet>
+            <SheetTrigger>
+              <h5 className="text-sub5">
+                {format(selectedDate, "yyyy-MM-dd")}
+              </h5>
+            </SheetTrigger>
+            <SheetContent
+              className="w-full flex justify-center"
+              side={"bottom"}
+            >
+              <SheetTitle className="hidden" />
+              <div className="w-full max-w-[412px]">
+                <AppCalendar.Container defaultDate={now}>
+                  <AppCalendar.Header
+                    classNames={{
+                      text: "text-app-gray-900",
+                      prevIcon: "text-app-gray-900",
+                      nextIcon: "text-app-gray-900",
+                    }}
+                  />
+                  <AppCalendar.WeekDay />
+                  <AppCalendar.BodyContainer>
+                    <AppCalendar.Body background={false}>
+                      {({ date }) => {
+                        const isSelected = CalendarLibs.isDateEqual(
+                          date.date,
+                          selectedDate
+                        );
+                        const isNow = CalendarLibs.isDateEqual(date.date, now);
+                        const isNone = !date.inMonth;
+                        let type = CalendarDayType.DISABLED;
+                        if (isSelected) {
+                          type = CalendarDayType.SELECTED;
+                        } else if (isNow) {
+                          type = CalendarDayType.TODAY;
+                        } else if (isNone) {
+                          type = CalendarDayType.NONE;
+                        }
+                        if (type === CalendarDayType.NONE) {
+                          return (
+                            <AppCalendarDay.Sheet
+                              day={date.date}
+                              type={type}
+                              onClick={(event) => {
+                                setSelectedDate(date.date);
+                              }}
+                            />
+                          );
+                        }
+                        return (
+                          <SheetClose>
+                            <AppCalendarDay.Sheet
+                              day={date.date}
+                              type={type}
+                              onClick={(event) => {
+                                setSelectedDate(date.date);
+                              }}
+                            />
+                          </SheetClose>
+                        );
+                      }}
+                    </AppCalendar.Body>
+                  </AppCalendar.BodyContainer>
+                </AppCalendar.Container>
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
         <div className="flex items-center w-[100px] gap-x-3">
           <h5 className="text-sub5 whitespace-nowrap">겨울</h5>
