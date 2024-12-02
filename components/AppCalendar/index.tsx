@@ -42,7 +42,6 @@ export type CalendarDay = (props: CalendarDayProps) => ReactNode;
 
 interface AppCalendarContextType {
   date: Date;
-  close?: boolean;
   onChange?: (date: Date) => unknown;
   onMonthClick?: (month: number) => unknown;
   onNextClick: () => unknown;
@@ -51,34 +50,10 @@ interface AppCalendarContextType {
 
 const AppCalendarContext = createContext<AppCalendarContextType>(null!);
 
-const AppCalendarHeader = () => {
-  const { date, close, onNextClick, onPrevClick } =
-    useContext(AppCalendarContext);
+const AppCalendarNavBar = () => {
+  const { date, onNextClick, onPrevClick } = useContext(AppCalendarContext);
   const text = format(date, "yyyy년 MM월", { locale: ko });
 
-  if (!close) {
-    return (
-      <div className="flex justify-center p-1 h-[56px]">
-        <div className="p-3 gap-x-3 flex items-center">
-          <button
-            onClick={() => onPrevClick()}
-            className="w-6 h-6 flex justify-center items-center text-app-gray-400"
-          >
-            <ArrowLeftSvg />
-          </button>
-          <AppCalendarSheet>
-            <h3 className="text-sub3 text-app-gray-400">{text}</h3>
-          </AppCalendarSheet>
-          <button
-            onClick={() => onNextClick()}
-            className="w-6 h-6 flex justify-center items-center text-app-gray-400"
-          >
-            <ArrowRightSvg />
-          </button>
-        </div>
-      </div>
-    );
-  } else {
     return (
       <div className="flex justify-between p-1 h-[56px] w-full items-center">
         <div className="w-10 h-10" />
@@ -106,7 +81,45 @@ const AppCalendarHeader = () => {
         </Link>
       </div>
     );
-  }
+};
+
+export interface AppCalendarHeaderProps {
+  classNames?: {
+    text?: string;
+    prevIcon?: string;
+    nextIcon?: string;
+  };
+}
+
+const AppCalendarHeader = (props: AppCalendarHeaderProps) => {
+  const { date, onNextClick, onPrevClick } = useContext(AppCalendarContext);
+  const text = format(date, "yyyy년 MM월", { locale: ko });
+  const prevClassNames = cn(
+    "w-6 h-6 flex justify-center items-center text-app-gray-400",
+    props.classNames?.prevIcon
+  );
+  const nextClassNames = cn(
+    "w-6 h-6 flex justify-center items-center text-app-gray-400",
+    props.classNames?.nextIcon
+  );
+  const textClassNames = cn(
+    "text-sub3 text-app-gray-400",
+    props.classNames?.text
+  );
+
+  return (
+    <div className="flex justify-center p-1 h-[56px]">
+      <div className="p-3 gap-x-3 flex items-center">
+        <button onClick={() => onPrevClick()} className={prevClassNames}>
+          <ArrowLeftSvg />
+        </button>
+        <h3 className={textClassNames}>{text}</h3>
+        <button onClick={() => onNextClick()} className={nextClassNames}>
+          <ArrowRightSvg />
+        </button>
+      </div>
+    </div>
+  );
 };
 
 export interface AppCalendarWeekDayProps {
