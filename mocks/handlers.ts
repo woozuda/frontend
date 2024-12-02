@@ -1,5 +1,6 @@
 import { http, HttpResponse } from "msw";
 import { handlers as diaries } from "./handlers/diary";
+import { handlers as images } from "./handlers/image";
 import { handlers as notes } from "./handlers/note";
 import { handlers as retrospects} from "./handlers/retrospect";
 
@@ -43,8 +44,7 @@ export const handlers = [
   //랜덤 커버 생성
   http.post("api/diary/random", () => {
     return HttpResponse.json({
-      url:
-        "https://upload.wikimedia.org/wikipedia/ko/thumb/a/a6/Pok%C3%A9mon_Pikachu_art.png/200px-Pok%C3%A9mon_Pikachu_art.png",
+      url: "https://upload.wikimedia.org/wikipedia/ko/thumb/a/a6/Pok%C3%A9mon_Pikachu_art.png/200px-Pok%C3%A9mon_Pikachu_art.png",
     });
   }),
   //다이어리 생성
@@ -63,5 +63,6 @@ export const handlers = [
   }),
   ...diaries,
   ...notes,
+  ...images,
   ...retrospects,
 ];

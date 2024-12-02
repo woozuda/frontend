@@ -81,12 +81,11 @@ export default function Page() {
     <div className="flex w-full h-full flex-col">
       <AppCalendar.Container
         defaultDate={currentDate}
-        close
         ref={(element) => {
           ref.current = element;
         }}
       >
-        <AppCalendar.Header />
+        <AppCalendar.NavBar />
         <AppCalendar.WeekDay className="w-full px-5" />
         <AppCalendar.BodyContainer>
           {isTouchMoved && (
