@@ -75,6 +75,64 @@ export const AppCalendarDayDefault = (props: AppCalendarDayProps) => {
   }
 };
 
+export const AppCalendarSheetDay = (props: AppCalendarDayProps) => {
+  const { day, type = CalendarDayType.DISABLED, onClick } = props;
+
+  switch (type) {
+    case CalendarDayType.DISABLED: {
+      return (
+        <div
+          className="w-[34px] h-[34px] flex justify-center items-center"
+          onClick={onClick}
+        >
+          <span className="text-sub4 text-app-gray-900">
+            {format(day, "dd")}
+          </span>
+        </div>
+      );
+    }
+    case CalendarDayType.TODAY: {
+      return (
+        <div
+          className="w-[34px] h-[34px] flex justify-center items-center rounded-[20px] bg-app-primary-200"
+          onClick={onClick}
+        >
+          <span className="text-sub4 text-white">{format(day, "dd")}</span>
+        </div>
+      );
+    }
+    case CalendarDayType.SELECTED: {
+      return (
+        <div
+          className="w-[34px] h-[34px] flex justify-center items-center rounded-[20px] bg-gradient-to-r from-gradient-01-100 to-gradient-01-200 from-[20%]"
+          onClick={onClick}
+        >
+          <span className="text-sub4 text-app-gray-1200">
+            {format(day, "dd")}
+          </span>
+        </div>
+      );
+    }
+    case CalendarDayType.NONE: {
+      return (
+        <div className="w-[34px] h-[34px] flex justify-center items-center" />
+      );
+    }
+    default: {
+      return (
+        <div
+          className="w-[34px] h-[34px] flex justify-center items-center"
+          onClick={onClick}
+        >
+          <span className="text-sub4 text-app-gray-900">
+            {format(day, "dd")}
+          </span>
+        </div>
+      );
+    }
+  }
+};
+
 export const AppCalendarDayCreate = (props: AppCalendarDayProps) => {
   const { day, type = CalendarDayType.DISABLED, onClick } = props;
 
@@ -135,6 +193,7 @@ const AppCalendarDay = Object.assign(
   {
     Default: AppCalendarDayDefault,
     Create: AppCalendarDayCreate,
+    Sheet: AppCalendarSheetDay,
   }
 );
 

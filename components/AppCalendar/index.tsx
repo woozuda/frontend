@@ -1,4 +1,4 @@
-import { ClassNameLibs } from "@/lib/utils";
+import { ClassNameLibs, cn } from "@/lib/utils";
 import {
   addMonths,
   format,
@@ -54,33 +54,33 @@ const AppCalendarNavBar = () => {
   const { date, onNextClick, onPrevClick } = useContext(AppCalendarContext);
   const text = format(date, "yyyy년 MM월", { locale: ko });
 
-    return (
-      <div className="flex justify-between p-1 h-[56px] w-full items-center">
-        <div className="w-10 h-10" />
-        <div className="p-3 gap-x-3 flex items-center">
-          <button
-            onClick={() => onPrevClick()}
-            className="w-6 h-6 flex justify-center items-center text-app-gray-400"
-          >
-            <ArrowLeftSvg />
-          </button>
-          <AppCalendarSheet>
-            <h3 className="text-sub3 text-app-gray-400">{text}</h3>
-          </AppCalendarSheet>
-          <button
-            onClick={() => onNextClick()}
-            className="w-6 h-6 flex justify-center items-center text-app-gray-400"
-          >
-            <ArrowRightSvg />
-          </button>
-        </div>
-        <Link href={"/home"}>
-          <button className="w-10 h-10 flex justify-center items-center text-app-gray-400">
-            <XMarkSvg />
-          </button>
-        </Link>
+  return (
+    <div className="flex justify-between p-1 h-[56px] w-full items-center">
+      <div className="w-10 h-10" />
+      <div className="p-3 gap-x-3 flex items-center">
+        <button
+          onClick={() => onPrevClick()}
+          className="w-6 h-6 flex justify-center items-center text-app-gray-400"
+        >
+          <ArrowLeftSvg />
+        </button>
+        <AppCalendarSheet>
+          <h3 className="text-sub3 text-app-gray-400">{text}</h3>
+        </AppCalendarSheet>
+        <button
+          onClick={() => onNextClick()}
+          className="w-6 h-6 flex justify-center items-center text-app-gray-400"
+        >
+          <ArrowRightSvg />
+        </button>
       </div>
-    );
+      <Link href={"/home"}>
+        <button className="w-10 h-10 flex justify-center items-center text-app-gray-400">
+          <XMarkSvg />
+        </button>
+      </Link>
+    </div>
+  );
 };
 
 export interface AppCalendarHeaderProps {
@@ -124,15 +124,20 @@ const AppCalendarHeader = (props: AppCalendarHeaderProps) => {
 
 export interface AppCalendarWeekDayProps {
   className?: string;
+  classNames?: {
+    text: string;
+  };
 }
 
 const AppCalendarWeekDay = (props: AppCalendarWeekDayProps) => {
   const { date } = useContext(AppCalendarContext);
+  const { classNames } = props;
   const weekDays = CalendarLibs.createWeekNames(date);
   const className = ClassNameLibs.merge(
     props,
-    "flex items-center px-5 h-[37px]"
+    "flex items-center px-5 h-[37px] w-full"
   );
+  const textClassName = cn("text-body3", "text-white", classNames?.text);
 
   return (
     <div className={className}>
@@ -140,7 +145,7 @@ const AppCalendarWeekDay = (props: AppCalendarWeekDayProps) => {
         {weekDays.map((day) => {
           return (
             <div key={day} className="flex justify-center items-center">
-              <span className="text-white text-body3">{day}</span>
+              <span className={textClassName}>{day}</span>
             </div>
           );
         })}
@@ -166,6 +171,8 @@ const AppCalendarBodyContainer = (props: AppCalendarBodyContainerProps) => {
 export interface AppCalendarBodyProps {
   children: CalendarDay;
   className?: string;
+
+  background?: boolean;
 }
 
 const AppCalendarShortBody = (props: AppCalendarBodyProps) => {
@@ -188,13 +195,15 @@ const AppCalendarShortBody = (props: AppCalendarBodyProps) => {
 };
 
 const AppCalendarBody = (props: AppCalendarBodyProps) => {
-  const { children } = props;
+  const { children, background = true } = props;
   const { date } = useContext(AppCalendarContext);
   const { matrix } = CalendarLibs.createMonthDays(date);
 
   return (
     <div className="relative w-full flex flex-col p-3 gap-y-2.5 rounded-xl">
-      <div className="absolute bg-gradient-to-r from-gradient-01-100 to-gradient-01-200 opacity-10 rounded-xl top-0 left-0 w-full h-full backdrop-blur" />
+      {background && (
+        <div className="absolute bg-gradient-to-r from-gradient-01-100 to-gradient-01-200 opacity-10 rounded-xl top-0 left-0 w-full h-full backdrop-blur" />
+      )}
       {matrix.map(({ array: row, key }) => {
         return (
           <div className="py-1 flex justify-between relative" key={key}>
@@ -212,7 +221,6 @@ const AppCalendarBody = (props: AppCalendarBodyProps) => {
 
 export interface AppCalendarProps extends PropsWithChildren {
   className?: string;
-  close?: boolean;
 
   defaultDate?: Date;
   onChange?: (date: Date) => unknown;
@@ -220,7 +228,7 @@ export interface AppCalendarProps extends PropsWithChildren {
 
 const AppCalendarContainer = forwardRef<HTMLDivElement, AppCalendarProps>(
   function AppCalendarContainer(props, ref) {
-    const { onChange, close = false, children } = props;
+    const { onChange, children } = props;
     const [date, setDate] = useState(
       startOfDay(props.defaultDate ?? new Date())
     );
@@ -254,7 +262,6 @@ const AppCalendarContainer = forwardRef<HTMLDivElement, AppCalendarProps>(
           onPrevClick,
           onChange,
           onMonthClick,
-          close,
         }}
       >
         <div className={className} ref={ref}>
@@ -310,6 +317,7 @@ const AppCalendar = Object.assign(
   {
     Container: AppCalendarContainer,
     Header: AppCalendarHeader,
+    NavBar: AppCalendarNavBar,
     WeekDay: AppCalendarWeekDay,
     BodyContainer: AppCalendarBodyContainer,
     ShortBody: AppCalendarShortBody,
