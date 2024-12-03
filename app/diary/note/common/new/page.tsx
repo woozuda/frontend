@@ -72,7 +72,6 @@ export default function Page() {
   }>();
   const now = useMemo(() => new Date(), []);
   const [selectedDate, setSelectedDate] = useState(now);
-  const [isNorth, setIsNorth] = useState(true);
 
   const [textLength, setTextLength] = useState(0);
   const editorRef = useRef<Quill | null>(null);
@@ -82,7 +81,7 @@ export default function Page() {
   const [weather, setWeather] = useState<Emoji>();
   const [title, setTitle] = useState<string>();
 
-  const season = NoteLibs.createSeason(selectedDate, isNorth);
+  const season = NoteLibs.createSeason(selectedDate);
 
   const onFileChange: ChangeEventHandler<HTMLInputElement> = async (event) => {
     const files = Array.from(event.target.files ?? []);
@@ -307,9 +306,7 @@ export default function Page() {
           </Sheet>
         </div>
         <div className="flex items-center w-[100px] gap-x-3">
-          <button onClick={() => setIsNorth((isNorth) => !isNorth)}>
-            <h5 className="text-sub5 whitespace-nowrap">{season}</h5>
-          </button>
+          <h5 className="text-sub5 whitespace-nowrap">{season}</h5>
           <p className="text-body3 whitespace-nowrap">{textLength}/1000</p>
         </div>
       </div>
