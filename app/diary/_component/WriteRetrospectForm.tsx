@@ -25,7 +25,7 @@ export default function WriteRetrospectForm({
   )[0].sections;
 
   const handleInputChange = (sectionName: string, value: string) => {
-    if (value.length > 30) {
+    if (value.length > 300) {
       toast.error(`${sectionName}은(는) 최대 300자까지만 입력할 수 있습니다.`, {
         action: {
           label: "확인",

@@ -84,7 +84,7 @@ export default function CreateFrameworkPage() {
 
   return (
     <main className="h-full min-h-screen w-full sm:min-w-[450px] sm:max-w-[500px] flex flex-col items-center gap-4 py-6 px-4">
-      <section className="w-full">
+      <section className="w-full h-12 sticky top-0 bg-white z-10">
         <div className="flex items-center gap-6">
           <BackButton />
           <h1 className="font-bold text-lg">
