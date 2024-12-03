@@ -3,6 +3,7 @@ import { format } from "date-fns";
 import { isNil } from "ramda";
 import { useHttp } from "../contexts/http";
 import { NoteAPI } from "../http";
+import { NoteSeason } from "../lib/note";
 
 export interface CreateNoteProps {
   diary?: { id: number; title: string };
@@ -11,7 +12,7 @@ export interface CreateNoteProps {
   title?: string;
   content: string;
   date?: Date;
-  season?: string;
+  season?: NoteSeason;
   tags?: string[];
 }
 
@@ -40,7 +41,7 @@ const useNoteCommonCreate = () => {
       if (isNil(title)) {
         return null;
       }
-      if (isNil(date)) {
+      if (isNil(date) || isNil(season)) {
         return null;
       }
       const response = await noteApi.createCommonNote({
