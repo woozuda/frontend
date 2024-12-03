@@ -7,6 +7,7 @@ import useDiaries from "@/app/hooks/useDiaries";
 import useImageUpload from "@/app/hooks/useImageUpload";
 import useNoteCommonCreate from "@/app/hooks/useNoteCreate";
 import { CalendarDayType, CalendarLibs } from "@/app/lib/calendar";
+import { NoteLibs } from "@/app/lib/note";
 import AppCalendar from "@/components/AppCalendar";
 import AppCalendarDay from "@/components/AppCalendar/Day";
 import BottomSheetSelect from "@/components/BottomSheet/Select";
@@ -69,6 +70,10 @@ export default function Page() {
     title: string;
     key: string;
   }>();
+  const now = useMemo(() => new Date(), []);
+  const [selectedDate, setSelectedDate] = useState(now);
+  const [isNorth, setIsNorth] = useState(true);
+
   const [textLength, setTextLength] = useState(0);
   const editorRef = useRef<Quill | null>(null);
   const { mutateAsync } = useImageUpload();
@@ -76,9 +81,8 @@ export default function Page() {
   const [emoji, setEmoji] = useState<Emoji>();
   const [weather, setWeather] = useState<Emoji>();
   const [title, setTitle] = useState<string>();
-  const [season, setSeason] = useState<string>();
-  const now = useMemo(() => new Date(), []);
-  const [selectedDate, setSelectedDate] = useState(now);
+
+  const season = NoteLibs.createSeason(selectedDate, isNorth);
 
   const onFileChange: ChangeEventHandler<HTMLInputElement> = async (event) => {
     const files = Array.from(event.target.files ?? []);
@@ -280,13 +284,7 @@ export default function Page() {
                         }
                         if (type === CalendarDayType.NONE) {
                           return (
-                            <AppCalendarDay.Sheet
-                              day={date.date}
-                              type={type}
-                              onClick={(event) => {
-                                setSelectedDate(date.date);
-                              }}
-                            />
+                            <AppCalendarDay.Sheet day={date.date} type={type} />
                           );
                         }
                         return (
@@ -294,7 +292,7 @@ export default function Page() {
                             <AppCalendarDay.Sheet
                               day={date.date}
                               type={type}
-                              onClick={(event) => {
+                              onClick={() => {
                                 setSelectedDate(date.date);
                               }}
                             />
@@ -309,7 +307,9 @@ export default function Page() {
           </Sheet>
         </div>
         <div className="flex items-center w-[100px] gap-x-3">
-          <h5 className="text-sub5 whitespace-nowrap">겨울</h5>
+          <button onClick={() => setIsNorth((isNorth) => !isNorth)}>
+            <h5 className="text-sub5 whitespace-nowrap">{season}</h5>
+          </button>
           <p className="text-body3 whitespace-nowrap">{textLength}/1000</p>
         </div>
       </div>

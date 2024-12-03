@@ -1,4 +1,5 @@
 import { Http, HttpLibs } from "@/app/lib/http";
+import { NoteSeason } from "../lib/note";
 import { DiaryNote } from "../models/diary";
 
 export interface CreateNoteProps {
@@ -9,7 +10,7 @@ export interface CreateNoteProps {
   title: string;
   tag: string[];
   weather: string;
-  season: string;
+  season: NoteSeason;
   feeling: string;
   date: string;
   content: string;
