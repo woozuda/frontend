@@ -1,6 +1,6 @@
-import { createInfo } from "@/model/diary/createInfo";
+import { CreateInfo as ICreateInfo } from "@/app/models/diary";
 
-export async function createDiary(createInfo: createInfo) {
+export async function createDiary(createInfo: ICreateInfo) {
   console.log(createInfo);
   try {
     const res = await fetch(

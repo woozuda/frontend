@@ -1,10 +1,10 @@
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { createDiary } from "../_lib/createDiary";
-import { createInfo } from "@/model/diary/createInfo";
+import { CreateInfo as ICreateInfo } from "@/app/models/diary";
 import { toast } from "sonner"
 
-export function useCreateDiary(createInfo: createInfo) {
+export function useCreateDiary(createInfo: ICreateInfo) {
   const router = useRouter();
   const { mutate, isPending } = useMutation({
     mutationFn: () => createDiary(createInfo),

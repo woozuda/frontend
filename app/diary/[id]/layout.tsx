@@ -3,6 +3,8 @@ import { Http } from "@/app/lib/http";
 import Link from "next/link";
 import { PropsWithChildren } from "react";
 
+import { Toaster } from "@/components/ui/sonner"
+
 import ArrowLeftSvg from "@/app/assets/icons/ArrowLeft.svg";
 import getQueryClient from "@/app/query/client";
 
@@ -43,6 +45,7 @@ export default async function Layout(props: LayoutProps) {
         </div>
         <div className="w-full h-full flex bg-sky-950 z-10">{children}</div>
       </div>
+      <Toaster />
     </div>
   );
 }

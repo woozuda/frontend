@@ -22,3 +22,36 @@ export interface DiaryNote {
     content: string;
   };
 }
+
+export interface CreateInfo {
+  diaryName: string;
+  diaryTheme: string[];
+  diaryCover: null | FormData | string;
+  diaryCoverType: string;
+}
+
+export interface sections {
+  name: string;
+  description: string;
+}
+
+export interface Retrospect {
+  retrospectId: number;
+  retrospectName: string;
+  description: string;
+  sections: sections[];
+  color: string;
+}
+
+export interface RetrospectText {
+  [sectionName: string]: string ;
+}
+
+export interface CreateRetrospect {
+  retrospectId: number;
+  type: "회고";
+  diaryId: number
+  date: Date;
+  title: string;
+  retrospectText: RetrospectText;  
+}

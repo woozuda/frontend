@@ -24,12 +24,11 @@ export default function CreateDiaryPage() {
   const [diaryCoverType, setDiaryCoverType] = useState<string>("");
   const [diaryCoverPreview, setDiaryCoverPreview] = useState("");
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const themeInput = useRef<HTMLInputElement>(null);
 
   const handleRandomCoverSuccess = (data: {url: string}) => {
-    console.log("Data from API:", data);
     setIsOpen(false);
     setDiaryCover(data.url);
     setDiaryCoverType("random");
