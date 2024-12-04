@@ -6,6 +6,12 @@ export enum DiaryListType {
   NOTES = "notes",
 }
 
+export enum DiaryActionType {
+  DEFAULT = "default",
+  DELETE = "delete",
+  SHARE = "share",
+}
+
 export class DiaryLibs {
   static getListType(searchParams: URLSearchParams) {
     const type = searchParams.get("type");
