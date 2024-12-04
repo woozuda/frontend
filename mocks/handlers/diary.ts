@@ -32,6 +32,7 @@ export const handlers = [
         {
           type: "자유",
           note: {
+            id: 110,
             diary: "다이어리 제목",
             title: "일기 제목",
             tag: ["일기 태그 1", "일기 태그 2"],
@@ -45,6 +46,7 @@ export const handlers = [
         {
           type: "질문",
           note: {
+            id: 111,
             diary: "다이어리 제목",
             question: "질문",
             title: "일기 제목",
@@ -59,6 +61,7 @@ export const handlers = [
         {
           type: "회고",
           note: {
+            id: 201,
             diary: "다이어리 제목",
             title: "일기 제목",
             tag: ["일기 태그 1", "일기 태그 2"],
