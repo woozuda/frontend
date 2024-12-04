@@ -1,42 +1,18 @@
 import { delay, http, HttpResponse } from "msw";
+import { MockDiaryLibs } from "../libs";
 
 export const handlers = [
   http.get("/api/diary", async () => {
     await delay(300);
-    return HttpResponse.json(
-      {
-        diaryList: [
-          {
-            id: 12,
-            title: "다이어리 이름 1",
-            subject: ["다이어리 주제 1", "다이어리 주제 2"],
-            imgUrl: "https://picsum.photos/400/400",
-            startDate: "2024-11-24",
-            endDate: "2024-11-25",
-            noteCount: 10,
-          },
-          {
-            id: 11,
-            title: "다이어리 이름 2",
-            subject: ["다이어리 주제 1", "다이어리 주제 2"],
-            imgUrl: "https://picsum.photos/400/400",
-            startDate: "2024-12-08",
-            endDate: "2025-01-25",
-            noteCount: 20,
-          },
-          {
-            id: 10,
-            title: "다이어리 이름 3",
-            subject: ["주제 1", "주제 2", "주제 3"],
-            imgUrl: "https://picsum.photos/400/400",
-            startDate: "2024-10-24",
-            endDate: "2024-10-25",
-            noteCount: 30,
-          },
-        ],
-      },
-      { status: 200 }
-    );
+    return HttpResponse.json(MockDiaryLibs.createDiaryList(), { status: 200 });
+  }),
+  http.get("/api/diary/dates", async () => {
+    await delay(300);
+    return HttpResponse.json(MockDiaryLibs.createDiaryDates(), { status: 200 });
+  }),
+  http.get("/api/diary/notes", async () => {
+    await delay(300);
+    return HttpResponse.json(MockDiaryLibs.createDiaryNotes(), { status: 200 });
   }),
   http.post("api/diary", async () => {
     return HttpResponse.json({
