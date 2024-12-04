@@ -2,19 +2,19 @@ import { useQuery } from "@tanstack/react-query";
 import { useHttp } from "../contexts/http";
 import { DiaryAPI } from "../http";
 
-const useDiaries = () => {
+const useDiaryNotes = () => {
   const http = useHttp();
   const diaryApi = new DiaryAPI(http);
 
   const { data, isLoading, isFetched, isFetching, error, refetch } = useQuery({
-    queryKey: ["DIARY"] as const,
+    queryKey: ["DIARY_NOTES"],
     queryFn: () => {
-      return diaryApi.getDiaries();
+      return diaryApi.getDiaryNotes();
     },
   });
 
   return {
-    array: data?.diaryList,
+    array: data,
     isLoading,
     isFetched,
     isFetching,
@@ -23,4 +23,4 @@ const useDiaries = () => {
   };
 };
 
-export default useDiaries;
+export default useDiaryNotes;

@@ -12,6 +12,16 @@ export class DiaryAPI {
     return HttpLibs.toJson<{ diaryList: Diary[] }>(response);
   }
 
+  async getDiaryDates() {
+    const response = await this.http.get(`api/diary/dates`);
+    return HttpLibs.toJson<{ dates: { id: number; date: string }[] }>(response);
+  }
+
+  async getDiaryNotes() {
+    const response = await this.http.get(`api/diary/notes`);
+    return HttpLibs.toJson<Diary[]>(response);
+  }
+
   async createDiary() {
     const response = await this.http.post("api/diary");
     return HttpLibs.toJson<{ id: number }>(response);
