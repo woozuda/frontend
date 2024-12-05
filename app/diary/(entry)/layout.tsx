@@ -1,46 +1,60 @@
 "use client";
 
 import FloatingAction from "@/components/FloatingAction";
-import { DiaryHeader } from "@/components/header";
 import GlobalNavigationBar from "@/components/NavigationBar";
-import { PropsWithChildren, useCallback, useState } from "react";
-import usePageScroll from "../../hooks/usePageScroll";
+import { PropsWithChildren, useEffect, useRef, useState } from "react";
 
+import { ViewSvg } from "@/app/assets/icons";
 import PencilSvg from "@/app/assets/icons/Pencil.svg";
+import { HeaderV2 } from "@/components/header/v2";
+import Link from "next/link";
 
 export default function Layout(props: PropsWithChildren) {
   const { children } = props;
   const [bgColor, setBgColor] = useState("bg-transparent");
-  const onScrolled = useCallback(
-    () => setBgColor("bg-app-primary-100 z-20"),
-    []
-  );
-  const onNotScrolled = useCallback(
-    () => setBgColor("bg-transparent z-20"),
-    []
-  );
-  const { scrollRef, rectRef } = usePageScroll({
-    throttleWait: 1000 * 0.2,
-    headerHeight: 56,
-    onNotScrolled,
-    onScrolled,
-  });
+  const ref = useRef(null as HTMLDivElement | null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setBgColor("bg-transparent z-20");
+        } else {
+          setBgColor("bg-app-primary-100 z-20");
+        }
+      });
+    });
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   return (
     <div className="w-full h-full max-w-[480px] flex flex-col bg-auth bg-cover bg-no-repeat bg-center bg-sky-950">
-      <div
-        className="w-full h-full flex flex-col relative overflow-y-scroll"
-        ref={(element) => {
-          scrollRef.current = element;
-        }}
-      >
-        <DiaryHeader className={bgColor} />
-        <div
-          className="w-full h-full flex flex-col"
-          ref={(element) => {
-            rectRef.current = element;
-          }}
-        >
+      <div className="w-full h-full flex flex-col relative overflow-y-scroll">
+        <HeaderV2 className={bgColor + " sticky left-0 top-0 right-0"}>
+          <HeaderV2.Left>
+            <Link
+              className="p-3 flex justify-center items-center"
+              href="/diary"
+            >
+              <h2 className="text-h2 text-white">다이어리</h2>
+            </Link>
+          </HeaderV2.Left>
+          <HeaderV2.Right>
+            <button className="p-3 flex justify-center items-center text-white">
+              <ViewSvg />
+            </button>
+          </HeaderV2.Right>
+        </HeaderV2>
+        <div className="w-full h-full flex flex-col relative">
+          <div
+            className="w-full h-px bg-transparent absolute left-0 right-0 top-[-50px]"
+            ref={ref}
+          />
           {children}
         </div>
       </div>
