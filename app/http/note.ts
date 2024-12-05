@@ -101,4 +101,11 @@ export class NoteAPI {
     );
     return HttpLibs.toJson<{ id: number }>(response);
   }
+
+  async shareNotes(noteIds: number[]) {
+    const response = await this.http.post(`/api/note/share`, {
+      body: JSON.stringify({ id: noteIds }),
+    });
+    return;
+  }
 }
