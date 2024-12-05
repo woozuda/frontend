@@ -12,8 +12,10 @@ export interface Diary {
 export interface DiaryNote {
   type: "자유" | "일기" | "회고";
   note: {
+    id: number;
     diary: string;
     title: string;
+    question?: string;
     tag: string[];
     date: string;
     weather: string;
@@ -44,14 +46,14 @@ export interface Retrospect {
 }
 
 export interface RetrospectText {
-  [sectionName: string]: string ;
+  [sectionName: string]: string;
 }
 
 export interface CreateRetrospect {
   retrospectId: number;
   type: "회고";
-  diaryId: number
+  diaryId: number;
   date: Date;
   title: string;
-  retrospectText: RetrospectText;  
+  retrospectText: RetrospectText;
 }
