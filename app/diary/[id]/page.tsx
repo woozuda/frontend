@@ -1,48 +1,46 @@
-"use client";
+import { ArrowLeftSvg } from "@/app/assets/icons";
+import { DiaryAPI } from "@/app/http";
+import { Http } from "@/app/lib/http";
+import { DiaryPage } from "@/app/pages/diary";
+import getQueryClient from "@/app/query/client";
+import Link from "next/link";
+import { Toaster } from "sonner";
 
-import ManageSvg from "@/app/assets/icons/Manage.svg";
-import useDiary from "@/app/hooks/useDiary";
-import ListCard from "@/components/ListCard";
-import { format } from "date-fns";
-
-export default function Page({ params }: { params: { id: number } }) {
+export default async function Page({ params }: { params: { id: number } }) {
   const { id } = params;
-  const { data } = useDiary({ id });
-  if (!data) {
-    return null;
+  const http = new Http();
+  if (process.env.NEXT_PUBLIC_BASE_URL) {
+    http.baseURL = process.env.NEXT_PUBLIC_BASE_URL;
   }
+
+  const diaryApi = new DiaryAPI(http);
+  const queryClient = getQueryClient();
+  const diary = await queryClient.fetchQuery({
+    queryKey: ["DIARY", id] as const,
+    queryFn: async ({ queryKey }) => {
+      const [, id] = queryKey;
+      return diaryApi.getDiary(id);
+    },
+  });
   return (
-    <div className="flex w-full flex-col relative gap-y-3 pb-3">
-      <div className="w-full flex items-center justify-between h-10 px-5">
-        <h5 className="text-app-gray-600 text-sub5">총 {data?.noteCount}개</h5>
-        <button className="w-10 h-10 flex items-center justify-center">
-          <ManageSvg className="text-app-gray-600" />
-        </button>
+    <div className="w-full h-full max-w-[480px] flex flex-col bg-auth bg-cover bg-no-repeat bg-center bg-sky-950">
+      <div className="w-full h-full flex flex-col relative overflow-y-scroll">
+        <div className="w-full h-[240px] sticky top-0 left-0 shrink-0">
+          <img
+            src={diary.imgUrl}
+            className="w-full h-full object-cover object-top absolute"
+          />
+          <div className="w-full h-14 flex items-center relative p-1">
+            <Link href={"/diary"} className="w-[75px]">
+              <ArrowLeftSvg className="text-white" />
+            </Link>
+          </div>
+        </div>
+        <div className="w-full h-full flex bg-sky-950 z-10">
+          <DiaryPage />
+        </div>
       </div>
-      <div className="w-full flex flex-col px-5 gap-y-5">
-        {data.notes?.map(([date, notes]) => {
-          return (
-            <div key={date} className="flex flex-col gap-y-5">
-              <div className="w-full h-10 items-center justify-center flex">
-                <h4 className="text-sub4 text-white">
-                  {format(date, "MM월 dd일")}
-                </h4>
-              </div>
-              {notes.map((note) => {
-                const key = Math.random();
-                return (
-                  <ListCard.Container key={key}>
-                    <ListCard.Header.Default title={note.note.title} />
-                    <ListCard.Description>
-                      {note.note.content}
-                    </ListCard.Description>
-                  </ListCard.Container>
-                );
-              })}
-            </div>
-          );
-        })}
-      </div>
+      <Toaster />
     </div>
   );
 }
