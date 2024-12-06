@@ -1,7 +1,7 @@
 "use client";
 
 import GlobalNavigationBar from "@/components/NavigationBar";
-import { PropsWithChildren, useEffect, useRef, useState } from "react";
+import { PropsWithChildren } from "react";
 
 import { PencilFlatSvg, ViewSvg } from "@/app/assets/icons";
 import { DiaryHomeLibs, DiaryLibs } from "@/app/lib/diary";
@@ -9,35 +9,23 @@ import AppPopover from "@/components/AppPopover";
 import BottomSheetV2 from "@/components/BottomSheet/v2";
 import { HeaderV2 } from "@/components/header/v2";
 import { Sheet, SheetClose, SheetTrigger } from "@/components/ui/sheet";
+import { cn } from "@/lib/utils";
+import { useIntersectionObserver } from "@uidotdev/usehooks";
 import Link from "next/link";
 
 export default function Layout(props: PropsWithChildren) {
   const { children } = props;
-  const [bgColor, setBgColor] = useState("bg-transparent");
-  const ref = useRef(null as HTMLDivElement | null);
+  const [ref, entry] = useIntersectionObserver();
 
-  useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setBgColor("bg-transparent z-20");
-        } else {
-          setBgColor("bg-app-primary-100 z-20");
-        }
-      });
-    });
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
+  const bgColor =
+    entry && !entry.isIntersecting
+      ? "bg-app-primary-100 z-20"
+      : "bg-transparent z-20";
 
   return (
     <div className="w-full h-full max-w-[480px] flex flex-col bg-auth bg-cover bg-no-repeat bg-center bg-sky-950">
       <div className="w-full h-full flex flex-col relative overflow-y-scroll">
-        <HeaderV2 className={bgColor + " sticky left-0 top-0 right-0"}>
+        <HeaderV2 className={cn(bgColor, "sticky left-0 top-0 right-0")}>
           <HeaderV2.Left>
             <Link
               className="p-3 flex justify-center items-center"
