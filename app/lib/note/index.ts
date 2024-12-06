@@ -7,6 +7,33 @@ export enum NoteSeason {
   WINTER = "겨울",
 }
 
+export type Emoji = {
+  icon: string;
+  text: string;
+};
+
+const emojis: Emoji[] = [
+  { icon: "🥰", text: "기쁨" },
+  { icon: "😊", text: "만족" },
+  { icon: "😀", text: "행복" },
+  { icon: "🙂", text: "보통" },
+  { icon: "🤔", text: "불만" },
+  { icon: "🤬", text: "분노" },
+  { icon: "🫠", text: "피곤" },
+  { icon: "🥲", text: "슬픔" },
+];
+
+const weathers: Emoji[] = [
+  { icon: "☀️", text: "화창" },
+  { icon: "☁️", text: "흐림" },
+  { icon: "🌤️", text: "맑음" },
+  { icon: "🌥️", text: "구름맑음" },
+  { icon: "❄️", text: "눈" },
+  { icon: "⚡️", text: "천둥번개" },
+  { icon: "💨", text: "비바람" },
+  { icon: "☔️", text: "비" },
+];
+
 export class NoteLibs {
   static isSpring(monthIndex: number, isNorth: boolean = true) {
     const month = monthIndex + 1;
@@ -39,5 +66,21 @@ export class NoteLibs {
     if (NoteLibs.isWinter(month, isNorth)) {
       return NoteSeason.WINTER;
     }
+  }
+
+  static getEmojis() {
+    return emojis;
+  }
+
+  static getWeathers() {
+    return weathers;
+  }
+
+  static findFeeling(text: string) {
+    return emojis.find((emoji) => emoji.text === text);
+  }
+
+  static findWeather(text: string) {
+    return weathers.find((weather) => weather.text === text);
   }
 }

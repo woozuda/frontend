@@ -7,10 +7,10 @@ import useDiaries from "@/app/hooks/useDiaries";
 import useImageUpload from "@/app/hooks/useImageUpload";
 import useNoteCommonCreate from "@/app/hooks/useNoteCreate";
 import { CalendarDayType, CalendarLibs } from "@/app/lib/calendar";
-import { NoteLibs } from "@/app/lib/note";
+import { Emoji, NoteLibs } from "@/app/lib/note";
 import AppCalendar from "@/components/AppCalendar";
 import AppCalendarDay from "@/components/AppCalendar/Day";
-import BottomSheetSelect from "@/components/BottomSheet/Select";
+import BottomSheetV2 from "@/components/BottomSheet/v2";
 import QuillEditor from "@/components/Editor";
 import {
   Sheet,
@@ -20,6 +20,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { format } from "date-fns";
+import { useRouter } from "next/navigation";
 import Quill from "quill";
 import {
   ChangeEventHandler,
@@ -28,33 +29,6 @@ import {
   useRef,
   useState,
 } from "react";
-
-type Emoji = {
-  icon: string;
-  text: string;
-};
-
-const emojis = [
-  { icon: "🥰", text: "기쁨" },
-  { icon: "😊", text: "만족" },
-  { icon: "😀", text: "행복" },
-  { icon: "🙂", text: "보통" },
-  { icon: "🤔", text: "불만" },
-  { icon: "🤬", text: "분노" },
-  { icon: "🫠", text: "피곤" },
-  { icon: "🥲", text: "슬픔" },
-];
-
-const weathers = [
-  { icon: "☀️", text: "화창" },
-  { icon: "☁️", text: "흐림" },
-  { icon: "🌤️", text: "맑음" },
-  { icon: "🌥️", text: "구름맑음" },
-  { icon: "❄️", text: "눈" },
-  { icon: "⚡️", text: "천둥번개" },
-  { icon: "💨", text: "비바람" },
-  { icon: "☔️", text: "비" },
-];
 
 export default function Page() {
   const { array } = useDiaries();
@@ -80,6 +54,7 @@ export default function Page() {
   const [emoji, setEmoji] = useState<Emoji>();
   const [weather, setWeather] = useState<Emoji>();
   const [title, setTitle] = useState<string>();
+  const router = useRouter();
 
   const season = NoteLibs.createSeason(selectedDate);
 
@@ -121,7 +96,12 @@ export default function Page() {
     <div className="w-full h-full flex flex-col max-w-[412px] border-x border">
       <div className="w-full h-full flex flex-col overflow-y-scroll relative">
         <div className="w-full h-14 p-1 flex justify-between">
-          <button className="p-0 w-12 h-12 flex justify-center items-center bg-white">
+          <button
+            className="p-0 w-12 h-12 flex justify-center items-center bg-white"
+            onClick={() => {
+              router.back();
+            }}
+          >
             <ArrowLeftSvg className="text-app-gray-1100 !w-6 !h-6" />
           </button>
           <button
@@ -147,16 +127,31 @@ export default function Page() {
               <ArrowDownSvg className="flex shrink-0" />
             </div>
           </SheetTrigger>
-          <BottomSheetSelect
-            title="다이어리 선택"
-            items={items || []}
-            side="bottom"
-            itemClassName="bg-white"
-            className="bg-white"
-            onClick={(item) => {
-              setDiary({ id: item.id, title: item.text, key: item.key });
-            }}
-          />
+          <BottomSheetV2 className="gap-y-6 bg-white">
+            <BottomSheetV2.Header>
+              <h2 className="text-h2 text-app-gray-1000">다이어리 선택</h2>
+            </BottomSheetV2.Header>
+            {items?.map((item) => {
+              return (
+                <BottomSheetV2.Option key={item.key}>
+                  <SheetClose asChild>
+                    <button
+                      className="bg-white flex items-center justify-center text-sub4 text-app-gray-1100 h-12"
+                      onClick={() => {
+                        setDiary({
+                          id: item.id,
+                          title: item.text,
+                          key: item.key,
+                        });
+                      }}
+                    >
+                      {item.text}
+                    </button>
+                  </SheetClose>
+                </BottomSheetV2.Option>
+              );
+            })}
+          </BottomSheetV2>
         </Sheet>
         <div className="w-full h-px bg-app-gray-400" />
         <div className="flex w-full h-[54px] items-center px-5 py-4">
@@ -201,7 +196,7 @@ export default function Page() {
           <SheetContent className="w-full flex justify-center" side={"bottom"}>
             <SheetTitle className="invisible"></SheetTitle>
             <div className="grid grid-cols-4 gap-1 w-full max-w-[412px]">
-              {emojis.map((emoji) => {
+              {NoteLibs.getEmojis().map((emoji) => {
                 return (
                   <SheetClose
                     key={emoji.text}
@@ -224,7 +219,7 @@ export default function Page() {
           <SheetContent className="w-full flex justify-center" side={"bottom"}>
             <SheetTitle className="invisible"></SheetTitle>
             <div className="grid grid-cols-4 gap-1 w-full max-w-[412px]">
-              {weathers.map((weather) => {
+              {NoteLibs.getWeathers().map((weather) => {
                 return (
                   <SheetClose
                     key={weather.text}

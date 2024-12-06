@@ -15,6 +15,7 @@ export interface DiaryNote {
     id: number;
     diary: string;
     title: string;
+    question?: string;
     tag: string[];
     date: string;
     weather: string;

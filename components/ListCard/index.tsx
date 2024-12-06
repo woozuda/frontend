@@ -8,11 +8,12 @@ export interface ListCardHeaderProps {
   className?: string;
 
   checked?: boolean;
+  hasCheckbox?: boolean;
   onCheck?: (checkedState: boolean) => unknown;
 }
 
 const ListCardHeaderDefault = (props: ListCardHeaderProps) => {
-  const { title, checked, onCheck } = props;
+  const { title, checked, hasCheckbox, onCheck } = props;
   const className = ClassNameLibs.merge(
     props,
     "flex w-full items-center justify-between"
@@ -20,7 +21,7 @@ const ListCardHeaderDefault = (props: ListCardHeaderProps) => {
   return (
     <div className={className}>
       <h2 className="text-white text-h2">{title}</h2>
-      {checked !== undefined && (
+      {hasCheckbox && (
         <Checkbox
           checked={checked}
           onCheckedChange={onCheck}
@@ -32,7 +33,7 @@ const ListCardHeaderDefault = (props: ListCardHeaderProps) => {
 };
 
 const ListCardHeaderReflection = (props: ListCardHeaderProps) => {
-  const { title, checked, onCheck } = props;
+  const { title, checked, hasCheckbox, onCheck } = props;
   const className = ClassNameLibs.merge(props, "flex flex-col w-full gap-y-4");
   return (
     <div className={className}>
@@ -41,7 +42,7 @@ const ListCardHeaderReflection = (props: ListCardHeaderProps) => {
           <span className="text-cap1 text-white">회고일기</span>
         </div>
 
-        {checked !== undefined && (
+        {hasCheckbox && (
           <Checkbox
             checked={checked}
             onCheckedChange={onCheck}
