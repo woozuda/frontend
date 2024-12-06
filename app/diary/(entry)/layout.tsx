@@ -1,15 +1,14 @@
 "use client";
 
-import FloatingAction from "@/components/FloatingAction";
 import GlobalNavigationBar from "@/components/NavigationBar";
 import { PropsWithChildren, useEffect, useRef, useState } from "react";
 
-import { ViewSvg } from "@/app/assets/icons";
-import PencilSvg from "@/app/assets/icons/Pencil.svg";
-import { DiaryLibs } from "@/app/lib/diary";
-import BottomSheetContent from "@/components/BottomSheet";
+import { PencilFlatSvg, ViewSvg } from "@/app/assets/icons";
+import { DiaryHomeLibs, DiaryLibs } from "@/app/lib/diary";
+import AppPopover from "@/components/AppPopover";
+import BottomSheetV2 from "@/components/BottomSheet/v2";
 import { HeaderV2 } from "@/components/header/v2";
-import { Sheet, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetClose, SheetTrigger } from "@/components/ui/sheet";
 import Link from "next/link";
 
 export default function Layout(props: PropsWithChildren) {
@@ -52,12 +51,25 @@ export default function Layout(props: PropsWithChildren) {
               <SheetTrigger className="p-3 flex justify-center items-center text-white">
                 <ViewSvg />
               </SheetTrigger>
-              <BottomSheetContent.Select
-                title="다이어리 보기"
-                side="bottom"
-                className="mt-8"
-                items={DiaryLibs.getPageTypes()}
-              />
+              <BottomSheetV2 className="bg-black gap-y-6 border-black rounded-t-lg">
+                <BottomSheetV2.Header>
+                  <h2 className="text-sub2 text-app-gray-300">다이어리 보기</h2>
+                </BottomSheetV2.Header>
+                {DiaryLibs.getPageTypes().map((pageType) => {
+                  return (
+                    <BottomSheetV2.Option key={pageType.key}>
+                      <SheetClose asChild>
+                        <Link
+                          href={pageType.href}
+                          className="w-full flex items-center justify-center h-14 bg-app-gray-1000 text-white rounded-lg text-sub4"
+                        >
+                          {pageType.text}
+                        </Link>
+                      </SheetClose>
+                    </BottomSheetV2.Option>
+                  );
+                })}
+              </BottomSheetV2>
             </Sheet>
           </HeaderV2.Right>
         </HeaderV2>
@@ -70,10 +82,11 @@ export default function Layout(props: PropsWithChildren) {
         </div>
       </div>
 
-      <div className="h-0 relative">
-        <FloatingAction.Button
-          icon={<PencilSvg />}
-          className="absolute left-auto top-auto bottom-4 right-4 !from-[-10%] z-20"
+      <div className="relative h-0 w-full z-10">
+        <AppPopover
+          items={DiaryHomeLibs.popoverItems}
+          buttonIcon={<PencilFlatSvg />}
+          className="absolute bottom-3 right-3"
         />
       </div>
       <GlobalNavigationBar />

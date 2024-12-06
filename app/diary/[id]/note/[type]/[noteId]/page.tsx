@@ -1,6 +1,7 @@
 import { NoteAPI } from "@/app/http";
 import { DiaryType } from "@/app/lib/diary";
 import { Http } from "@/app/lib/http";
+import { NoteLibs } from "@/app/lib/note";
 import { NotePageHeader } from "@/app/pages/note";
 import getQueryClient from "@/app/query/client";
 import { format } from "date-fns";
@@ -49,10 +50,10 @@ export default async function Page({ params }: { params: PageParams }) {
           </h5>
           <div className="flex items-center">
             <div className="w-8 h-8 flex justify-center items-center">
-              {note.note.feeling}
+              {NoteLibs.findFeeling(note.note.feeling)?.icon}
             </div>
             <div className="w-8 h-8 flex justify-center items-center">
-              {note.note.weather}
+              {NoteLibs.findWeather(note.note.weather)?.icon}
             </div>
           </div>
         </div>
