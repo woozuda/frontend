@@ -1,3 +1,5 @@
+"use client";
+
 import { ArrowLeftSvg } from "@/app/assets/icons";
 import Link from "next/link";
 import { Toaster } from "sonner";
@@ -36,7 +38,7 @@ export default function Page({ params }: { params: { id: number } }) {
       <div className="w-full h-full flex flex-col relative overflow-y-scroll">
         <div className="w-full h-[240px] sticky top-0 left-0 shrink-0">
           <img
-            src={diary.imgUrl}
+            src={data.imgUrl}
             className="w-full h-full object-cover object-top absolute"
           />
           <div className="w-full h-14 flex items-center relative p-1">

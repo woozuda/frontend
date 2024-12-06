@@ -6,7 +6,10 @@ import { PropsWithChildren, useEffect, useRef, useState } from "react";
 
 import { ViewSvg } from "@/app/assets/icons";
 import PencilSvg from "@/app/assets/icons/Pencil.svg";
+import { DiaryLibs } from "@/app/lib/diary";
+import BottomSheetContent from "@/components/BottomSheet";
 import { HeaderV2 } from "@/components/header/v2";
+import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 import Link from "next/link";
 
 export default function Layout(props: PropsWithChildren) {
@@ -45,9 +48,17 @@ export default function Layout(props: PropsWithChildren) {
             </Link>
           </HeaderV2.Left>
           <HeaderV2.Right>
-            <button className="p-3 flex justify-center items-center text-white">
-              <ViewSvg />
-            </button>
+            <Sheet>
+              <SheetTrigger className="p-3 flex justify-center items-center text-white">
+                <ViewSvg />
+              </SheetTrigger>
+              <BottomSheetContent.Select
+                title="다이어리 보기"
+                side="bottom"
+                className="mt-8"
+                items={DiaryLibs.getPageTypes()}
+              />
+            </Sheet>
           </HeaderV2.Right>
         </HeaderV2>
         <div className="w-full h-full flex flex-col relative">
