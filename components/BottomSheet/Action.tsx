@@ -31,7 +31,7 @@ const BottomSheetAction = (props: BottomSheetActionProps) => {
   );
 
   return (
-    <SheetContent className={className}>
+    <SheetContent className={className} side={"bottom"}>
       {title && <SheetTitle>{title}</SheetTitle>}
       <div className="w-full flex items-center gap-x-2">
         {primary && (
