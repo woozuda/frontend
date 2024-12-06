@@ -1,5 +1,5 @@
 import { ClassNameLibs } from "@/lib/utils";
-import { FormEventHandler, PropsWithChildren } from "react";
+import { PropsWithChildren } from "react";
 import { Checkbox } from "../ui/checkbox";
 
 export interface ListCardHeaderProps {
@@ -8,11 +8,12 @@ export interface ListCardHeaderProps {
   className?: string;
 
   checked?: boolean;
-  onCheck?: FormEventHandler<HTMLButtonElement>;
+  hasCheckbox?: boolean;
+  onCheck?: (checkedState: boolean) => unknown;
 }
 
 const ListCardHeaderDefault = (props: ListCardHeaderProps) => {
-  const { title, checked, onCheck } = props;
+  const { title, checked, hasCheckbox, onCheck } = props;
   const className = ClassNameLibs.merge(
     props,
     "flex w-full items-center justify-between"
@@ -20,24 +21,33 @@ const ListCardHeaderDefault = (props: ListCardHeaderProps) => {
   return (
     <div className={className}>
       <h2 className="text-white text-h2">{title}</h2>
-      {checked !== undefined && (
-        <Checkbox checked={checked} onChange={onCheck} />
+      {hasCheckbox && (
+        <Checkbox
+          checked={checked}
+          onCheckedChange={onCheck}
+          className="border-white"
+        />
       )}
     </div>
   );
 };
 
 const ListCardHeaderReflection = (props: ListCardHeaderProps) => {
-  const { title, checked, onCheck } = props;
+  const { title, checked, hasCheckbox, onCheck } = props;
   const className = ClassNameLibs.merge(props, "flex flex-col w-full gap-y-4");
   return (
     <div className={className}>
-      <div className="w-[60px] h-[20px] rounded-[20px] bg-app-primary-400">
-        <span className="text-cap1 text-white">회고일기</span>
-      </div>
-      <div className="flex w-full items-center justify-between">
-        {checked !== undefined && (
-          <Checkbox checked={checked} onChange={onCheck} />
+      <div className="flex justify-between items-center w-full">
+        <div className="w-[60px] h-[20px] rounded-[20px] bg-app-primary-400 flex justify-center items-center">
+          <span className="text-cap1 text-white">회고일기</span>
+        </div>
+
+        {hasCheckbox && (
+          <Checkbox
+            checked={checked}
+            onCheckedChange={onCheck}
+            className="border-white"
+          />
         )}
       </div>
       <h2 className="text-white text-h2">{title}</h2>

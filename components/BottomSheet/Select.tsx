@@ -1,10 +1,12 @@
 import { ClassNameLibs, cn } from "@/lib/utils";
+import Link from "next/link";
 import { MouseEvent } from "react";
 import { SheetClose, SheetContent, SheetTitle } from "../ui/sheet";
 
 export interface ItemDefault {
   key: string;
   text: string;
+  href?: string;
 }
 
 export interface BottomSheetSelectProps<T extends ItemDefault> {
@@ -13,7 +15,7 @@ export interface BottomSheetSelectProps<T extends ItemDefault> {
   items: T[];
   itemClassName?: string;
   side?: "top" | "bottom" | "left" | "right";
-  onClick?: (item: T, index: number, event: MouseEvent<HTMLElement>) => unknown;
+  onClick?: (item: T, index: number, event: MouseEvent) => unknown;
 }
 
 const BottomSheetSelect = <T extends ItemDefault>(
@@ -34,18 +36,28 @@ const BottomSheetSelect = <T extends ItemDefault>(
             "w-full flex justify-center items-center bg-app-gray-200 h-[56px]",
             itemClassName
           );
-          return (
-            <SheetClose key={item.key}>
-              <div
-                className={className}
-                onClick={(event) => {
-                  onClick?.(item, itemIndex, event);
-                }}
-              >
-                <p className="text-sub4 text-app-gray-1100">{item.text}</p>
-              </div>
-            </SheetClose>
-          );
+          if (item.href) {
+            return (
+              <SheetClose key={item.key} asChild>
+                <Link className={className} href={item.href}>
+                  <p className="text-sub4 text-app-gray-1100">{item.text}</p>
+                </Link>
+              </SheetClose>
+            );
+          } else {
+            return (
+              <SheetClose key={item.key}>
+                <div
+                  className={className}
+                  onClick={(event) => {
+                    onClick?.(item, itemIndex, event);
+                  }}
+                >
+                  <p className="text-sub4 text-app-gray-1100">{item.text}</p>
+                </div>
+              </SheetClose>
+            );
+          }
         })}
       </div>
     </SheetContent>

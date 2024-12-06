@@ -58,43 +58,47 @@ export const handlers = [
     return HttpResponse.json({
       type: "자유",
       note: {
+        id: 111,
         diary: "다이어리 제목",
         title: "일기 제목",
         tag: ["일기 태그 1", "일기 태그 2"],
         date: "2024-12-04 22:00:00",
-        weather: "날씨",
-        season: "계절",
-        feeling: "감정",
+        weather: "맑음",
+        season: "겨울",
+        feeling: "기쁨",
         content: "일기 내용",
       },
     });
   }),
   http.get("api/diary/:id/note/question/:id", () => {
     return HttpResponse.json({
-      type: "자유",
+      type: "일기",
       note: {
+        id: 112,
         diary: "다이어리 제목",
         title: "일기 제목",
+        question: "오늘의 질문",
         tag: ["일기 태그 1", "일기 태그 2"],
         date: "2024-12-04 22:00:00",
-        weather: "날씨",
-        season: "계절",
-        feeling: "감정",
+        weather: "맑음",
+        season: "겨울",
+        feeling: "기쁨",
         content: "일기 내용",
       },
     });
   }),
   http.get("api/diary/:id/note/retrospect/:id", () => {
     return HttpResponse.json({
-      type: "자유",
+      type: "회고",
       note: {
+        id: 201,
         diary: "다이어리 제목",
         title: "일기 제목",
         tag: ["일기 태그 1", "일기 태그 2"],
         date: "2024-12-04 22:00:00",
-        weather: "날씨",
-        season: "계절",
-        feeling: "감정",
+        weather: "맑음",
+        season: "겨울",
+        feeling: "기쁨",
         content: "일기 내용",
       },
     });
@@ -116,5 +120,8 @@ export const handlers = [
   }),
   http.patch("api/diary/:id/note/retrospect/:id", () => {
     return HttpResponse.json({ id: 100 });
+  }),
+  http.post("api/note/share", () => {
+    return HttpResponse.json({}, { status: 200 });
   }),
 ];

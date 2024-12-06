@@ -89,9 +89,11 @@ export interface AppCalendarHeaderProps {
     prevIcon?: string;
     nextIcon?: string;
   };
+  hasArrow?: boolean;
 }
 
 const AppCalendarHeader = (props: AppCalendarHeaderProps) => {
+  const { hasArrow = true } = props;
   const { date, onNextClick, onPrevClick } = useContext(AppCalendarContext);
   const text = format(date, "yyyy년 MM월", { locale: ko });
   const prevClassNames = cn(
@@ -110,13 +112,17 @@ const AppCalendarHeader = (props: AppCalendarHeaderProps) => {
   return (
     <div className="flex justify-center p-1 h-[56px]">
       <div className="p-3 gap-x-3 flex items-center">
-        <button onClick={() => onPrevClick()} className={prevClassNames}>
-          <ArrowLeftSvg />
-        </button>
+        {hasArrow && (
+          <button onClick={() => onPrevClick()} className={prevClassNames}>
+            <ArrowLeftSvg />
+          </button>
+        )}
         <h3 className={textClassNames}>{text}</h3>
-        <button onClick={() => onNextClick()} className={nextClassNames}>
-          <ArrowRightSvg />
-        </button>
+        {hasArrow && (
+          <button onClick={() => onNextClick()} className={nextClassNames}>
+            <ArrowRightSvg />
+          </button>
+        )}
       </div>
     </div>
   );

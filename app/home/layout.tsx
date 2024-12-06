@@ -7,28 +7,9 @@ import { ko } from "date-fns/locale";
 import throttle from "lodash.throttle";
 import { PropsWithChildren, useEffect, useMemo, useRef, useState } from "react";
 
-import CalendarDotSvg from "@/app/assets/icons/CalendarDot.svg";
 import PencilFlatSvg from "@/app/assets/icons/PencilFlat.svg";
-import RetrospectSvg from "@/app/assets/icons/Retrospect.svg";
 import AppPopover from "@/components/AppPopover";
-
-const popoverItems = [
-  {
-    name: "일기 쓰기",
-    href: "/diary/note/common/new",
-    icon: <PencilFlatSvg />,
-  },
-  {
-    name: "오늘의 질문 일기",
-    href: "/diary/note/question/new",
-    icon: <CalendarDotSvg />,
-  },
-  {
-    name: "회고하기",
-    href: "/diary/note/retrospect/new",
-    icon: <RetrospectSvg />,
-  },
-];
+import { DiaryHomeLibs } from "../lib/diary";
 
 export default function Layout(props: PropsWithChildren) {
   const { children } = props;
@@ -76,7 +57,7 @@ export default function Layout(props: PropsWithChildren) {
       </div>
       <div className="relative h-0 w-full z-10">
         <AppPopover
-          items={popoverItems}
+          items={DiaryHomeLibs.popoverItems}
           buttonIcon={<PencilFlatSvg />}
           className="absolute bottom-3 right-3"
         />
