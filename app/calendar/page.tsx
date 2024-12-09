@@ -13,8 +13,9 @@ export default function Page() {
   const ref = useRef(null as HTMLDivElement | null);
   const touchStartRef = useRef(0);
   const [isTouchMoved, setIsTouchMoved] = useState(false);
-  const { notes } = useNotes({});
   const searchParams = useSearchParams();
+  const date = searchParams.get("date");
+  const { notes } = useNotes({ date });
   const currentDate = useMemo(() => {
     const dateParam = searchParams.get("date") ?? new Date();
     const date = new Date(dateParam);
@@ -143,7 +144,9 @@ export default function Page() {
           return (
             <ListCard.Container key={key}>
               <ListCard.Header.Default title={note.note.title} />
-              <ListCard.Description>{note.note.content}</ListCard.Description>
+              <ListCard.Description>
+                {String(note.note.content)}
+              </ListCard.Description>
             </ListCard.Container>
           );
         })}

@@ -2,6 +2,6 @@ import dynamic from "next/dynamic";
 
 const DiaryCardList = dynamic(() => import("./List"));
 const DiaryDates = dynamic(() => import("./Dates"));
-const DiaryNotes = dynamic(() => import("./Notes"));
+const DiaryLatest = dynamic(() => import("./Latest"));
 
-export { DiaryCardList, DiaryDates, DiaryNotes };
+export { DiaryCardList, DiaryDates, DiaryLatest };

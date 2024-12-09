@@ -1,7 +1,7 @@
 "use client";
 
 import { DiaryLibs, DiaryListType } from "@/app/lib/diary";
-import { DiaryCardList, DiaryDates, DiaryNotes } from "@/app/pages/diary";
+import { DiaryCardList, DiaryDates, DiaryLatest } from "@/app/pages/diary";
 import { useSearchParams } from "next/navigation";
 
 export default function Page() {
@@ -11,7 +11,7 @@ export default function Page() {
     <div className="flex w-full flex-col p-5 relative">
       {listType === DiaryListType.DEFAULT && <DiaryCardList />}
       {listType === DiaryListType.DATES && <DiaryDates />}
-      {listType === DiaryListType.NOTES && <DiaryNotes />}
+      {listType === DiaryListType.LATEST && <DiaryLatest />}
     </div>
   );
 }

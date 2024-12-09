@@ -1,6 +1,6 @@
 "use client";
 
-import { DiaryNote } from "@/app/models/diary";
+import { DiaryNote, NoteType } from "@/app/models/diary";
 import ListCard from "@/components/ListCard";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
@@ -36,7 +36,7 @@ const DiaryDetailNotes = (props: DiaryDetailNotesProps) => {
                   key={note.note.id}
                   className={cardClassName}
                 >
-                  {note.type === "회고" && (
+                  {note.type === NoteType.RETROSPECTIVE && (
                     <ListCard.Header.Reflection
                       title={note.note.title}
                       checked={checkeds.has(note.note.id)}
@@ -44,7 +44,7 @@ const DiaryDetailNotes = (props: DiaryDetailNotesProps) => {
                       onCheck={(checkedState) => onCheck(note, checkedState)}
                     />
                   )}
-                  {note.type !== "회고" && (
+                  {note.type !== NoteType.RETROSPECTIVE && (
                     <ListCard.Header.Default
                       title={note.note.title}
                       onCheck={(checkedState) => {
@@ -55,7 +55,7 @@ const DiaryDetailNotes = (props: DiaryDetailNotesProps) => {
                     />
                   )}
                   <ListCard.Description>
-                    {note.note.content}
+                    {String(note.note.content)}
                   </ListCard.Description>
                 </ListCard.Container>
               );

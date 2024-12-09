@@ -35,11 +35,15 @@ const DiaryDates = () => {
                   if (isEqual) {
                     type = CalendarDayType.ABLED;
                   }
+                  const href = `/diary?date=${format(
+                    diaryDate.date,
+                    "yyyy-MM-dd"
+                  )}`;
                   return (
                     <AppCalendarDay.Default
                       day={date.date}
                       type={type}
-                      href={`/diary/${diaryDate.id}`}
+                      href={href}
                     />
                   );
                 }}

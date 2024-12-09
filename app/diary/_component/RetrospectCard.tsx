@@ -1,5 +1,5 @@
-import { Retrospect as IRetrospect} from "@/app/models/diary";
 import ArrowRightIcon from "@/app/assets/icons/ArrowRightSmall.svg";
+import { Retrospect as IRetrospect } from "@/app/models/diary";
 import Link from "next/link";
 
 type Props = {
@@ -28,7 +28,10 @@ export default function RetrospectCard({
         <div className="text-lg font-bold">{retrospect.retrospectName}</div>
         {isSelected && (
           <div className="ml-auto">
-            <Link className="flex gap-2" href={`/diary/note/retrospect/new/${retrospect.retrospectId}`}>
+            <Link
+              className="flex gap-2"
+              href={`/note/retrospect/new/${retrospect.retrospectId}`}
+            >
               <span>작성하기</span>
               <ArrowRightIcon />
             </Link>
