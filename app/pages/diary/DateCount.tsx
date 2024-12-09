@@ -5,7 +5,7 @@ import AppCalendar from "@/components/AppCalendar";
 import AppCalendarDay from "@/components/AppCalendar/Day";
 import { format } from "date-fns";
 
-const DiaryDates = () => {
+const DiaryDateCount = () => {
   const { array } = useDiaryDates();
   const dateGroup = DiaryLibs.groupDates(array ?? []);
 
@@ -56,4 +56,4 @@ const DiaryDates = () => {
   );
 };
 
-export default DiaryDates;
+export default DiaryDateCount;

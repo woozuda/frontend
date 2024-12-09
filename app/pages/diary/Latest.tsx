@@ -20,9 +20,11 @@ const DiaryLatest = () => {
               </h4>
             </div>
             {noteList?.map((note) => {
-              const key = Math.random();
               return (
-                <Link href={`/note/${note.type}/${note.note.id}`} key={key}>
+                <Link
+                  href={`/note/${note.type}/${note.note.id}`}
+                  key={note.note.id}
+                >
                   <ListCard.Container>
                     <ListCard.Header.Default title={note.note.title} />
                     <ListCard.Description>

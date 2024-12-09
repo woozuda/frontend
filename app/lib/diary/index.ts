@@ -13,6 +13,11 @@ export enum DiaryActionType {
 }
 
 export class DiaryLibs {
+  static getDiaryDate(searchParams: URLSearchParams) {
+    const date = searchParams.get("date");
+
+    return date;
+  }
   static getListType(searchParams: URLSearchParams) {
     const type = searchParams.get("type");
     switch (type) {
