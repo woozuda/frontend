@@ -6,14 +6,13 @@ import { NoteAPI } from "../http";
 import { NoteSeason } from "../lib/note";
 
 export interface CreateNoteProps {
-  diary?: { id: number; title: string };
+  diaryId?: number;
   emoji?: { icon: string; text: string };
   weather?: { icon: string; text: string };
   title?: string;
   content: string;
   date?: Date;
   season?: NoteSeason;
-  tags?: string[];
 }
 
 const useNoteCommonCreate = () => {
@@ -22,17 +21,8 @@ const useNoteCommonCreate = () => {
   return useMutation({
     mutationKey: ["NOTE_CREATE"],
     mutationFn: async (props: CreateNoteProps) => {
-      const {
-        diary,
-        emoji,
-        weather,
-        title,
-        content,
-        date,
-        season,
-        tags = [],
-      } = props;
-      if (isNil(diary)) {
+      const { diaryId, emoji, weather, title, content, date, season } = props;
+      if (isNil(diaryId)) {
         return null;
       }
       if (isNil(emoji) || isNil(weather)) {
@@ -45,14 +35,13 @@ const useNoteCommonCreate = () => {
         return null;
       }
       const response = await noteApi.createCommonNote({
-        diary: { id: diary.id, title: diary.title },
+        diaryId,
         feeling: emoji.text,
         weather: weather.text,
         title,
         content,
         date: format(date, "yyyy-MM-dd"),
         season: season!,
-        tag: tags,
       });
       return response;
     },

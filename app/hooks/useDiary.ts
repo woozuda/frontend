@@ -19,9 +19,9 @@ const useDiary = (props: UseDiaryProps) => {
       if (id === undefined) {
         return null;
       }
-      const { noteList, ...diary } = await diaryApi.getDiary(id);
+      const { page, ...diary } = await diaryApi.getDiary(id);
 
-      const reducedNotes = noteList?.reduce((record, note) => {
+      const reducedNotes = page?.content?.reduce((record, note) => {
         if (!(note.note.date in record)) {
           record[note.note.date] = [];
         }

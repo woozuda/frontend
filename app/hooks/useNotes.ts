@@ -3,13 +3,13 @@ import { useHttp } from "../contexts/http";
 import { NoteAPI } from "../http";
 
 export interface UseNotesProps {
-  diaryId?: number;
+  date?: string | null;
 }
 
-const useNotes = (props: UseNotesProps) => {
-  const { diaryId } = props;
+const useNotes = (props?: UseNotesProps) => {
   const http = useHttp();
   const notesApi = new NoteAPI(http);
+  const date = props?.date;
 
   const {
     data: notes,
@@ -19,12 +19,12 @@ const useNotes = (props: UseNotesProps) => {
     isFetched,
     isFetching,
   } = useQuery({
-    queryKey: ["DIARY_NOTE", diaryId] as const,
+    queryKey: ["DIARY_NOTES", date] as const,
     queryFn: async ({ queryKey }) => {
-      const [, diaryId] = queryKey;
-      const notes = await notesApi.getNotes();
+      const [, date] = queryKey;
+      const notes = await notesApi.getNotes(date);
 
-      return notes.noteList;
+      return notes.content;
     },
   });
 

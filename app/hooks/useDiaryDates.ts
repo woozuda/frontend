@@ -1,20 +1,20 @@
 import { useQuery } from "@tanstack/react-query";
 import { useHttp } from "../contexts/http";
-import { DiaryAPI } from "../http";
+import { NoteAPI } from "../http";
 
 const useDiaryDates = () => {
   const http = useHttp();
-  const diaryApi = new DiaryAPI(http);
+  const noteApi = new NoteAPI(http);
 
   const { data, isLoading, isFetched, isFetching, error, refetch } = useQuery({
     queryKey: ["DIARY_DATES"],
     queryFn: () => {
-      return diaryApi.getDiaryDates();
+      return noteApi.getNoteDates();
     },
   });
 
   return {
-    array: data?.dates,
+    array: data?.dateList,
     isLoading,
     isFetched,
     isFetching,
