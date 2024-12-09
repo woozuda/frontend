@@ -1,124 +1,47 @@
 import { http, HttpResponse } from "msw";
+import { MockNoteLibs } from "../libs/note";
 
 export const handlers = [
+  http.get("api/question", () => {
+    return HttpResponse.json(MockNoteLibs.createQuestion());
+  }),
   http.get("api/note", () => {
-    return HttpResponse.json({
-      noteList: [
-        {
-          type: "자유",
-          note: {
-            diary: "다이어리 제목",
-            title: "일기 제목",
-            tag: ["일기 태그 1", "일기 태그 2"],
-            date: "2024-12-04 22:00:00",
-            weather: "날씨",
-            season: "계절",
-            feeling: "감정",
-            content: "일기 내용",
-          },
-        },
-        {
-          type: "질문",
-          note: {
-            diary: "다이어리 제목",
-            question: "질문",
-            title: "일기 제목",
-            tag: ["질문 태그 1", "질문 태그 2"],
-            date: "2024-12-04 21:00:00",
-            weather: "날씨",
-            season: "계절",
-            feeling: "감정",
-            content: "일기 내용",
-          },
-        },
-        {
-          type: "회고",
-          note: {
-            diary: "다이어리 제목",
-            title: "일기 제목",
-            tag: ["일기 태그 1", "일기 태그 2"],
-            date: "2024-12-02 23:00:00",
-            content: [
-              "일기 부분 내용 1",
-              "일기 부분 내용 2",
-              "일기 부분 내용 3",
-            ],
-          },
-        },
-      ],
-    });
+    return HttpResponse.json(MockNoteLibs.createNoteList());
   }),
   http.delete("api/note", () => {
-    return HttpResponse.json({ id: [100, 101, 102] });
+    return HttpResponse.json(MockNoteLibs.deleteNotes());
+  }),
+  http.get("api/note/date", () => {
+    return HttpResponse.json(MockNoteLibs.createNoteDates());
   }),
   http.get("api/note/share", () => {
     return HttpResponse.json({});
   }),
-  http.get("api/diary/:id/note/common/:id", () => {
-    return HttpResponse.json({
-      type: "자유",
-      note: {
-        id: 111,
-        diary: "다이어리 제목",
-        title: "일기 제목",
-        tag: ["일기 태그 1", "일기 태그 2"],
-        date: "2024-12-04 22:00:00",
-        weather: "맑음",
-        season: "겨울",
-        feeling: "기쁨",
-        content: "일기 내용",
-      },
-    });
+  http.get("api/note/common/:id", () => {
+    return HttpResponse.json(MockNoteLibs.createCommonNote());
   }),
-  http.get("api/diary/:id/note/question/:id", () => {
-    return HttpResponse.json({
-      type: "일기",
-      note: {
-        id: 112,
-        diary: "다이어리 제목",
-        title: "일기 제목",
-        question: "오늘의 질문",
-        tag: ["일기 태그 1", "일기 태그 2"],
-        date: "2024-12-04 22:00:00",
-        weather: "맑음",
-        season: "겨울",
-        feeling: "기쁨",
-        content: "일기 내용",
-      },
-    });
+  http.get("api/note/question/:id", () => {
+    return HttpResponse.json(MockNoteLibs.createQuestionNote());
   }),
-  http.get("api/diary/:id/note/retrospect/:id", () => {
-    return HttpResponse.json({
-      type: "회고",
-      note: {
-        id: 201,
-        diary: "다이어리 제목",
-        title: "일기 제목",
-        tag: ["일기 태그 1", "일기 태그 2"],
-        date: "2024-12-04 22:00:00",
-        weather: "맑음",
-        season: "겨울",
-        feeling: "기쁨",
-        content: "일기 내용",
-      },
-    });
+  http.get("api/note/retrospect/:id", () => {
+    return HttpResponse.json(MockNoteLibs.createRetrospectNote());
   }),
-  http.post("api/diary/:id/note/common", () => {
+  http.post("api/note/common", () => {
     return HttpResponse.json({ id: 100 });
   }),
-  http.post("api/diary/:id/note/question", () => {
+  http.post("api/note/question", () => {
     return HttpResponse.json({ id: 100 });
   }),
-  http.post("api/diary/:id/note/retrospect", () => {
+  http.post("api/note/retrospect", () => {
     return HttpResponse.json({ id: 100 });
   }),
-  http.patch("api/diary/:id/note/common/:id", () => {
+  http.patch("api/note/common/:id", () => {
     return HttpResponse.json({ id: 100 });
   }),
-  http.patch("api/diary/:id/note/question/:id", () => {
+  http.patch("api/note/question/:id", () => {
     return HttpResponse.json({ id: 100 });
   }),
-  http.patch("api/diary/:id/note/retrospect/:id", () => {
+  http.patch("api/note/retrospect/:id", () => {
     return HttpResponse.json({ id: 100 });
   }),
   http.post("api/note/share", () => {
