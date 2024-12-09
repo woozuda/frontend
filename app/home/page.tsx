@@ -6,6 +6,7 @@ import useDiaries from "../hooks/useDiaries";
 import PlusSvg from "@/app/assets/icons/Plus.svg";
 import Star28Svg from "@/app/assets/icons/Star28.svg";
 import AddDiary from "@/components/AddDiary";
+import Link from "next/link";
 
 export default function Page() {
   const { array } = useDiaries();
@@ -42,7 +43,11 @@ export default function Page() {
             <div className="h-full w-5 bg-transparent shrink-0" />
             <div className="flex gap-x-5 items-center h-full">
               {array?.map((diary) => {
-                return <DiaryCard diary={diary} key={diary.id} />;
+                return (
+                  <Link href={`/diary/${diary.id}`} key={diary.id}>
+                    <DiaryCard diary={diary} />
+                  </Link>
+                );
               })}
               <AddDiary icon={<PlusSvg className="text-white" />} />
             </div>
