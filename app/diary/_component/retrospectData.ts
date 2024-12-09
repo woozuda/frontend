@@ -42,7 +42,7 @@ export const RETROSPECT: IRetrospect[] = [
   },
   {
     retrospectId: 3,
-    retrospectName: "4F's",
+    retrospectName: "FOUR_F_S",
     description: "경험을 통해 느낀 감정과 배운 점을 깊이 성찰하고 싶을 때",
     sections: [
       { name: "FACT", description: "사실을 적어보세요." },
