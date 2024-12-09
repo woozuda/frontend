@@ -1,3 +1,4 @@
+import { DiaryNote } from "@/app/models/diary";
 import { getMonth } from "date-fns";
 
 export enum NoteSeason {
@@ -82,5 +83,18 @@ export class NoteLibs {
 
   static findWeather(text: string) {
     return weathers.find((weather) => weather.text === text);
+  }
+
+  static groupNotes(notes: DiaryNote[][]) {
+    const reducedNotes = notes.flat().reduce((record, note) => {
+      const date = note.note.date;
+      if (!(date in record)) {
+        record[date] = [];
+      }
+      record[date].push(note);
+      return record;
+    }, {} as Record<string, DiaryNote[]>);
+
+    return Object.entries(reducedNotes);
   }
 }

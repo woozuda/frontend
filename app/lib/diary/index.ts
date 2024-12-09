@@ -1,15 +1,9 @@
 import { format } from "date-fns";
 
-export enum DiaryType {
-  COMMON = "common",
-  QUESTION = "question",
-  RETROSPECTIVE = "retrospective",
-}
-
 export enum DiaryListType {
   DEFAULT = "default",
   DATES = "dates",
-  NOTES = "notes",
+  LATEST = "latest",
 }
 
 export enum DiaryActionType {
@@ -28,8 +22,8 @@ export class DiaryLibs {
         return DiaryListType.DEFAULT;
       case DiaryListType.DATES:
         return DiaryListType.DATES;
-      case DiaryListType.NOTES:
-        return DiaryListType.NOTES;
+      case DiaryListType.LATEST:
+        return DiaryListType.LATEST;
       default:
         return DiaryListType.DEFAULT;
     }
@@ -48,25 +42,25 @@ export class DiaryLibs {
         href: `/diary?type=${DiaryListType.DATES}`,
       },
       {
-        key: DiaryListType.NOTES,
+        key: DiaryListType.LATEST,
         text: "최신순으로 보기",
-        href: `/diary?type=${DiaryListType.NOTES}`,
+        href: `/diary?type=${DiaryListType.LATEST}`,
       },
     ];
   }
 
-  static groupDates(dates: { id: number; date: string }[]) {
+  static groupDates(dates: { date: string; count: number }[]) {
     const obj = dates.reduce((record, date) => {
       const key = format(date.date, "yyyy-MM");
       if (!(key in record)) {
         record[key] = {};
       }
       record[key][format(date.date, "yyyy-MM-dd")] = {
-        id: date.id,
+        count: date.count,
         date: new Date(date.date),
       };
       return record;
-    }, {} as Record<string, Record<string, { id: number; date: Date }>>);
+    }, {} as Record<string, Record<string, { count: number; date: Date }>>);
 
     return Object.entries(obj);
   }
