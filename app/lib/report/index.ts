@@ -1,3 +1,4 @@
+import { RetrospectEnums } from "@/app/models/report";
 import {
   addWeeks,
   endOfWeek,
@@ -93,5 +94,31 @@ export class ReportLibs {
     nextParams.set("end", format(nextEnd, "yyyy-MM-dd"));
 
     return `${pathname}?${nextParams.toString()}`;
+  }
+
+  static toDateParam(date: Date) {
+    return format(date, "yyyy-MM-dd");
+  }
+
+  static getRetrospectType(searchParams: ReadonlyURLSearchParams) {
+    const type = searchParams.get("type");
+
+    switch (type) {
+      case RetrospectEnums.FOUR_FS: {
+        return RetrospectEnums.FOUR_FS;
+      }
+      case RetrospectEnums.KTP: {
+        return RetrospectEnums.KTP;
+      }
+      case RetrospectEnums.PMI: {
+        return RetrospectEnums.PMI;
+      }
+      case RetrospectEnums.SCS: {
+        return RetrospectEnums.SCS;
+      }
+      default: {
+        return RetrospectEnums.FOUR_FS;
+      }
+    }
   }
 }
