@@ -2,7 +2,7 @@
 
 import { ArrowLeftSvg, PencilSvg, ShareSvg } from "@/app/assets/icons";
 import useNoteShare from "@/app/hooks/useNoteShare";
-import { DiaryType } from "@/app/lib/diary";
+import { NoteType } from "@/app/models/diary";
 import BackLink from "@/components/BackLink";
 import BottomSheetV2 from "@/components/BottomSheet/v2";
 import { HeaderV2 } from "@/components/header/v2";
@@ -14,7 +14,7 @@ import { toast } from "sonner";
 export interface NotePageHeaderProps {
   diary?: {
     id?: number;
-    type?: DiaryType;
+    type?: NoteType;
   };
   id?: number;
 }

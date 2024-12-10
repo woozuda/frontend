@@ -71,7 +71,7 @@ export default function Page() {
   const onSubmit: MouseEventHandler<HTMLButtonElement> = async (event) => {
     if (editorRef.current) {
       const content = editorRef.current.getSemanticHTML();
-      const { id } = await onNoteCreate({
+      await onNoteCreate({
         diaryId: diary?.id,
         title,
         emoji,
