@@ -51,3 +51,4 @@ export {
   WeatherSvg,
   XMarkSvg,
 }
+export * from "./gradients"
