@@ -134,8 +134,8 @@ const config: Config = {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        hans: ['Black Han Sans"'],
-        start: ['Press Start 2P"'],
+        hans: ['"Black Han Sans"'],
+        start: ['"Press Start 2P"'],
       },
       keyframes: {
         "accordion-down": {
