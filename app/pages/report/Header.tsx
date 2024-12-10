@@ -33,7 +33,7 @@ const ReportHeader = (props: ReportHeaderProps) => {
   );
 
   return (
-    <div className="w-full h-20 flex items-center justify-center">
+    <div className="w-full h-[60px] mt-3 flex items-center justify-center">
       <div className="w-full flex items-center gap-x-3">
         <div className="w-10 h-10"></div>
         <div className="flex w-full items-center gap-x-3 justify-center">

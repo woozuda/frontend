@@ -1,3 +1,4 @@
 import ReportHeader from "./Header";
+import ReportChipHeader from "./ReportChip";
 
-export { ReportHeader };
+export { ReportChipHeader, ReportHeader };
