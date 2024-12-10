@@ -28,8 +28,8 @@ const MyPageActiveSvg = (props: MyPageActiveProps) => {
           y2="5.11507"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color={color.from} />
-          <stop offset="1" stop-color={color.to} />
+          <stop stopColor={color.from} />
+          <stop offset="1" stopColor={color.to} />
         </linearGradient>
       </defs>
     </svg>

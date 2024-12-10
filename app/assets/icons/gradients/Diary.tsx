@@ -32,8 +32,8 @@ const DiaryActiveSvg = (props: DiaryActiveProps) => {
           y2="6.43564"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color={color.from} />
-          <stop offset="1" stop-color={color.to} />
+          <stop stopColor={color.from} />
+          <stop offset="1" stopColor={color.to} />
         </linearGradient>
         <linearGradient
           id="paint1_linear_287_3038"
@@ -43,8 +43,8 @@ const DiaryActiveSvg = (props: DiaryActiveProps) => {
           y2="6.43564"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color={color.from} />
-          <stop offset="1" stop-color={color.to} />
+          <stop stopColor={color.from} />
+          <stop offset="1" stopColor={color.to} />
         </linearGradient>
       </defs>
     </svg>

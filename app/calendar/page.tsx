@@ -4,16 +4,22 @@ import AppCalendar from "@/components/AppCalendar";
 import AppCalendarDay from "@/components/AppCalendar/Day";
 import ListCard from "@/components/ListCard";
 import { format } from "date-fns";
-import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import useNotes from "../hooks/useNotes";
 import { CalendarLibs, CalendarStageType } from "../lib/calendar";
 
-export default function Page() {
+interface PageProps {
+  searchParams: Record<string, string>;
+}
+
+export default function Page(props: PageProps) {
   const ref = useRef(null as HTMLDivElement | null);
   const touchStartRef = useRef(0);
   const [isTouchMoved, setIsTouchMoved] = useState(false);
-  const searchParams = useSearchParams();
+  const searchParams = useMemo(
+    () => new URLSearchParams(props.searchParams),
+    [props.searchParams]
+  );
   const date = searchParams.get("date");
   const { notes } = useNotes({ date });
   const currentDate = useMemo(() => {
