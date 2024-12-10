@@ -1,9 +1,13 @@
 import { ReportHeader } from "@/app/pages/report";
 
-export default function Page() {
+interface PageProps {
+  searchParams: Record<string, string>;
+}
+
+export default function Page(props: PageProps) {
   return (
     <div className="w-full flex flex-col">
-      <ReportHeader />
+      <ReportHeader searchParams={props.searchParams} />
     </div>
   );
 }
