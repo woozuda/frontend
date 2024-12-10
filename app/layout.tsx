@@ -1,9 +1,10 @@
+import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import AppProvider from "./provider";
 import { MSWComponent } from "./provider/MSWComponent";
-import { Toaster } from "@/components/ui/sonner"
+import { SwygScript } from "./scripts";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -28,6 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <SwygScript />
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex justify-center`}
       >

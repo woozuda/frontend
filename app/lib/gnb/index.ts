@@ -3,7 +3,7 @@ export class GNBLibs {
     if (pathname === href) {
       return {
         background:
-          "bg-clip-text bg-gradient-to-r from-primary-01-100 to-primary-01-200 inline-flex",
+          "bg-clip-text bg-gradient-to-r from-gradient-01-100 to-gradient-01-200 text-transparent",
         text: "text-white text-cap1",
       };
     } else {

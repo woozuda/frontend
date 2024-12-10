@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "mock": "npx tsx watch ./mocks/http.ts",
-    "svg": "npx tsx ./scripts/svg.ts"
+    "svg": "npx tsx ./scripts/svg.ts --module=gradients"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.1",
