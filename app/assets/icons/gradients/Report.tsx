@@ -37,8 +37,8 @@ const ReportActiveSvg = (props: ReportActiveProps) => {
           y2="6.78202"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color={color.from} />
-          <stop offset="1" stop-color={color.to} />
+          <stop stopColor={color.from} />
+          <stop offset="1" stopColor={color.to} />
         </linearGradient>
         <linearGradient
           id="paint1_linear_287_3000"
@@ -48,8 +48,8 @@ const ReportActiveSvg = (props: ReportActiveProps) => {
           y2="6.78202"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color={color.from} />
-          <stop offset="1" stop-color={color.to} />
+          <stop stopColor={color.from} />
+          <stop offset="1" stopColor={color.to} />
         </linearGradient>
         <linearGradient
           id="paint2_linear_287_3000"
@@ -59,8 +59,8 @@ const ReportActiveSvg = (props: ReportActiveProps) => {
           y2="6.78202"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color={color.from} />
-          <stop offset="1" stop-color={color.to} />
+          <stop stopColor={color.from} />
+          <stop offset="1" stopColor={color.to} />
         </linearGradient>
       </defs>
     </svg>
