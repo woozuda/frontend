@@ -1,19 +1,20 @@
 import { Http, HttpLibs } from "@/app/lib/http";
+import { isNotNil } from "ramda";
 import { NoteSeason } from "../lib/note";
-import { DiaryNote } from "../models/diary";
+import { DiaryNote, Note, NoteDate } from "../models/diary";
 
 export interface CreateNoteProps {
-  diary: {
-    id: number;
-    title: string;
-  };
+  diaryId: number;
   title: string;
-  tag: string[];
   weather: string;
   season: NoteSeason;
   feeling: string;
   date: string;
   content: string;
+}
+
+export interface CreateQuestionProps extends CreateNoteProps {
+  question: string;
 }
 
 export class NoteAPI {
@@ -22,9 +23,18 @@ export class NoteAPI {
     this.http = http;
   }
 
-  async getNotes() {
-    const response = await this.http.get("api/note");
-    return HttpLibs.toJson<{ noteList: DiaryNote[] }>(response);
+  async getQuestion() {
+    const response = await this.http.get("api/question");
+    return HttpLibs.toJson<{ quesiton: string }>(response);
+  }
+
+  async getNotes(date?: string | null) {
+    let api = "api/note";
+    if (isNotNil(date)) {
+      api += `?date=${date}`;
+    }
+    const response = await this.http.get(api);
+    return HttpLibs.toJson<{ content: DiaryNote[] }>(response);
   }
 
   async deleteNotes() {
@@ -37,67 +47,54 @@ export class NoteAPI {
     return HttpLibs.toJson(response);
   }
 
-  async getCommonNote(diaryId: number, noteId: number) {
-    const response = await this.http.get(
-      `/api/diary/${diaryId}/note/common/${noteId}`
-    );
-    return HttpLibs.toJson<DiaryNote>(response);
+  async getNoteDates() {
+    const response = await this.http.get("api/note/date");
+    return HttpLibs.toJson<{ dateList: NoteDate[] }>(response);
   }
-  async getQuestionNote(diaryId: number, questionId: number) {
-    const response = await this.http.get(
-      `/api/diary/${diaryId}/note/question/${questionId}`
-    );
-    return HttpLibs.toJson<DiaryNote>(response);
+
+  async getCommonNote(noteId: number) {
+    const response = await this.http.get(`/api/note/common/${noteId}`);
+    return HttpLibs.toJson<Note>(response);
   }
-  async getRetrospectNote(diaryId: number, retrospectId: number) {
+  async getQuestionNote(questionId: number) {
+    const response = await this.http.get(`/api/note/question/${questionId}`);
+    return HttpLibs.toJson<Note>(response);
+  }
+  async getRetrospectNote(retrospectId: number) {
     const response = await this.http.get(
-      `/api/diary/${diaryId}/note/retrospect/${retrospectId}`
+      `/api/note/retrospect/${retrospectId}`
     );
-    return HttpLibs.toJson<DiaryNote>(response);
+    return HttpLibs.toJson<Note>(response);
   }
 
   async createCommonNote(props: CreateNoteProps) {
-    const { diary, ...params } = props;
-    const body = JSON.stringify({ ...params, diary: diary.title });
-    const response = await this.http.post(
-      `/api/diary/${diary.id}/note/common`,
-      {
-        body,
-      }
-    );
+    const body = JSON.stringify(props);
+    const response = await this.http.post(`/api/note/common`, {
+      body,
+    });
     return HttpLibs.toJson<{ id: number }>(response);
   }
   async createQuestionNote(props: CreateNoteProps) {
-    const { diary, ...params } = props;
-    const body = JSON.stringify({ ...params, diary: diary.title });
-    const response = await this.http.post(
-      `/api/diary/${diary.id}/note/question`,
-      { body }
-    );
+    const body = JSON.stringify(props);
+    const response = await this.http.post(`/api/note/question`, { body });
     return HttpLibs.toJson<{ id: number }>(response);
   }
-  async createRetrospectNote(diaryId: number) {
-    const response = await this.http.post(
-      `/api/diary/${diaryId}/note/retrospect`
-    );
+  async createRetrospectNote() {
+    const response = await this.http.post(`/api/note/retrospect`);
     return HttpLibs.toJson<{ id: number }>(response);
   }
 
-  async patchCommonNote(diaryId: number, noteId: number) {
-    const response = await this.http.patch(
-      `/api/diary/${diaryId}/note/common/${noteId}`
-    );
+  async patchCommonNote(noteId: number) {
+    const response = await this.http.patch(`/api/note/common/${noteId}`);
     return HttpLibs.toJson<{ id: number }>(response);
   }
-  async patchQuestionNote(diaryId: number, questionId: number) {
-    const response = await this.http.patch(
-      `/api/diary/${diaryId}/note/question/${questionId}`
-    );
+  async patchQuestionNote(questionId: number) {
+    const response = await this.http.patch(`/api/note/question/${questionId}`);
     return HttpLibs.toJson<{ id: number }>(response);
   }
-  async patchRetrospectNote(diaryId: number, retrospectId: number) {
+  async patchRetrospectNote(retrospectId: number) {
     const response = await this.http.patch(
-      `/api/diary/${diaryId}/note/retrospect/${retrospectId}`
+      `/api/note/retrospect/${retrospectId}`
     );
     return HttpLibs.toJson<{ id: number }>(response);
   }
@@ -107,5 +104,14 @@ export class NoteAPI {
       body: JSON.stringify({ id: noteIds }),
     });
     return;
+  }
+
+  async getSharedNotes() {
+    const response = await this.http.get("/api/note/share", {
+      body: JSON.stringify({}),
+    });
+    return HttpLibs.toJson<{ id: number; user_id: number; type: string }[]>(
+      response
+    );
   }
 }

@@ -1,30 +1,34 @@
-import useDiaryNotes from "@/app/hooks/useDiaryNotes";
+import useNotes from "@/app/hooks/useNotes";
+import { NoteLibs } from "@/app/lib/note";
 import ListCard from "@/components/ListCard";
 import { format } from "date-fns";
 import Link from "next/link";
 
-const DiaryNotes = () => {
-  const { array } = useDiaryNotes();
+const DiaryLatest = () => {
+  const { notes } = useNotes();
+  const array = NoteLibs.groupNotes([notes ?? []]);
 
   return (
     <div className="flex flex-col w-full gap-y-4">
       {array?.map((diary) => {
-        const { startDate, noteList } = diary;
+        const [date, noteList] = diary;
         return (
-          <div key={startDate} className="flex flex-col gap-y-5">
+          <div key={date} className="flex flex-col gap-y-5">
             <div className="w-full h-10 items-center justify-center flex">
               <h4 className="text-sub4 text-white">
-                {format(startDate, "MM월 dd일")}
+                {format(date, "MM월 dd일")}
               </h4>
             </div>
             {noteList?.map((note) => {
-              const key = Math.random();
               return (
-                <Link href={`/diary/${diary.id}`} key={key}>
+                <Link
+                  href={`/note/${note.type}/${note.note.id}`}
+                  key={note.note.id}
+                >
                   <ListCard.Container>
                     <ListCard.Header.Default title={note.note.title} />
                     <ListCard.Description>
-                      {note.note.content}
+                      {String(note.note.content)}
                     </ListCard.Description>
                   </ListCard.Container>
                 </Link>
@@ -37,4 +41,4 @@ const DiaryNotes = () => {
   );
 };
 
-export default DiaryNotes;
+export default DiaryLatest;

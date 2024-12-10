@@ -2,11 +2,11 @@ import { useQuery } from "@tanstack/react-query";
 import { isNil } from "ramda";
 import { useHttp } from "../contexts/http";
 import { NoteAPI } from "../http";
-import { DiaryType } from "../lib/diary";
+import { NoteType } from "../models/diary";
 
 export interface UseNoteProps {
   diary?: {
-    type?: DiaryType;
+    type?: NoteType;
     id?: number;
   };
   note?: {
@@ -34,14 +34,14 @@ const useNote = (props: UseNoteProps) => {
         return null;
       }
       switch (diary.type) {
-        case DiaryType.COMMON:
-          return noteApi.getCommonNote(diary.id, note.id);
-        case DiaryType.QUESTION:
-          return noteApi.getQuestionNote(diary.id, note.id);
-        case DiaryType.RETROSPECTIVE:
-          return noteApi.getRetrospectNote(diary.id, note.id);
+        case NoteType.COMMON:
+          return noteApi.getCommonNote(note.id);
+        case NoteType.QUESTION:
+          return noteApi.getQuestionNote(note.id);
+        case NoteType.RETROSPECTIVE:
+          return noteApi.getRetrospectNote(note.id);
         default:
-          return noteApi.getCommonNote(diary.id, note.id);
+          return noteApi.getCommonNote(note.id);
       }
     },
   });

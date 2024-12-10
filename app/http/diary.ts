@@ -1,5 +1,5 @@
 import { Http, HttpLibs } from "@/app/lib/http";
-import { Diary } from "../models/diary";
+import { Diary, DiaryName } from "../models/diary";
 
 export class DiaryAPI {
   http: Http;
@@ -12,14 +12,9 @@ export class DiaryAPI {
     return HttpLibs.toJson<{ diaryList: Diary[] }>(response);
   }
 
-  async getDiaryDates() {
-    const response = await this.http.get(`api/diary/dates`);
-    return HttpLibs.toJson<{ dates: { id: number; date: string }[] }>(response);
-  }
-
-  async getDiaryNotes() {
-    const response = await this.http.get(`api/diary/notes`);
-    return HttpLibs.toJson<Diary[]>(response);
+  async getDiaryNames() {
+    const response = await this.http.get(`api/diary/name`);
+    return HttpLibs.toJson<{ nameList: DiaryName[] }>(response);
   }
 
   async createDiary() {

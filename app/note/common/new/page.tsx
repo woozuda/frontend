@@ -3,7 +3,7 @@
 import { ImageSvg, SmileSvg, WeatherSvg } from "@/app/assets/icons";
 import ArrowDownSvg from "@/app/assets/icons/ArrowDown.svg";
 import ArrowLeftSvg from "@/app/assets/icons/ArrowLeft.svg";
-import useDiaries from "@/app/hooks/useDiaries";
+import useDiaryNames from "@/app/hooks/useDiaryNames";
 import useImageUpload from "@/app/hooks/useImageUpload";
 import useNoteCommonCreate from "@/app/hooks/useNoteCreate";
 import { CalendarDayType, CalendarLibs } from "@/app/lib/calendar";
@@ -31,18 +31,10 @@ import {
 } from "react";
 
 export default function Page() {
-  const { array } = useDiaries();
-  const items = array?.map((diary) => {
-    return {
-      id: diary.id,
-      key: String(diary.id),
-      text: diary.title,
-    };
-  });
+  const { data } = useDiaryNames();
   const [diary, setDiary] = useState<{
     id: number;
-    title: string;
-    key: string;
+    name: string;
   }>();
   const now = useMemo(() => new Date(), []);
   const [selectedDate, setSelectedDate] = useState(now);
@@ -80,14 +72,13 @@ export default function Page() {
     if (editorRef.current) {
       const content = editorRef.current.getSemanticHTML();
       const { id } = await onNoteCreate({
-        diary,
+        diaryId: diary?.id,
         title,
         emoji,
         weather,
         season,
         date: selectedDate,
         content,
-        tags: [],
       });
     }
   };
@@ -121,7 +112,7 @@ export default function Page() {
               )}
               {diary && (
                 <h2 className="w-full text-body2 text-app-gray-700 text-start line-clamp-1">
-                  {diary.title}
+                  {diary.name}
                 </h2>
               )}
               <ArrowDownSvg className="flex shrink-0" />
@@ -131,21 +122,20 @@ export default function Page() {
             <BottomSheetV2.Header>
               <h2 className="text-h2 text-app-gray-1000">다이어리 선택</h2>
             </BottomSheetV2.Header>
-            {items?.map((item) => {
+            {data?.nameList?.map((item) => {
               return (
-                <BottomSheetV2.Option key={item.key}>
+                <BottomSheetV2.Option key={item.id}>
                   <SheetClose asChild>
                     <button
                       className="bg-white flex items-center justify-center text-sub4 text-app-gray-1100 h-12"
                       onClick={() => {
                         setDiary({
                           id: item.id,
-                          title: item.text,
-                          key: item.key,
+                          name: item.name,
                         });
                       }}
                     >
-                      {item.text}
+                      {item.name}
                     </button>
                   </SheetClose>
                 </BottomSheetV2.Option>

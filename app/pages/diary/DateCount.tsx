@@ -5,7 +5,7 @@ import AppCalendar from "@/components/AppCalendar";
 import AppCalendarDay from "@/components/AppCalendar/Day";
 import { format } from "date-fns";
 
-const DiaryDates = () => {
+const DiaryDateCount = () => {
   const { array } = useDiaryDates();
   const dateGroup = DiaryLibs.groupDates(array ?? []);
 
@@ -35,11 +35,15 @@ const DiaryDates = () => {
                   if (isEqual) {
                     type = CalendarDayType.ABLED;
                   }
+                  const href = `/diary?date=${format(
+                    diaryDate.date,
+                    "yyyy-MM-dd"
+                  )}`;
                   return (
                     <AppCalendarDay.Default
                       day={date.date}
                       type={type}
-                      href={`/diary/${diaryDate.id}`}
+                      href={href}
                     />
                   );
                 }}
@@ -52,4 +56,4 @@ const DiaryDates = () => {
   );
 };
 
-export default DiaryDates;
+export default DiaryDateCount;

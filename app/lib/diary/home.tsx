@@ -8,17 +8,17 @@ export class DiaryHomeLibs {
   static popoverItems = [
     {
       name: "일기 쓰기",
-      href: "/diary/note/common/new",
+      href: "/note/common/new",
       icon: <PencilFlatSvg />,
     },
     {
       name: "오늘의 질문 일기",
-      href: "/diary/note/question/new",
+      href: "/note/question/new",
       icon: <CalendarDotSvg />,
     },
     {
       name: "회고하기",
-      href: "/diary/note/retrospect/new",
+      href: "/note/retrospect/new",
       icon: <RetrospectSvg />,
     },
   ];

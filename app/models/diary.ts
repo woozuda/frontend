@@ -1,3 +1,9 @@
+export enum NoteType {
+  COMMON = "COMMON",
+  QUESTION = "QUESTION",
+  RETROSPECTIVE = "RETROSPECTIVE",
+}
+
 export interface Diary {
   id: number;
   title: string;
@@ -6,23 +12,37 @@ export interface Diary {
   startDate: string;
   endDate: string;
   noteCount: number;
-  noteList?: DiaryNote[];
+  page?: {
+    content: DiaryNote[];
+  };
 }
 
 export interface DiaryNote {
-  type: "자유" | "일기" | "회고";
-  note: {
-    id: number;
-    diary: string;
-    title: string;
-    question?: string;
-    tag: string[];
-    date: string;
-    weather: string;
-    season: string;
-    feeling: string;
-    content: string;
-  };
+  type: NoteType;
+  note: Note;
+}
+
+export interface DiaryName {
+  id: number;
+  name: string;
+}
+
+export interface Note {
+  id: number;
+  diary: string;
+  title: string;
+  question?: string;
+  tag: string[];
+  date: string;
+  weather: string;
+  season: string;
+  feeling: string;
+  content: string | string[];
+}
+
+export interface NoteDate {
+  date: string;
+  count: number;
 }
 
 export interface CreateInfo {
