@@ -1,18 +1,16 @@
-
 export async function randomCover() {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/diary/random`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/image/random`,
       {
-        method: "post",
+        method: "get",
         //body
         credentials: "include",
       }
     );
     const data = await res.json();
 
-    return data
-
+    return data;
   } catch (err) {
     console.error(err);
     return { message: "server_error" };

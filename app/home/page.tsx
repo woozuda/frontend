@@ -49,7 +49,9 @@ export default function Page() {
                   </Link>
                 );
               })}
-              <AddDiary icon={<PlusSvg className="text-white" />} />
+              <Link href={"/diary/new"}>
+                <AddDiary icon={<PlusSvg className="text-white" />} />
+              </Link>
             </div>
             <div className="shrink-0 h-full w-5 bg-transparent" />
           </div>
