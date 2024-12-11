@@ -19,7 +19,13 @@ const onSubmit = async (prevState: any, formData: FormData) => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/login`, {
       method: "post",
-      body: formData,
+      body: JSON.stringify({
+        username: formData.get("email"),
+        password: formData.get("password"),
+      }),
+      headers: {
+        "content-type": "application/json",
+      },
       credentials: "include",
     });
 
@@ -27,7 +33,7 @@ const onSubmit = async (prevState: any, formData: FormData) => {
       return { message: "user_not_found" };
     }
 
-    await res.json();
+    // await res.json();
     shouldRedirect = true;
   } catch (err) {
     console.error(err);
