@@ -7,7 +7,12 @@ const HttpContext = createContext<Http>(null!);
 
 export const HttpProvider = (props: PropsWithChildren) => {
   const { children } = props;
-  const http = new Http();
+  const http = new Http({
+    headers: {
+      "content-type": "application/json",
+    },
+    credentials: "include",
+  });
 
   if (process.env.NEXT_PUBLIC_BASE_URL) {
     http.baseURL = process.env.NEXT_PUBLIC_BASE_URL;
