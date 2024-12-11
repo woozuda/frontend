@@ -45,7 +45,7 @@ export class ReportAPI {
 
     const response = await this.http.get(url);
     const data = await HttpLibs.toJson<ReportKTP>(response);
-    data.type = RetrospectEnums.KTP;
+    data.type = RetrospectEnums.KPT;
 
     return data;
   }

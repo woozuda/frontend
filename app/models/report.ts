@@ -1,6 +1,6 @@
 export enum RetrospectEnums {
   FOUR_FS = "4FS",
-  KTP = "KTP",
+  KPT = "KPT",
   PMI = "PMI",
   SCS = "SCS",
 }
@@ -32,7 +32,7 @@ export interface Report4FS {
 }
 
 export interface ReportKTP {
-  type: RetrospectEnums.KTP;
+  type: RetrospectEnums.KPT;
   startDate: string;
   endDate: string;
   id: number;

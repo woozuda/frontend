@@ -29,7 +29,7 @@ const useReport = (props: UseReportProps) => {
         case RetrospectEnums.FOUR_FS: {
           return reportApi.getReport4FS(start, end);
         }
-        case RetrospectEnums.KTP: {
+        case RetrospectEnums.KPT: {
           return reportApi.getReportKTP(start, end);
         }
         case RetrospectEnums.PMI: {

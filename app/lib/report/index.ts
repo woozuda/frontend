@@ -107,8 +107,8 @@ export class ReportLibs {
       case RetrospectEnums.FOUR_FS: {
         return RetrospectEnums.FOUR_FS;
       }
-      case RetrospectEnums.KTP: {
-        return RetrospectEnums.KTP;
+      case RetrospectEnums.KPT: {
+        return RetrospectEnums.KPT;
       }
       case RetrospectEnums.PMI: {
         return RetrospectEnums.PMI;
