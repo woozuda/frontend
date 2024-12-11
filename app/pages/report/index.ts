@@ -1,4 +1,13 @@
-import ReportHeader from "./Header";
-import ReportChipHeader from "./ReportChip";
+import DiaryReport from "./Diary";
+import Report4FSReport from "./Report4FS";
+import ReportKPTReport from "./ReportKPT";
+import ReportPMIReport from "./ReportPMI";
+import ReportSCSReport from "./ReportSCS";
 
-export { ReportChipHeader, ReportHeader };
+export {
+  DiaryReport,
+  Report4FSReport,
+  ReportKPTReport,
+  ReportPMIReport,
+  ReportSCSReport,
+};
