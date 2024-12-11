@@ -30,9 +30,8 @@ const onSubmit = async (prevState: any, formData: FormData) => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/join`, {
       method: "post",
       body: JSON.stringify({
-        email: formData.get("email"),
+        username: formData.get("email"),
         password: formData.get("password"),
-        "password-check": formData.get("password-check"),
       }),
       headers: {
         "content-type": "application/json",
@@ -44,7 +43,7 @@ const onSubmit = async (prevState: any, formData: FormData) => {
       return { message: "user_exists" };
     }
 
-    await res.json();
+    // await res.json();
     shouldRedirect = true;
   } catch (err) {
     console.error(err);
