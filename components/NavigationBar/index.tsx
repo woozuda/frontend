@@ -58,7 +58,7 @@ const navigations = [
 const GlobalNavigationBar = (props: GlobalNavigationBarProps) => {
   const className = ClassNameLibs.merge(
     props,
-    "px-6 py-2 flex items-center w-full h-[66px] justify-between"
+    "px-6 py-2 flex items-center w-full h-[66px] justify-between shrink-0"
   );
 
   const pathname = usePathname();
@@ -67,14 +67,15 @@ const GlobalNavigationBar = (props: GlobalNavigationBarProps) => {
     <section className={className}>
       {navigations.map((nav) => {
         const { text } = GNBLibs.getItemStyle(pathname, nav.href);
+        const active = pathname.includes(nav.href);
         return (
           <Link
             href={nav.href}
             className="flex flex-col items-center gap-y-1"
             key={nav.text}
           >
-            {pathname === nav.href && nav.icon.active}
-            {pathname !== nav.href && nav.icon.inactive}
+            {active && nav.icon.active}
+            {!active && nav.icon.inactive}
             <span className={text}>{nav.text}</span>
           </Link>
         );
