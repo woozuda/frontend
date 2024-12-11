@@ -1,10 +1,7 @@
 "use client";
 
 import BackButton from "@/app/_component/BackButton";
-import { useCreateDiary } from "../_hooks/useCreateDiary";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Drawer,
   DrawerContent,
@@ -12,13 +9,15 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { useState, useRef } from "react";
-import Image from "next/image";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useRef, useState } from "react";
+import { useCreateDiary } from "../_hooks/useCreateDiary";
 import { useRandomCover } from "../_hooks/useRandomCover";
 
 export default function CreateDiaryPage() {
   const [diaryName, setDiaryName] = useState("");
-  const [diaryThemeInput, setDiaryThemeInput] = useState("")
+  const [diaryThemeInput, setDiaryThemeInput] = useState("");
   const [diaryTheme, setDiaryTheme] = useState<string[]>([]);
   const [diaryCover, setDiaryCover] = useState<null | FormData | string>(null);
   const [diaryCoverType, setDiaryCoverType] = useState<string>("");
@@ -28,21 +27,22 @@ export default function CreateDiaryPage() {
   const inputRef = useRef<HTMLInputElement>(null);
   const themeInput = useRef<HTMLInputElement>(null);
 
-  const handleRandomCoverSuccess = (data: {url: string}) => {
+  const handleRandomCoverSuccess = (data: { imageUrl: string }) => {
     setIsOpen(false);
-    setDiaryCover(data.url);
+    setDiaryCover(data.imageUrl);
     setDiaryCoverType("random");
-    setDiaryCoverPreview(data.url);
+    setDiaryCoverPreview(data.imageUrl);
   };
 
-  const { randomCoverMutate, randomCoverIsPending } = useRandomCover(handleRandomCoverSuccess)
+  const { randomCoverMutate, randomCoverIsPending } = useRandomCover(
+    handleRandomCoverSuccess
+  );
   const { mutate, isPending } = useCreateDiary({
     diaryName,
     diaryTheme,
     diaryCover,
     diaryCoverType,
   });
-
 
   const handleButtonClick = () => {
     //앨범에서 선택하기 click -> input trigger
@@ -67,18 +67,18 @@ export default function CreateDiaryPage() {
 
       reader.readAsDataURL(file);
     }
-    setIsOpen(false)
+    setIsOpen(false);
   };
 
   const handleThemeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDiaryThemeInput(e.target.value);
-  }
+  };
   const handleThemeKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === " ") {
-      e.preventDefault(); 
-      const trimmedValue = diaryThemeInput.trim(); 
+      e.preventDefault();
+      const trimmedValue = diaryThemeInput.trim();
       if (trimmedValue) {
-        setDiaryTheme((prevThemes) => [...prevThemes, trimmedValue]); 
+        setDiaryTheme((prevThemes) => [...prevThemes, trimmedValue]);
         setDiaryThemeInput("");
       }
     }
@@ -101,8 +101,11 @@ export default function CreateDiaryPage() {
           <Drawer open={isOpen} onOpenChange={setIsOpen}>
             <DrawerTrigger asChild>
               {diaryCoverPreview ? (
-                <div className="flex justify-center" onClick={() => setIsOpen(true)}>
-                  <Image
+                <div
+                  className="flex justify-center"
+                  onClick={() => setIsOpen(true)}
+                >
+                  <img
                     src={diaryCoverPreview}
                     alt="Diary Cover"
                     width={250}
@@ -110,13 +113,16 @@ export default function CreateDiaryPage() {
                     className="mt-6"
                   />
                 </div>
-              ) : 
-                <div className="flex justify-center items-center m-auto bg-slate-200 rounded-xl w-[250px] h-[250px]" onClick={() => setIsOpen(true)}>
+              ) : (
+                <div
+                  className="flex justify-center items-center m-auto bg-slate-200 rounded-xl w-[250px] h-[250px]"
+                  onClick={() => setIsOpen(true)}
+                >
                   <div className="flex items-center justify-center bg-slate-400 rounded-full w-[50px] h-[50px] text-4xl font-thin text-white">
                     +
                   </div>
                 </div>
-              }
+              )}
             </DrawerTrigger>
             <DrawerContent>
               <div className="flex flex-col gap-4 pb-6 px-4">
@@ -172,20 +178,20 @@ export default function CreateDiaryPage() {
           />
         </div>
         <div className="flex items-center flex-wrap gap-2">
-        {diaryTheme.map((chip, index) => (
-          <div
-            key={index}
-            className="flex items-center bg-slate-200 px-3 py-1 rounded-lg text-sm"
-          >
-            {chip}
-            <button
-              onClick={() => removeChip(index)}
-              className="ml-2 font-bold"
+          {diaryTheme.map((chip, index) => (
+            <div
+              key={index}
+              className="flex items-center bg-slate-200 px-3 py-1 rounded-lg text-sm"
             >
-              ×
-            </button>
-          </div>
-        ))}
+              {chip}
+              <button
+                onClick={() => removeChip(index)}
+                className="ml-2 font-bold"
+              >
+                ×
+              </button>
+            </div>
+          ))}
         </div>
       </section>
       {diaryName && diaryTheme.length > 0 && diaryCover && (
