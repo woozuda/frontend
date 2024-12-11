@@ -1,3 +1,5 @@
+import cloneDeep from "lodash.clonedeep";
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 type ReqInterceptor = [(init: RequestInit) => RequestInit, (err: any) => any];
 type ResInterceptor = [
@@ -13,15 +15,20 @@ interface Interceptor {
 export class Http {
   private interceptor: Interceptor;
   baseURL: string;
-  constructor() {
+  baseInit: RequestInit;
+  constructor(init?: RequestInit) {
     this.interceptor = {
       req: [],
       res: [],
     };
     this.baseURL = "";
+    this.baseInit = init ?? {};
   }
 
   private async request(req: RequestInfo | URL, init: RequestInit = {}) {
+    const clonedInit = cloneDeep(this.baseInit);
+    init = Object.assign(clonedInit, init);
+
     req = new URL(req as URL | string, this.baseURL);
     const reqLen = this.interceptor.req.length;
     for (let i = 0; i < reqLen; i++) {
