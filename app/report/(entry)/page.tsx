@@ -8,9 +8,9 @@ interface PageProps {
 export default function Page(props: PageProps) {
   return (
     <div className="w-full flex flex-col pb-5 h-full">
-      <ReportHeader searchParams={props.searchParams} />
+      <ReportHeader />
       <div className="flex flex-col w-full px-5 py-4">
-        <DiaryResult searchParams={props.searchParams} />
+        <DiaryResult />
       </div>
     </div>
   );

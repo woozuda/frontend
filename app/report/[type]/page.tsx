@@ -24,31 +24,23 @@ export default function Page(props: PageProps) {
   if (param === ReportEnums.COMMON) {
     return (
       <div className="w-full flex flex-col gap-y-3 pb-5 h-full">
-        <ReportHeader searchParams={props.searchParams} />
+        <ReportHeader />
         <div className="flex flex-col w-full px-5 py-4">
-          <DiaryResult searchParams={props.searchParams} />
+          <DiaryResult />
         </div>
       </div>
     );
   }
   return (
     <div className="w-full flex flex-col gap-y-3 pb-5 h-full">
-      <ReportHeader searchParams={props.searchParams} />
+      <ReportHeader />
       <div className="flex flex-col w-full px-5">
         <ReportChipHeader searchParams={props.searchParams} />
       </div>
-      {type === RetrospectEnums.FOUR_FS && (
-        <Report4FSReport searchParams={props.searchParams} />
-      )}
-      {type === RetrospectEnums.KPT && (
-        <ReportKPTReport searchParams={props.searchParams} />
-      )}
-      {type === RetrospectEnums.PMI && (
-        <ReportPMIReport searchParams={props.searchParams} />
-      )}
-      {type === RetrospectEnums.SCS && (
-        <ReportSCSReport searchParams={props.searchParams} />
-      )}
+      {type === RetrospectEnums.FOUR_FS && <Report4FSReport />}
+      {type === RetrospectEnums.KPT && <ReportKPTReport />}
+      {type === RetrospectEnums.PMI && <ReportPMIReport />}
+      {type === RetrospectEnums.SCS && <ReportSCSReport />}
     </div>
   );
 }

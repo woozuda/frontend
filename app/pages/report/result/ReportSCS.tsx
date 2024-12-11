@@ -4,14 +4,10 @@ import useReport from "@/app/hooks/useReport";
 import { ReportLibs } from "@/app/lib/report";
 import { RetrospectEnums } from "@/app/models/report";
 import ReportCard from "@/components/ReportCard";
-import { ReadonlyURLSearchParams } from "next/navigation";
+import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation";
 
-export interface ReportSCSResultProps {
-  searchParams: Record<string, string>;
-}
-
-const ReportSCSResult = (props: ReportSCSResultProps) => {
-  const searchParams = new URLSearchParams(props.searchParams);
+const ReportSCSResult = () => {
+  const searchParams = useSearchParams();
   const [start, end] = ReportLibs.getPeriod(searchParams);
   const type = ReportLibs.getRetrospectType(
     searchParams as ReadonlyURLSearchParams

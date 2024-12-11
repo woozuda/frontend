@@ -3,16 +3,10 @@
 import { ArrowLeftSmallSvg, ArrowRightSmallSvg } from "@/app/assets/icons";
 import { ReportLibs } from "@/app/lib/report";
 import Link from "next/link";
-import { ReadonlyURLSearchParams, usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 
-export interface ReportHeaderProps {
-  searchParams: Record<string, string>;
-}
-
-const ReportHeader = (props: ReportHeaderProps) => {
-  const searchParams = new URLSearchParams(
-    props.searchParams
-  ) as ReadonlyURLSearchParams;
+const ReportHeader = () => {
+  const searchParams = useSearchParams();
   const pathname = usePathname();
   const [start, end] = ReportLibs.getPeriod(searchParams);
   const [date, week] = ReportLibs.getWeekNumber(start, end);

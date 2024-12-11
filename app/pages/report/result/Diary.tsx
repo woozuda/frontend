@@ -3,13 +3,10 @@
 import useDiaryAnalysis from "@/app/hooks/useDiaryAnalysis";
 import { ReportLibs } from "@/app/lib/report";
 import ReportCard from "@/components/ReportCard";
+import { useSearchParams } from "next/navigation";
 
-interface DiaryResultProps {
-  searchParams: Record<string, string>;
-}
-
-const DiaryResult = (props: DiaryResultProps) => {
-  const searchParams = new URLSearchParams(props.searchParams);
+const DiaryResult = () => {
+  const searchParams = useSearchParams();
   const [start, end] = ReportLibs.getPeriod(searchParams);
 
   const { data } = useDiaryAnalysis({ startDate: start, endDate: end });

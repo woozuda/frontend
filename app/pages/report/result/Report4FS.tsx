@@ -6,12 +6,7 @@ import { RetrospectEnums } from "@/app/models/report";
 import ReportCard from "@/components/ReportCard";
 import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation";
 
-export interface Report4FSResultProps {
-  searchParams: Record<string, string>;
-}
-
-const Report4FSResult = (props: Report4FSResultProps) => {
-  // const searchParams = new URLSearchParams(props.searchParams);
+const Report4FSResult = () => {
   const searchParams = useSearchParams();
   const [start, end] = ReportLibs.getPeriod(searchParams);
   const type = ReportLibs.getRetrospectType(
