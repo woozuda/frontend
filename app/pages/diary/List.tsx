@@ -18,7 +18,9 @@ const DiaryCardList = () => {
           </Link>
         );
       })}
-      <AddDiary icon={<PlusSvg />} className="w-full h-[120px]" />
+      <Link href={"/diary/new"}>
+        <AddDiary icon={<PlusSvg />} className="w-full h-[120px]" />
+      </Link>
     </div>
   );
 };

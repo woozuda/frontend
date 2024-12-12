@@ -56,7 +56,7 @@ const DiaryDateNotes = () => {
                   >
                     <ListCard.Container>
                       <ListCard.Header.Default title={note.note.title} />
-                      <ListCard.Description>
+                      <ListCard.Description html>
                         {String(note.note.content)}
                       </ListCard.Description>
                     </ListCard.Container>
