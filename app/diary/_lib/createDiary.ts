@@ -1,15 +1,13 @@
 import { CreateInfo as ICreateInfo } from "@/app/models/diary";
 
 export async function createDiary(createInfo: ICreateInfo) {
-  console.log(createInfo);
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/diary`, {
       method: "post",
-      //body
       body: JSON.stringify({
-        title: createInfo.diaryName,
-        tags: createInfo.diaryTheme,
-        imgUrl: createInfo.diaryCover,
+        title: createInfo.title,
+        subject: createInfo.subject,
+        imgUrl: createInfo.imgUrl,
       }),
       headers: {
         "content-type": "application/json",

@@ -14,13 +14,14 @@ import { Label } from "@/components/ui/label";
 import { useRef, useState } from "react";
 import { useCreateDiary } from "../_hooks/useCreateDiary";
 import { useRandomCover } from "../_hooks/useRandomCover";
+import { useUploadCover } from "../_hooks/useUploadCover";
+import Image from "next/image";
 
 export default function CreateDiaryPage() {
   const [diaryName, setDiaryName] = useState("");
   const [diaryThemeInput, setDiaryThemeInput] = useState("");
   const [diaryTheme, setDiaryTheme] = useState<string[]>([]);
   const [diaryCover, setDiaryCover] = useState<null | FormData | string>(null);
-  const [diaryCoverType, setDiaryCoverType] = useState<string>("");
   const [diaryCoverPreview, setDiaryCoverPreview] = useState("");
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -30,18 +31,25 @@ export default function CreateDiaryPage() {
   const handleRandomCoverSuccess = (data: { imageUrl: string }) => {
     setIsOpen(false);
     setDiaryCover(data.imageUrl);
-    setDiaryCoverType("random");
+    setDiaryCoverPreview(data.imageUrl);
+  };
+  const handleUploadCoverSuccess = (data: { imageUrl: string }) => {
+    setIsOpen(false);
+    setDiaryCover(data.imageUrl);
     setDiaryCoverPreview(data.imageUrl);
   };
 
   const { randomCoverMutate, randomCoverIsPending } = useRandomCover(
     handleRandomCoverSuccess
   );
+  const { uploadCoverMutate, uploadCoverIsPending } = useUploadCover(
+    handleUploadCoverSuccess
+  );
+
   const { mutate, isPending } = useCreateDiary({
-    diaryName,
-    diaryTheme,
-    diaryCover,
-    diaryCoverType,
+    title: diaryName,
+    subject: diaryTheme,
+    imgUrl: diaryCover,
   });
 
   const handleButtonClick = () => {
@@ -49,23 +57,14 @@ export default function CreateDiaryPage() {
     if (inputRef.current) {
       inputRef.current.click();
     }
-    setDiaryCoverType("album");
   };
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       const formData = new FormData();
-      formData.append("file", file);
-      setDiaryCover(formData);
+      formData.append("multipartFile ", file);
 
-      const reader = new FileReader();
-      reader.onload = () => {
-        if (reader.result) {
-          setDiaryCoverPreview(reader.result.toString());
-        }
-      };
-
-      reader.readAsDataURL(file);
+      uploadCoverMutate(formData)
     }
     setIsOpen(false);
   };
@@ -105,7 +104,7 @@ export default function CreateDiaryPage() {
                   className="flex justify-center"
                   onClick={() => setIsOpen(true)}
                 >
-                  <img
+                  <Image
                     src={diaryCoverPreview}
                     alt="Diary Cover"
                     width={250}
