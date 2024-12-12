@@ -4,9 +4,7 @@ export async function uploadCover(formData: FormData) {
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/image/upload`,
         {
           method: "post",
-          body: JSON.stringify({
-            formData
-          }),
+          body: formData,
           credentials: "include",
         }
       );

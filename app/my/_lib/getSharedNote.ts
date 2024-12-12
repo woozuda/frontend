@@ -1,6 +1,6 @@
 export async function getSharedNote() {
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/my/shared/note`,
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/shared/note`,
           {
             method: "post",
             //body

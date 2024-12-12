@@ -18,10 +18,18 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'upload.wikimedia.org'
-      }
-    ]
+        protocol: "https",
+        hostname: "upload.wikimedia.org",
+      },
+      {
+        protocol: "https",
+        hostname: "kr.object.ncloudstorage.com",
+      },
+      {
+        protocol: "https",
+        hostname: "woozuda-image.kr.object.ncloudstorage.com",
+      },
+    ],
   }
 };
 

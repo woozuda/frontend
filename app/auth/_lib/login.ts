@@ -17,7 +17,7 @@ const onSubmit = async (prevState: any, formData: FormData) => {
   let shouldRedirect = false;
 
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/login`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/login`, {
       method: "post",
       body: JSON.stringify({
         username: formData.get("email"),
