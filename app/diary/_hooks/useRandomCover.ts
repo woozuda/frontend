@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { randomCover } from "../_lib/randomCover";
+import { toast } from "sonner";
 
 export function useRandomCover(
   handleRandomCoverSuccess: (data: { imageUrl: string }) => void
@@ -8,11 +9,11 @@ export function useRandomCover(
     useMutation({
       mutationFn: randomCover,
       onSuccess: (data) => {
-        console.log("create random cover success!", data);
+        toast.success("랜덤 이미지 생성이 완료 되었습니다.");
         handleRandomCoverSuccess(data);
       },
       onError: () => {
-        console.log("create random cover failed...");
+        toast.error("랜덤 이미지 생성이 실패했습니다.");
       },
     });
   return { randomCoverMutate, randomCoverIsPending };

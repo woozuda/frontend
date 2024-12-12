@@ -16,7 +16,7 @@ export const handlers = [
       },
       {
         headers: {
-          "Set-Cookie": "connect.sid=msw-cookie;HttpOnly;Path=/",
+          "Set-Cookie": "Authorization=msw-cookie;HttpOnly;Path=/",
         },
       }
     );
@@ -30,7 +30,7 @@ export const handlers = [
       },
       {
         headers: {
-          "Set-Cookie": "connect.sid=msw-cookie;HttpOnly;Path=/",
+          "Set-Cookie": "Authorization=msw-cookie;HttpOnly;Path=/",
         },
       }
     );
@@ -39,7 +39,7 @@ export const handlers = [
   http.post("api/logout", () => {
     return new HttpResponse(null, {
       headers: {
-        "Set-Cookie": "connect.sid=;HttpOnly;Path=/;Max-Age=0",
+        "Set-Cookie": "Authorization=;HttpOnly;Path=/;Max-Age=0",
       },
     });
   }),

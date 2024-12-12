@@ -4,7 +4,6 @@ export async function randomCover() {
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/image/random`,
       {
         method: "get",
-        //body
         credentials: "include",
       }
     );

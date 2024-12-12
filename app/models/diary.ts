@@ -46,10 +46,9 @@ export interface NoteDate {
 }
 
 export interface CreateInfo {
-  diaryName: string;
-  diaryTheme: string[];
-  diaryCover: null | FormData | string;
-  diaryCoverType: string;
+  title: string;
+  subject: string[];
+  imgUrl: null | FormData | string;
 }
 
 export interface sections {

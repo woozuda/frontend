@@ -30,9 +30,15 @@ export const handlers = [
     return HttpResponse.json({});
   }),
   //랜덤 커버 생성
-  http.post("api/diary/random", () => {
+  http.get("api/image/random", () => {
     return HttpResponse.json({
-      url: "https://upload.wikimedia.org/wikipedia/ko/thumb/a/a6/Pok%C3%A9mon_Pikachu_art.png/200px-Pok%C3%A9mon_Pikachu_art.png",
+      imageUrl: "https://upload.wikimedia.org/wikipedia/ko/thumb/a/a6/Pok%C3%A9mon_Pikachu_art.png/200px-Pok%C3%A9mon_Pikachu_art.png",
+    });
+  }),
+  //업로드 커버 생성
+  http.post("api/image/upload", () => {
+    return HttpResponse.json({
+      imageUrl: "https://upload.wikimedia.org/wikipedia/ko/thumb/a/a6/Pok%C3%A9mon_Pikachu_art.png/200px-Pok%C3%A9mon_Pikachu_art.png",
     });
   }),
   //다이어리 생성
