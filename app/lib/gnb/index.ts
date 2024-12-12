@@ -1,6 +1,6 @@
 export class GNBLibs {
   static getItemStyle(pathname: string, href?: string) {
-    if (pathname === href) {
+    if (href && pathname.includes(href)) {
       return {
         background:
           "bg-clip-text bg-gradient-to-r from-gradient-01-100 to-gradient-01-200 text-transparent",

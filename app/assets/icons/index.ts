@@ -14,6 +14,7 @@ import MyPageSvg from "@/app/assets/icons/MyPage.svg"
 import PencilSvg from "@/app/assets/icons/Pencil.svg"
 import PencilFlatSvg from "@/app/assets/icons/PencilFlat.svg"
 import PlusSvg from "@/app/assets/icons/Plus.svg"
+import PolygonSvg from "@/app/assets/icons/Polygon.svg"
 import ReportSvg from "@/app/assets/icons/Report.svg"
 import RetrospectSvg from "@/app/assets/icons/Retrospect.svg"
 import ShareSvg from "@/app/assets/icons/Share.svg"
@@ -41,6 +42,7 @@ export {
   PencilSvg,
   PencilFlatSvg,
   PlusSvg,
+  PolygonSvg,
   ReportSvg,
   RetrospectSvg,
   ShareSvg,

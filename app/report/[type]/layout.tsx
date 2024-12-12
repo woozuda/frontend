@@ -1,9 +1,6 @@
 "use client";
 
-import { PencilFlatSvg } from "@/app/assets/icons";
-import { DiaryHomeLibs } from "@/app/lib/diary";
 import { ReportEnums, ReportLibs } from "@/app/lib/report";
-import AppPopover from "@/components/AppPopover";
 import { HeaderV2 } from "@/components/header/v2";
 import GlobalNavigationBar from "@/components/NavigationBar";
 import { cn } from "@/lib/utils";
@@ -77,19 +74,11 @@ export default function Layout(props: LayoutProps) {
         </div>
         <div className="w-full h-full flex flex-col relative">
           <div
-            className="w-full h-px bg-transparent absolute left-0 right-0 top-[-50px]"
+            className="w-full h-px bg-transparent absolute left-0 right-0 top-[-56px]"
             ref={ref}
           />
           {children}
         </div>
-      </div>
-
-      <div className="relative h-0 w-full z-10">
-        <AppPopover
-          items={DiaryHomeLibs.popoverItems}
-          buttonIcon={<PencilFlatSvg />}
-          className="absolute bottom-3 right-3"
-        />
       </div>
       <GlobalNavigationBar />
     </div>
