@@ -4,6 +4,7 @@ import { DiaryNote, NoteType } from "@/app/models/diary";
 import ListCard from "@/components/ListCard";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
+import Link from "next/link";
 
 export interface DiaryDetailNotesProps {
   notes?: [string, DiaryNote[]][] | null;
@@ -32,32 +33,34 @@ const DiaryDetailNotes = (props: DiaryDetailNotesProps) => {
                   "border-app-gray-800 border rounded-xl"
               );
               return (
-                <ListCard.Container
+                <Link
                   key={note.note.id}
-                  className={cardClassName}
+                  href={`/note/${note.type}/${note.note.id}`}
                 >
-                  {note.type === NoteType.RETROSPECTIVE && (
-                    <ListCard.Header.Reflection
-                      title={note.note.title}
-                      checked={checkeds.has(note.note.id)}
-                      hasCheckbox={isClicked}
-                      onCheck={(checkedState) => onCheck(note, checkedState)}
-                    />
-                  )}
-                  {note.type !== NoteType.RETROSPECTIVE && (
-                    <ListCard.Header.Default
-                      title={note.note.title}
-                      onCheck={(checkedState) => {
-                        onCheck(note, checkedState);
-                      }}
-                      checked={checkeds.has(note.note.id)}
-                      hasCheckbox={isClicked}
-                    />
-                  )}
-                  <ListCard.Description>
-                    {String(note.note.content)}
-                  </ListCard.Description>
-                </ListCard.Container>
+                  <ListCard.Container className={cardClassName}>
+                    {note.type === NoteType.RETROSPECTIVE && (
+                      <ListCard.Header.Reflection
+                        title={note.note.title}
+                        checked={checkeds.has(note.note.id)}
+                        hasCheckbox={isClicked}
+                        onCheck={(checkedState) => onCheck(note, checkedState)}
+                      />
+                    )}
+                    {note.type !== NoteType.RETROSPECTIVE && (
+                      <ListCard.Header.Default
+                        title={note.note.title}
+                        onCheck={(checkedState) => {
+                          onCheck(note, checkedState);
+                        }}
+                        checked={checkeds.has(note.note.id)}
+                        hasCheckbox={isClicked}
+                      />
+                    )}
+                    <ListCard.Description html>
+                      {String(note.note.content)}
+                    </ListCard.Description>
+                  </ListCard.Container>
+                </Link>
               );
             })}
           </div>

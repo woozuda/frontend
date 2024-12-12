@@ -14,12 +14,17 @@ export class ImageAPI {
   async uploadImage(props: ImageUploadProps) {
     const { filename, file } = props;
     const formData = new FormData();
-    formData.append("filename", filename);
-    formData.append("file", file);
+    formData.append("multipartFile", file, filename);
 
     const response = await this.http.post("api/image/upload", {
       body: formData,
+      headers: {
+        "content-type": "multipart/form-data",
+      },
     });
+    if (!response.ok) {
+      throw new Error("Failed to upload image");
+    }
     return HttpLibs.toJson<{ url: string }>(response);
   }
 }

@@ -4,6 +4,7 @@ import AppCalendar from "@/components/AppCalendar";
 import AppCalendarDay from "@/components/AppCalendar/Day";
 import ListCard from "@/components/ListCard";
 import { format } from "date-fns";
+import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import useNotes from "../hooks/useNotes";
 import { CalendarLibs, CalendarStageType } from "../lib/calendar";
@@ -146,14 +147,16 @@ export default function Page(props: PageProps) {
       </AppCalendar.Container>
       <div className="flex flex-col w-full gap-y-5 p-5 h-full overflow-y-scroll">
         {notes?.map((note) => {
-          const key = Math.random();
+          const href = `note/${note.type}/${note.note.id}`;
           return (
-            <ListCard.Container key={key}>
-              <ListCard.Header.Default title={note.note.title} />
-              <ListCard.Description>
-                {String(note.note.content)}
-              </ListCard.Description>
-            </ListCard.Container>
+            <Link href={href} key={href}>
+              <ListCard.Container>
+                <ListCard.Header.Default title={note.note.title} />
+                <ListCard.Description html>
+                  {String(note.note.content)}
+                </ListCard.Description>
+              </ListCard.Container>
+            </Link>
           );
         })}
       </div>

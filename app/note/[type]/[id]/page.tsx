@@ -5,26 +5,33 @@ import { NoteType } from "@/app/models/diary";
 import { NotePageHeader } from "@/app/pages/note";
 import getQueryClient from "@/app/query/client";
 import { format } from "date-fns";
+import { cookies } from "next/headers";
 
 interface PageParams {
   id: number;
   type: NoteType;
-  noteId: number;
 }
 
 export default async function Page({ params }: { params: PageParams }) {
-  const { id, type, noteId } = params;
-  const http = new Http();
+  const { id, type } = params;
+  const cookie = cookies();
+  const authorization = cookie.get("Authorization")?.value;
+  const http = new Http({
+    credentials: "include",
+    headers: {
+      Cookie: `Authorization=${authorization}`,
+    },
+  });
   if (process.env.NEXT_PUBLIC_BASE_URL) {
     http.baseURL = process.env.NEXT_PUBLIC_BASE_URL;
   }
   const noteApi = new NoteAPI(http);
   const queryClient = getQueryClient();
   const note = await queryClient.fetchQuery({
-    queryKey: ["NOTE", { id, type }, { id: noteId }] as const,
+    queryKey: ["NOTE", { id, type }] as const,
     queryFn: ({ queryKey }) => {
-      const [, diary, note] = queryKey;
-      switch (diary.type) {
+      const [, note] = queryKey;
+      switch (note.type) {
         case NoteType.COMMON:
           return noteApi.getCommonNote(note.id);
         case NoteType.QUESTION:
@@ -67,10 +74,7 @@ export default async function Page({ params }: { params: PageParams }) {
             </div>
           )}
           <div className="flex w-full px-5 py-3">
-            <p>{note.content}</p>
-          </div>
-          <div className="w-full h-[800px] p-4">
-            <div className="w-full h-full bg-app-gray-300"></div>
+            <p dangerouslySetInnerHTML={{ __html: note.content }}></p>
           </div>
         </div>
       </div>

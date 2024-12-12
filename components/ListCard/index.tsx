@@ -71,6 +71,7 @@ const ListCardThumbnail = (props: ListCardThumbnailProps) => {
 export interface ListCardDescriptionProps {
   className?: string;
   children: string;
+  html?: boolean;
 }
 
 const ListCardDescription = (props: ListCardDescriptionProps) => {
@@ -78,7 +79,12 @@ const ListCardDescription = (props: ListCardDescriptionProps) => {
     props,
     "text-body2 line-clamp-3 text-white"
   );
-  const { children } = props;
+  const { children, html } = props;
+  if (html) {
+    return (
+      <p className={className} dangerouslySetInnerHTML={{ __html: children }} />
+    );
+  }
   return <p className={className}>{children}</p>;
 };
 
