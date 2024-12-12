@@ -41,7 +41,7 @@ export default function Page() {
 
   const [textLength, setTextLength] = useState(0);
   const editorRef = useRef<Quill | null>(null);
-  const { mutateAsync } = useImageUpload();
+  const { mutateAsync, reset } = useImageUpload();
   const { mutateAsync: onNoteCreate } = useNoteCommonCreate();
   const [emoji, setEmoji] = useState<Emoji>();
   const [weather, setWeather] = useState<Emoji>();
@@ -51,6 +51,8 @@ export default function Page() {
   const season = NoteLibs.createSeason(selectedDate);
 
   const onFileChange: ChangeEventHandler<HTMLInputElement> = async (event) => {
+    reset();
+
     const files = Array.from(event.target.files ?? []);
     const responses = await Promise.allSettled(
       files.map(async (file) => {
@@ -58,7 +60,11 @@ export default function Page() {
       })
     );
     for (const response of responses) {
-      if (response.status === "fulfilled" && editorRef.current) {
+      if (
+        response.status === "fulfilled" &&
+        response.value &&
+        editorRef.current
+      ) {
         editorRef.current.insertEmbed(
           editorRef.current.getLength(),
           "image",
@@ -71,7 +77,7 @@ export default function Page() {
   const onSubmit: MouseEventHandler<HTMLButtonElement> = async (event) => {
     if (editorRef.current) {
       const content = editorRef.current.getSemanticHTML();
-      await onNoteCreate({
+      const response = await onNoteCreate({
         diaryId: diary?.id,
         title,
         emoji,
@@ -80,6 +86,9 @@ export default function Page() {
         date: selectedDate,
         content,
       });
+      if (response && response.id) {
+        router.replace(`/note/common/${response.id}`);
+      }
     }
   };
 
