@@ -7,6 +7,7 @@ import useDiaryNames from "@/app/hooks/useDiaryNames";
 import useImageUpload from "@/app/hooks/useImageUpload";
 import useNoteCommonCreate from "@/app/hooks/useNoteCreate";
 import { CalendarDayType, CalendarLibs } from "@/app/lib/calendar";
+import { ImageLibs } from "@/app/lib/image";
 import { Emoji, NoteLibs } from "@/app/lib/note";
 import AppCalendar from "@/components/AppCalendar";
 import AppCalendarDay from "@/components/AppCalendar/Day";
@@ -38,6 +39,7 @@ export default function Page() {
   }>();
   const now = useMemo(() => new Date(), []);
   const [selectedDate, setSelectedDate] = useState(now);
+  const inputRef = useRef(null as HTMLInputElement | null);
 
   const [textLength, setTextLength] = useState(0);
   const editorRef = useRef<Quill | null>(null);
@@ -51,12 +53,11 @@ export default function Page() {
   const season = NoteLibs.createSeason(selectedDate);
 
   const onFileChange: ChangeEventHandler<HTMLInputElement> = async (event) => {
-    reset();
-
     const files = Array.from(event.target.files ?? []);
     const responses = await Promise.allSettled(
       files.map(async (file) => {
-        return mutateAsync({ file, filename: file.name });
+        const formFile = ImageLibs.createFormFile(file);
+        return mutateAsync({ file: formFile });
       })
     );
     for (const response of responses) {
@@ -68,7 +69,7 @@ export default function Page() {
         editorRef.current.insertEmbed(
           editorRef.current.getLength(),
           "image",
-          response.value.url
+          response.value.imageUrl
         );
       }
     }
@@ -178,6 +179,12 @@ export default function Page() {
         <label
           className="cursor-pointer flex items-center"
           htmlFor="noteImages"
+          onClick={() => {
+            if (inputRef.current) {
+              inputRef.current.value = "";
+            }
+            reset();
+          }}
         >
           <ImageSvg />
         </label>
@@ -189,6 +196,7 @@ export default function Page() {
           id="noteImages"
           className="hidden"
           onChange={onFileChange}
+          ref={inputRef}
         />
         <Sheet>
           <SheetTrigger>{emoji ? emoji.icon : <SmileSvg />}</SheetTrigger>

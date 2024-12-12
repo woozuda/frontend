@@ -1,9 +1,13 @@
 import { useMutation } from "@tanstack/react-query";
-import { useHttp } from "../contexts/http";
 import { ImageAPI, type ImageUploadProps } from "../http";
+import { Http } from "../lib/http";
 
 const useImageUpload = () => {
-  const http = useHttp();
+  // TODO
+  const http = new Http({
+    credentials: "include",
+  });
+  http.baseURL = process.env.NEXT_PUBLIC_BASE_URL!;
   const imageApi = new ImageAPI(http);
   return useMutation({
     mutationKey: ["IMAGE_UPLOAD"],
