@@ -13,7 +13,7 @@ export const handlers = [
             status: 200
         })
     }),
-    http.post("/api/my/shared/note", () => {
+    http.post("/api/shared/note", () => {
         return HttpResponse.json({
             total: 4,
             sharedNotes: [
@@ -23,21 +23,32 @@ export const handlers = [
                         {
                             "type": "COMMON",
                             "note": {
-                                "id": 123,
-                                "diary": 1,
-                                "title": "남해로 떠난 날",
-                                "content": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quam doloribus autem tempore blanditiis iste unde quasi dolor ducimus et, accusantium quibusdam tempora mollitiLorem ipsum, dolor sit amet consectetur adipisicing elit. Quam doloribus autem tempore blanditiis iste unde quasi dolor ducimus et, accusantium quibusdam tempora molliti"
+                                "id": 1,
+                                "diary": "my first diary",
+                                "title": "나는 노트 1이다",
+                                "date": "2024-12-11",
+                                "noteContents": ["Lorem ipsum", "dolor sit amet consectetur adipisicing elit."],
+                                "feeling": "JOY",
+                                "weather": "SUNNY",
+                                "season": "WINTER",
                             },
                             "image" : "",
                         },
                         {
                             "type": "QUESTION",
                             "note": {
-                                "id": 1234,
-                                "diary": 2,
-                                "question": "행복이란",
-                                "title": "행복해지는 비결",
-                                "content": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quam doloribus autem tempore blanditiis iste unde quasi dolor ducimus et, accusantium quibusdam tempora mollitiLorem ipsum, dolor sit amet consectetur adipisicing elit. Quam doloribus autem tempore blanditiis iste unde quasi dolor ducimus et, accusantium quibusdam tempora molliti"
+                                "id": 2,
+                                "diary": "my first diary",
+                                "title": "나는 노트 2이다",
+                                "date": "2024-12-11",
+                                "noteContents": [
+                                    "안먹고 싶어요",
+                                    "귀찮아요"
+                                ],
+                                "question": "뭘 먹고 싶나요 ? ",
+                                "feeling": "JOY",
+                                "weather": "SUNNY",
+                                "season": "WINTER"
                             },
                             "image" : "https://upload.wikimedia.org/wikipedia/ko/thumb/a/a6/Pok%C3%A9mon_Pikachu_art.png/200px-Pok%C3%A9mon_Pikachu_art.png"
                         },

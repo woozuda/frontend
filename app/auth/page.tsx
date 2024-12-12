@@ -14,9 +14,15 @@ export default function authPage() {
                 </section>
                 <section className="flex flex-col gap-6">
                     <div className="flex gap-4">
-                        <Image width={60} height={60} src={kakaoIcon} alt="kakao"/>
-                        <Image width={60} height={60} src={naverIcon} alt="naver"/>
+                        <Link href={`${process.env.NEXT_PUBLIC_KAKAO_URL}`}>
+                            <Image width={60} height={60} src={kakaoIcon} alt="kakao"/>
+                        </Link>
+                        <Link href={`${process.env.NEXT_PUBLIC_NAVER_URL}`}>
+                            <Image width={60} height={60} src={naverIcon} alt="naver"/>
+                        </Link>
+                        <Link href={`${process.env.NEXT_PUBLIC_GOOGLE_URL}`}>
                         <Image width={60} height={60} src={googleIcon} alt="google"/>
+                        </Link>                        
                     </div>
                     <div className="flex justify-center gap-4">
                         <div>
