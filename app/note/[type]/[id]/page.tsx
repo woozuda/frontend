@@ -1,33 +1,23 @@
+"use client";
+
+import { useHttp } from "@/app/contexts/http";
 import { NoteAPI } from "@/app/http";
-import { Http } from "@/app/lib/http";
 import { NoteLibs } from "@/app/lib/note";
 import { NoteType } from "@/app/models/diary";
 import { NotePageHeader } from "@/app/pages/note";
-import getQueryClient from "@/app/query/client";
+import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
-import { cookies } from "next/headers";
 
 interface PageParams {
   id: number;
   type: NoteType;
 }
 
-export default async function Page({ params }: { params: PageParams }) {
+export default function Page({ params }: { params: PageParams }) {
   const { id, type } = params;
-  const cookie = cookies();
-  const authorization = cookie.get("Authorization")?.value;
-  const http = new Http({
-    credentials: "include",
-    headers: {
-      Cookie: `Authorization=${authorization}`,
-    },
-  });
-  if (process.env.NEXT_PUBLIC_BASE_URL) {
-    http.baseURL = process.env.NEXT_PUBLIC_BASE_URL;
-  }
+  const http = useHttp();
   const noteApi = new NoteAPI(http);
-  const queryClient = getQueryClient();
-  const note = await queryClient.fetchQuery({
+  const { data: note } = useQuery({
     queryKey: ["NOTE", { id, type }] as const,
     queryFn: ({ queryKey }) => {
       const [, note] = queryKey;
@@ -43,6 +33,10 @@ export default async function Page({ params }: { params: PageParams }) {
       }
     },
   });
+
+  if (!note) {
+    return null;
+  }
 
   return (
     <div className="flex flex-col w-full max-w-[480px]">
