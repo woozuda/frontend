@@ -18,24 +18,35 @@ export default function CreateFrameworkPage() {
   const [date, setDate] = useState<Date>(new Date());
   const [title, setTitle] = useState<string>("");
   const [text, setText] = useState<{ [sectionName: string]: string }>({});
+  const [content, setContent] = useState<string[]>([])
 
   const [isDiaryId, setIsDiaryId] = useState(true)
   const [isDate, setIsDate] = useState(true)
   const [isTitle, setIsTitle] = useState(true)
   const [isText, setIsText] = useState(true)
-
-  const { mutate, isPending } = useCreateRetrospect({
-    retrospectId: Number(frameworkId),
-    type: "회고",
-    date,
-    diaryId: diaryId as number,
-    title,
-    retrospectText: text,
-  });
-
+  
   const selectedRetrospect = RETROSPECT.find(
     (retrospect) => retrospect.retrospectId === Number(frameworkId)
   );
+
+  const { mutate, isPending } = useCreateRetrospect({
+    type: selectedRetrospect!.type,
+    date,
+    diaryId: diaryId as number,
+    title,
+    content,
+  });
+
+
+  const setRetrospectContent = () => {
+    for (const [key, value] of Object.entries(text)) {
+      setContent((prev) => ([
+        ...prev,
+        value,
+      ]))
+    }
+  }
+
   const hasValue: () => { section?: string, status: boolean} = () => {
     for (const [key, value] of Object.entries(text)) {
       if (!value) {
@@ -88,13 +99,14 @@ export default function CreateFrameworkPage() {
         <div className="flex items-center gap-6">
           <BackButton />
           <h1 className="font-bold text-lg">
-            {selectedRetrospect?.retrospectName}
+            {selectedRetrospect?.type}
           </h1>
           <Button
             className="ml-auto border-none font-bold text-lg"
             variant={"outline"}
             onClick={() => {
               if(checkRetrospectForm()) {
+                setRetrospectContent();
                 mutate();
               }
             }}

@@ -10,7 +10,7 @@ export function useCreateDiary(createInfo: ICreateInfo) {
     mutationFn: () => createDiary(createInfo),
     onSuccess: () => {
       toast.success("다이어리 생성이 완료되었습니다.")
-      router.replace("/");
+      router.replace("/home");
     },
     onError: () => {
       toast.error("다이어리 생성 중 오류가 발생했습니다.", {

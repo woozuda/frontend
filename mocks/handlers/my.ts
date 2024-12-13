@@ -27,12 +27,15 @@ export const handlers = [
                                 "diary": "my first diary",
                                 "title": "나는 노트 1이다",
                                 "date": "2024-12-11",
-                                "noteContents": ["Lorem ipsum", "dolor sit amet consectetur adipisicing elit."],
+                                "noteContents": [
+                                    "<img src='https://upload.wikimedia.org/wikipedia/ko/thumb/a/a6/Pok%C3%A9mon_Pikachu_art.png/200px-Pok%C3%A9mon_Pikachu_art.png'/>",
+                                    "<p>피카츄 라이츄 파이리 꼬부기</p>",
+                                    "<p>버터플 야도란 피죤투 또가스</p>",
+                                ],
                                 "feeling": "JOY",
                                 "weather": "SUNNY",
                                 "season": "WINTER",
                             },
-                            "image" : "",
                         },
                         {
                             "type": "QUESTION",
@@ -50,7 +53,7 @@ export const handlers = [
                                 "weather": "SUNNY",
                                 "season": "WINTER"
                             },
-                            "image" : "https://upload.wikimedia.org/wikipedia/ko/thumb/a/a6/Pok%C3%A9mon_Pikachu_art.png/200px-Pok%C3%A9mon_Pikachu_art.png"
+                            // "image" : "https://upload.wikimedia.org/wikipedia/ko/thumb/a/a6/Pok%C3%A9mon_Pikachu_art.png/200px-Pok%C3%A9mon_Pikachu_art.png"
                         },
                     ]
                 },
@@ -60,66 +63,94 @@ export const handlers = [
                         {
                             "type": "COMMON",
                             "note": {
-                                "id": 1235,
-                                "diary": 1,
-                                "title": "남해로 떠난 날",
-                                "content": ["Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quam doloribus autem tempore blanditiis iste unde quasi dolor ducimus", "et, accusantium quibusdam tempora mollitiLorem ipsum, dolor sit amet consectetur adipisicing elit. Quam" ,"doloribus autem tempore blanditiis iste unde quasi dolor ducimus et, accusantium quibusdam tempora molliti"]
+                                "id": 3,
+                                "diary": "my first diary",
+                                "title": "나는 노트 1이다",
+                                "date": "2024-12-11",
+                                "noteContents": [
+                                    "<p>내가 사랑하는 동안에 할 일이 또 하나 있지</p>",
+                                    "<p>바람 부는 벌판에 서 있어도 나는 외롭지 않아</p>",
+                                    "<p>아 영원히 변치 않을 우리들의 사랑으로</p>",
+                                    "<p>어두운 곳에 손을 내밀어 밝혀주리라</p>",   
+                                ],
+                                "feeling": "JOY",
+                                "weather": "SUNNY",
+                                "season": "WINTER"
                             },
-                            "image" : "",
                         },
                         {
                             "type": "QUESTION",
                             "note": {
                                 "id": 12341,
-                                "diary": 1,
+                                "diary": "일상상",
+                                "title": "나는 생각한다 고로 존재한다.",
                                 "question": "나는 누구인가",
-                                "title": "나는 생각한다 고로 존재한다.",
-                                "content": ["Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quam doloribus autem tempore blanditiis iste unde quasi dolor ducimus", "et, accusantium quibusdam tempora mollitiLorem ipsum, dolor sit amet consectetur adipisicing elit. Quam" ,"doloribus autem tempore blanditiis iste unde quasi dolor ducimus et, accusantium quibusdam tempora molliti"]
+                                "noteContents": ["<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quam doloribus autem tempore blanditiis iste unde quasi dolor ducimus", "et, accusantium quibusdam tempora mollitiLorem ipsum, dolor sit amet consectetur adipisicing elit. Quam" ,"doloribus autem tempore blanditiis iste unde quasi dolor ducimus et, accusantium quibusdam tempora molliti</p>"],
+                                "feeling": "JOY",
+                                "weather": "SUNNY",
+                                "season": "WINTER"
                             },
-                            "image" : "https://upload.wikimedia.org/wikipedia/ko/thumb/a/a6/Pok%C3%A9mon_Pikachu_art.png/200px-Pok%C3%A9mon_Pikachu_art.png"
                         },
                         {
                             "type": "RETROSPECT",
                             "note": {
-                                "id": 123411,
-                                "diary": 2,
-                                "title": "나는 생각한다 고로 존재한다.",
-                                "framework": "KPT",
-                                "content": ["Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quam doloribus autem tempore blanditiis iste unde quasi dolor ducimus", "et, accusantium quibusdam tempora mollitiLorem ipsum, dolor sit amet consectetur adipisicing elit. Quam" ,"doloribus autem tempore blanditiis iste unde quasi dolor ducimus et, accusantium quibusdam tempora molliti"]
+                                "id": 9,
+                                "diary": "my first diary",
+                                "title": "나는 노트 9",
+                                "date": "2023-01-01",
+                                "noteContents": [
+                                    "KPT의 첫 부분",
+                                    "KPT의 두번 째 부분",
+                                    "KPT의 서번 째 부분"
+                                ],
+                                "type": "KTP"
                             },
-                            "image" : "https://upload.wikimedia.org/wikipedia/ko/thumb/a/a6/Pok%C3%A9mon_Pikachu_art.png/200px-Pok%C3%A9mon_Pikachu_art.png"
                         },
                         {
                             "type": "RETROSPECT",
                             "note": {
-                                "diary": 1,
-                                "title": "나는 생각한다 고로 존재한다.",
-                                "framework": "PMI",
-                                "content": ["Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quam doloribus autem tempore blanditiis iste unde quasi dolor ducimus", "et, accusantium quibusdam tempora mollitiLorem ipsum, dolor sit amet consectetur adipisicing elit. Quam" ,"doloribus autem tempore blanditiis iste unde quasi dolor ducimus et, accusantium quibusdam tempora molliti"]
+                                "id": 19,
+                                "diary": "my first diary",
+                                "title": "나는 노트 9",
+                                "date": "2023-01-01",
+                                "noteContents": [
+                                    "pmi 1",
+                                    "pmi 2",
+                                    "pmi 3",
+                                ],
+                                "type": "PMI"
                             },
-                            "image" : "https://upload.wikimedia.org/wikipedia/ko/thumb/a/a6/Pok%C3%A9mon_Pikachu_art.png/200px-Pok%C3%A9mon_Pikachu_art.png"
                         },
                         {
                             "type": "RETROSPECT",
                             "note": {
-                                "id": 123431,
-                                "diary": 2,
-                                "title": "나는 생각한다 고로 존재한다.",
-                                "framework": "FOUR_F_S",
-                                "content": ["Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quam doloribus autem tempore blanditiis iste unde quasi dolor ducimus", "et, accusantium quibusdam tempora mollitiLorem ipsum, dolor sit amet consectetur adipisicing elit. Quam" ,"doloribus autem tempore blanditiis iste unde quasi dolor ducimus et, accusantium quibusdam tempora molliti"]
+                                "id": 119,
+                                "diary": "my first diary",
+                                "title": "나는 노트 9",
+                                "date": "2023-01-01",        
+                                "type": "FOUR_F_S",
+                                "noteContents": [
+                                    "f1",
+                                    "f2",
+                                    "f3",
+                                    "f4",
+                                ]
                             },
-                            "image" : "https://upload.wikimedia.org/wikipedia/ko/thumb/a/a6/Pok%C3%A9mon_Pikachu_art.png/200px-Pok%C3%A9mon_Pikachu_art.png"
                         },
                         {
                             "type": "RETROSPECT",
                             "note": {
                                 "id": 1234441,
-                                "diary": 1,
-                                "title": "나는 생각한다 고로 존재한다.",
-                                "framework": "SCS",
-                                "content": ["Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quam doloribus autem tempore blanditiis iste unde quasi dolor ducimus", "et, accusantium quibusdam tempora mollitiLorem ipsum, dolor sit amet consectetur adipisicing elit. Quam" ,"doloribus autem tempore blanditiis iste unde quasi dolor ducimus et, accusantium quibusdam tempora molliti"]
+                                "diary": "my first diary",
+                                "title": "나는 노트 9",
+                                "date": "2023-01-01",
+                                "type": "SCS",
+                                "noteContents": [
+                                    "start",
+                                    "continue",
+                                    "stop",
+                                ]
                             },
-                            "image" : "https://upload.wikimedia.org/wikipedia/ko/thumb/a/a6/Pok%C3%A9mon_Pikachu_art.png/200px-Pok%C3%A9mon_Pikachu_art.png"
                         },
                     ]
                 }

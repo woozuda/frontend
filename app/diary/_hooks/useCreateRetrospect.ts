@@ -5,23 +5,21 @@ import { toast } from "sonner";
 import { CreateRetrospect as ICreateRetrospect } from "@/app/models/diary";
 
 export function useCreateRetrospect({
-  retrospectId,
   type,
-  date,
   diaryId,
   title,
-  retrospectText,
+  date,
+  content,
 }: ICreateRetrospect) {
   const router = useRouter();
   const { mutate, isPending } = useMutation({
     mutationFn: () =>
       createRetrospect({
-        retrospectId,
         type,
-        date,
         diaryId,
         title,
-        retrospectText,
+        date,
+        content,
       }),
     onSuccess: () => {
       toast.success("회고 작성이 완료되었습니다.");

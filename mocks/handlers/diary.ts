@@ -42,7 +42,7 @@ export const handlers = [
     });
   }),
   //다이어리 생성
-  http.post("api/diary/create", () => {
+  http.post("api/diary", () => {
     // return HttpResponse.text(JSON.stringify('user_exists'), {
     //   status: 300,
     // })

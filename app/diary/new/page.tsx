@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { toast } from "sonner";
 import { useRef, useState } from "react";
 import { useCreateDiary } from "../_hooks/useCreateDiary";
 import { useRandomCover } from "../_hooks/useRandomCover";
@@ -85,6 +86,24 @@ export default function CreateDiaryPage() {
   const removeChip = (index: number) => {
     setDiaryTheme((prevThemes) => prevThemes.filter((_, i) => i !== index));
   };
+
+  const allSet = () => {
+    let allSet = false
+    if (!diaryCover) {
+      toast.error("다이어리 표지를 선택하세요.")
+      return allSet
+    }
+    if (!diaryName) {
+      toast.error("다이어리 제목을 입력하세요.")
+      return allSet
+    }
+    if (diaryTheme.length === 0) {
+      toast.error("다이어리 주제를 입력하세요.")
+      return allSet
+    }
+    allSet = true
+    return allSet
+  }
 
   return (
     <main className="h-full min-h-screen w-full sm:min-w-[450px] sm:max-w-[500px] flex flex-col items-center gap-12 py-6 px-4">
@@ -193,12 +212,12 @@ export default function CreateDiaryPage() {
           ))}
         </div>
       </section>
-      {diaryName && diaryTheme.length > 0 && diaryCover && (
+      {/* {diaryName && diaryTheme.length > 0 && diaryCover && ( */}
         <section className="w-full mt-auto">
           <Button
-            className="w-full h-12 rounded-2xl"
+            className="w-full h-12 rounded-2xl bg-app-primary-100"
             onClick={() => {
-              if (!isPending) {
+              if (!isPending && allSet()) {
                 mutate();
               }
             }}
@@ -207,7 +226,7 @@ export default function CreateDiaryPage() {
             다이어리 생성하기
           </Button>
         </section>
-      )}
+      {/* )} */}
     </main>
   );
 }
