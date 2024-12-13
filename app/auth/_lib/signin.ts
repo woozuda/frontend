@@ -1,6 +1,3 @@
-"use server";
-
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 const onSubmit = async (prevState: any, formData: FormData) => {
@@ -44,15 +41,6 @@ const onSubmit = async (prevState: any, formData: FormData) => {
 
     if (res.status === 403) {
       return { message: "user_exists" };
-    }
-
-    const setCookies = res.headers.getSetCookie();
-    const authSetCookies = setCookies.find((setCookie) =>
-      setCookie.includes("Authorization")
-    );
-    if (authSetCookies) {
-      const [key, value] = authSetCookies.split("=");
-      cookies().set(key, value);
     }
 
     // await res.json();
