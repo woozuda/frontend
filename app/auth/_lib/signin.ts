@@ -1,3 +1,6 @@
+"use server";
+
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 const onSubmit = async (prevState: any, formData: FormData) => {
@@ -27,7 +30,7 @@ const onSubmit = async (prevState: any, formData: FormData) => {
   let shouldRedirect = false;
 
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/signup`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/join`, {
       method: "post",
       body: JSON.stringify({
         username: formData.get("email"),
@@ -43,6 +46,15 @@ const onSubmit = async (prevState: any, formData: FormData) => {
       return { message: "user_exists" };
     }
 
+    const setCookies = res.headers.getSetCookie();
+    const authSetCookies = setCookies.find((setCookie) =>
+      setCookie.includes("Authorization")
+    );
+    if (authSetCookies) {
+      const [key, value] = authSetCookies.split("=");
+      cookies().set(key, value);
+    }
+
     // await res.json();
     shouldRedirect = true;
   } catch (err) {
@@ -50,7 +62,7 @@ const onSubmit = async (prevState: any, formData: FormData) => {
     return { message: "server_error" };
   }
   if (shouldRedirect) {
-    redirect("/"); // try/catch문 안에서 X
+    redirect("/home"); // try/catch문 안에서 X
   }
 };
 
