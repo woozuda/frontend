@@ -27,7 +27,7 @@ const HomeHeader = forwardRef<HTMLElement, HomeHeaderProps>(function HomeHeader(
 
   return (
     <header className={className} ref={RefLibs.connect(ref)}>
-      <Link className="p-3 flex justify-center items-center" href="/">
+      <Link className="p-3 flex justify-center items-center" href="/home">
         <LogoSvg />
       </Link>
       <div className="flex items-center">
