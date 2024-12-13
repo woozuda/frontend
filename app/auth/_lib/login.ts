@@ -1,3 +1,7 @@
+"use server";
+
+import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 const onSubmit = async (prevState: any, formData: FormData) => {
@@ -33,6 +37,15 @@ const onSubmit = async (prevState: any, formData: FormData) => {
       return { message: "user_not_found" };
     }
 
+    const setCookies = res.headers.getSetCookie();
+    const authSetCookies = setCookies.find((setCookie) =>
+      setCookie.includes("Authorization")
+    );
+    if (authSetCookies) {
+      const [key, value] = authSetCookies.split("=");
+      cookies().set(key, value);
+    }
+
     // await res.json();
     shouldRedirect = true;
   } catch (err) {
@@ -40,7 +53,8 @@ const onSubmit = async (prevState: any, formData: FormData) => {
     return { message: "server_error" };
   }
   if (shouldRedirect) {
-    redirect("/"); // try/catch문 안에서 X
+    revalidatePath("/home");
+    redirect("/home"); // try/catch문 안에서 X
   }
 };
 

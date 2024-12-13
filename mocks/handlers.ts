@@ -22,7 +22,7 @@ export const handlers = [
     );
   }),
   //회원가입
-  http.post("/api/signup", () => {
+  http.post("join", () => {
     return HttpResponse.json(
       {
         userId: 2,
