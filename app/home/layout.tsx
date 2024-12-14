@@ -35,9 +35,9 @@ export default function Layout(props: PropsWithChildren) {
   }, []);
 
   return (
-    <div className="w-full h-full max-w-[480px] flex flex-col bg-auth bg-cover bg-no-repeat bg-center bg-sky-950">
+    <div className="w-full min-h-full h-auto max-w-[480px] flex flex-col bg-auth bg-cover bg-repeat bg-center bg-sky-950 pb-[70px]">
       <div
-        className="w-full h-full flex flex-col overflow-y-scroll"
+        className="w-full h-full flex flex-col"
         ref={(element) => {
           ref.current = element;
         }}
@@ -55,14 +55,16 @@ export default function Layout(props: PropsWithChildren) {
           {children}
         </div>
       </div>
-      <div className="relative h-0 w-full z-10">
-        <AppPopover
-          items={DiaryHomeLibs.popoverItems}
-          buttonIcon={<PencilFlatSvg />}
-          className="absolute bottom-3 right-3"
-        />
+      <div className="w-full max-w-[480px] fixed bottom-0 left-0 right-0 mx-auto z-20">
+        <div className="relative h-0 w-full z-10">
+          <AppPopover
+            items={DiaryHomeLibs.popoverItems}
+            buttonIcon={<PencilFlatSvg />}
+            className="absolute bottom-3 right-3"
+          />
+        </div>
+        <GlobalNavigationBar className="shrink-0" />
       </div>
-      <GlobalNavigationBar className="shrink-0" />
     </div>
   );
 }

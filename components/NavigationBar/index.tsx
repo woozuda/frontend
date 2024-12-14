@@ -58,7 +58,7 @@ const navigations = [
 const GlobalNavigationBar = (props: GlobalNavigationBarProps) => {
   const className = ClassNameLibs.merge(
     props,
-    "px-6 py-2 flex items-center w-full h-[66px] justify-between shrink-0"
+    "px-6 py-2 flex items-center w-full h-[66px] justify-between shrink-0 bg-sky-950"
   );
 
   const pathname = usePathname();

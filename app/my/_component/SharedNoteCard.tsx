@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 
@@ -11,8 +10,8 @@ type Props = {
       id: number;
       title: string;
       diart: number;
-      framework?: string;
-      content: string[];
+      type?: string;
+      noteContents: string[];
       question?: string;
     };
     image: string;
@@ -45,7 +44,7 @@ export default function SharedCard({
   }, [noShareList]);
 
   return (
-    <div className="w-full flex flex-col gap-4 p-4 bg-app-primary-200 rounded-lg">
+    <div className="flex flex-col gap-4 p-4 bg-app-primary-200 rounded-lg">
       <div className="flex items-center">
         {
           noteItem.type === "RETROSPECT" &&
@@ -53,6 +52,7 @@ export default function SharedCard({
               회고일기
           </div>
         }
+        
         {mode === "edit" && (
           <Checkbox
             className="w-5 h-5 ml-auto rounded-full border-2 border-white"
@@ -61,18 +61,21 @@ export default function SharedCard({
         )}
       </div>
       <h1 className="text-xl font-bold">{noteItem.note.title}</h1>
-      {noteItem.image && (
-        <Image className="rounded-lg" src={noteItem.image} width={400} height={400} alt="img" />
-      )}
-      {noteItem.note.question && (
+      {/* {noteItem.note.question && (
         <span className="">{noteItem.note.question}</span>
-      )}
-      {noteItem.note.framework && (
-        <span className="">{noteItem.note.framework}</span>
-      )}
-      <span className="line-clamp-3 text-slate-300">
-        {noteItem.note.content}
-      </span>
+      )} */}
+      {/* {noteItem.note.type && (
+        <span className="">{noteItem.note.type}</span>
+      )} */}
+      <div className="flex flex-col gap-1">
+        {
+          noteItem.note.noteContents &&
+          noteItem.note.noteContents.slice(0, 3).map((content, index, array) => (
+            <p key={content} dangerouslySetInnerHTML={{ __html: content + (index === array.length - 1 && noteItem.note.noteContents.length > 3 ? ' ...' : ''), }} className="text-slate-300">
+            </p>
+          ))
+        }
+      </div>
     </div>
   );
 }

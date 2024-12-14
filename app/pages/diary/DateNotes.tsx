@@ -25,7 +25,7 @@ const DiaryDateNotes = () => {
 
   return (
     <div className="w-full h-full max-w-[480px] flex flex-col bg-auth bg-cover bg-no-repeat bg-center bg-sky-950">
-      <div className="w-full h-full flex flex-col relative overflow-y-scroll">
+      <div className="w-full h-full flex flex-col relative">
         <HeaderV2 className={cn(bgColor, "sticky left-0 top-0 right-0")}>
           <HeaderV2.Left>
             <div className="flex items-center">

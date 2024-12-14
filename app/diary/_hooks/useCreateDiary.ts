@@ -1,15 +1,18 @@
 import { CreateInfo as ICreateInfo } from "@/app/models/diary";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { createDiary } from "../_lib/createDiary";
 
 export function useCreateDiary(createInfo: ICreateInfo) {
   const router = useRouter();
+  const queryClient = useQueryClient();
+
   const { mutate, isPending } = useMutation({
     mutationFn: () => createDiary(createInfo),
     onSuccess: () => {
       toast.success("다이어리 생성이 완료되었습니다.");
+      queryClient.invalidateQueries({ queryKey: ["DIARY"] });
       router.replace("/home");
     },
     onError: () => {

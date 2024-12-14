@@ -23,7 +23,7 @@ const DiaryCard = (props: DiaryCardProps) => {
 
   return (
     <Card className={className}>
-      <CardContent className="w-full flex relative p-5 z-10 backdrop-blur">
+      <CardContent className="w-full flex relative p-5 z-10 backdrop-blur rounded-b-lg">
         <div className="absolute w-full h-full bg-white top-0 left-0 rounded-b-lg bg-opacity-10" />
         <div className="w-full flex flex-col gap-y-3 relative">
           <h2 className="text-sub2 text-white">{title}</h2>

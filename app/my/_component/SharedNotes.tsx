@@ -65,9 +65,10 @@ export default function SharedNotes() {
             {sharedNote.notes.map((noteItem: any) => (
               <div
                 key={noteItem.note.id}
-                className="flex flex-col items-center gap-2"
+                className="flex flex-col w-full items-center gap-2"
               >
                 <Link
+                className="w-full"
                   href={`/api/${
                     noteItem.note.diary
                   }/note/${noteItem.type.toLowerCase()}/${noteItem.note.id}`}

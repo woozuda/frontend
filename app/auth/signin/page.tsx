@@ -48,7 +48,7 @@ export default function SigninPage() {
               id="email"
               name="email"
               placeholder="woozuda@email.com"
-              className="h-12 bg-slate-100 border-none p-4 font-light"
+              className="h-12 bg-slate-100 border-none p-4 font-light text-black"
             />
             { state?.message.includes('_email') &&
               <div className="text-red-500 text-sm">{showMessage(state?.message)}</div>
@@ -61,7 +61,7 @@ export default function SigninPage() {
               name="password"
               type="password"
               placeholder="영문 소문자, 숫자, 특수기호를 포함해 주세요."
-              className="h-12 bg-slate-100 border-none p-4 font-light"
+              className="h-12 bg-slate-100 border-none p-4 font-light text-black"
             />
             { state?.message.includes('_password') &&
               <div className="text-red-500 text-sm">{showMessage(state?.message)}</div>
@@ -73,7 +73,7 @@ export default function SigninPage() {
               id="password-check"
               name="password-check"
               type="password"
-              className="h-12 bg-slate-100 border-none p-4 font-light"
+              className="h-12 bg-slate-100 border-none p-4 font-light text-black"
             />
             { state?.message.includes('check_password') &&
               <div className="text-red-500 text-sm">{showMessage(state?.message)}</div>

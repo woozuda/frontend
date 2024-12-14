@@ -44,7 +44,7 @@ export default function LoginPage() {
               id="email"
               name="email"
               placeholder="woozuda@email.com"
-              className="h-12 bg-slate-100 border-none p-4 font-light"
+              className="h-12 bg-slate-100 border-none p-4 font-light text-black"
             />
             {state?.message.includes("_email") && (
               <div className="text-red-500 text-sm">
@@ -58,7 +58,7 @@ export default function LoginPage() {
               id="password"
               name="password"
               type="password"
-              className="h-12 bg-slate-100 border-none p-4 font-light"
+              className="h-12 bg-slate-100 border-none p-4 font-light text-black"
             />
             {state?.message.includes("_password") && (
               <div className="text-red-500 text-sm">

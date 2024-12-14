@@ -145,7 +145,7 @@ export default function Page(props: PageProps) {
           )}
         </AppCalendar.BodyContainer>
       </AppCalendar.Container>
-      <div className="flex flex-col w-full gap-y-5 p-5 h-full overflow-y-scroll">
+      <div className="flex flex-col w-full gap-y-5 p-5 h-full">
         {notes?.map((note) => {
           const href = `note/${note.type}/${note.note.id}`;
           return (

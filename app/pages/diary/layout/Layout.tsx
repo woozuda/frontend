@@ -23,8 +23,8 @@ export default function DiaryLayout(props: PropsWithChildren) {
       : "bg-transparent z-20";
 
   return (
-    <div className="w-full h-full max-w-[480px] flex flex-col bg-auth bg-cover bg-no-repeat bg-center bg-sky-950">
-      <div className="w-full h-full flex flex-col relative overflow-y-scroll">
+    <div className="w-full min-h-full h-auto max-w-[480px] flex flex-col bg-auth bg-cover bg-repeat bg-center bg-sky-950 pb-[70px]">
+      <div className="w-full h-full flex flex-col relative">
         <HeaderV2 className={cn(bgColor, "sticky left-0 top-0 right-0")}>
           <HeaderV2.Left>
             <Link
@@ -70,14 +70,16 @@ export default function DiaryLayout(props: PropsWithChildren) {
         </div>
       </div>
 
-      <div className="relative h-0 w-full z-10">
-        <AppPopover
-          items={DiaryHomeLibs.popoverItems}
-          buttonIcon={<PencilFlatSvg />}
-          className="absolute bottom-3 right-3"
-        />
+      <div className="w-full max-w-[480px] fixed bottom-0 left-0 right-0 mx-auto z-20">
+        <div className="relative h-0 w-full z-10">
+          <AppPopover
+            items={DiaryHomeLibs.popoverItems}
+            buttonIcon={<PencilFlatSvg />}
+            className="absolute bottom-3 right-3"
+          />
+        </div>
+        <GlobalNavigationBar />
       </div>
-      <GlobalNavigationBar />
     </div>
   );
 }

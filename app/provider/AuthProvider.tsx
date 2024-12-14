@@ -1,36 +1,44 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
 import { redirect, usePathname } from "next/navigation";
-import { PropsWithChildren, useEffect, useState } from "react";
+import { PropsWithChildren } from "react";
 import { useHttp } from "../contexts/http";
 
 const AuthProvider = (props: PropsWithChildren) => {
   const http = useHttp();
   const pathname = usePathname();
   http.baseURL = process.env.NEXT_PUBLIC_BASE_URL!;
-  const [status, setStatus] = useState({ ok: false, isLoading: true });
-  useEffect(() => {
-    http
-      .get("api/diary", { credentials: "include" })
-      .then((response) => {
-        setStatus(() => ({ ok: response.ok, isLoading: false }));
-      })
-      .catch(() => {
-        setStatus(() => ({ ok: false, isLoading: false }));
-      });
-  }, [http]);
+  const {
+    data: ok,
+    error,
+    isFetching,
+  } = useQuery({
+    queryKey: ["AUTHORIZATION"],
+    queryFn: async () => {
+      const response = await http.get("api/diary", { credentials: "include" });
+      return response.ok;
+    },
+  });
 
-  if (pathname.includes("auth")) {
-    return props.children;
-  }
-
-  if (status.isLoading) {
+  if (isFetching) {
     return null;
   }
-  if (!status.ok) {
-    redirect("/auth");
+
+  if (pathname.includes("auth") && ok) {
+    return redirect("/home");
   }
-  return props.children;
+  if (pathname.includes("auth") && !ok) {
+    return props.children;
+  }
+  if (!pathname.includes("auth") && ok) {
+    return props.children;
+  }
+  if (!pathname.includes("auth") && !ok) {
+    return redirect("/auth");
+  }
+
+  return null;
 };
 
 export { AuthProvider };

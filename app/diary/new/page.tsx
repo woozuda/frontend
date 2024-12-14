@@ -1,6 +1,7 @@
 "use client";
 
 import BackButton from "@/app/_component/BackButton";
+import { PlusSvg } from "@/app/assets/icons";
 import { Button } from "@/components/ui/button";
 import {
   Drawer,
@@ -11,11 +12,12 @@ import {
 } from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import Image from "next/image";
 import { useRef, useState } from "react";
+import { toast } from "sonner";
 import { useCreateDiary } from "../_hooks/useCreateDiary";
 import { useRandomCover } from "../_hooks/useRandomCover";
 import { useUploadCover } from "../_hooks/useUploadCover";
-import Image from "next/image";
 
 export default function CreateDiaryPage() {
   const [diaryName, setDiaryName] = useState("");
@@ -64,7 +66,7 @@ export default function CreateDiaryPage() {
       const formData = new FormData();
       formData.append("multipartFile ", file);
 
-      uploadCoverMutate(formData)
+      uploadCoverMutate(formData);
     }
     setIsOpen(false);
   };
@@ -84,6 +86,24 @@ export default function CreateDiaryPage() {
   };
   const removeChip = (index: number) => {
     setDiaryTheme((prevThemes) => prevThemes.filter((_, i) => i !== index));
+  };
+
+  const allSet = () => {
+    let allSet = false;
+    if (!diaryCover) {
+      toast.error("다이어리 표지를 선택하세요.");
+      return allSet;
+    }
+    if (!diaryName) {
+      toast.error("다이어리 제목을 입력하세요.");
+      return allSet;
+    }
+    if (diaryTheme.length === 0) {
+      toast.error("다이어리 주제를 입력하세요.");
+      return allSet;
+    }
+    allSet = true;
+    return allSet;
   };
 
   return (
@@ -118,7 +138,7 @@ export default function CreateDiaryPage() {
                   onClick={() => setIsOpen(true)}
                 >
                   <div className="flex items-center justify-center bg-slate-400 rounded-full w-[50px] h-[50px] text-4xl font-thin text-white">
-                    +
+                    <PlusSvg className="text-white" />
                   </div>
                 </div>
               )}
@@ -193,21 +213,21 @@ export default function CreateDiaryPage() {
           ))}
         </div>
       </section>
-      {diaryName && diaryTheme.length > 0 && diaryCover && (
-        <section className="w-full mt-auto">
-          <Button
-            className="w-full h-12 rounded-2xl"
-            onClick={() => {
-              if (!isPending) {
-                mutate();
-              }
-            }}
-            disabled={isPending}
-          >
-            다이어리 생성하기
-          </Button>
-        </section>
-      )}
+      {/* {diaryName && diaryTheme.length > 0 && diaryCover && ( */}
+      <section className="w-full mt-auto">
+        <Button
+          className="w-full h-12 rounded-2xl bg-app-primary-100"
+          onClick={() => {
+            if (!isPending && allSet()) {
+              mutate();
+            }
+          }}
+          disabled={isPending}
+        >
+          다이어리 생성하기
+        </Button>
+      </section>
+      {/* )} */}
     </main>
   );
 }
