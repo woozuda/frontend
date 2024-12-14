@@ -28,7 +28,7 @@ const DiaryLatest = () => {
                   <ListCard.Container>
                     <ListCard.Header.Default title={note.note.title} />
                     <ListCard.Description html>
-                      {String(note.note.content)}
+                      {note.note.content.join("")}
                     </ListCard.Description>
                   </ListCard.Container>
                 </Link>

@@ -20,6 +20,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import Quill from "quill";
@@ -45,6 +46,7 @@ export default function Page() {
   const editorRef = useRef<Quill | null>(null);
   const { mutateAsync, reset } = useImageUpload();
   const { mutateAsync: onNoteCreate } = useNoteCommonCreate();
+  const queryClient = useQueryClient();
   const [emoji, setEmoji] = useState<Emoji>();
   const [weather, setWeather] = useState<Emoji>();
   const [title, setTitle] = useState<string>();
@@ -88,13 +90,14 @@ export default function Page() {
         content,
       });
       if (response && response.id) {
+        await queryClient.invalidateQueries({ queryKey: ["DIARY", diary?.id] });
         router.replace(`/note/common/${response.id}`);
       }
     }
   };
 
   return (
-    <div className="w-full h-auto min-h-full flex flex-col max-w-[480px] border-x">
+    <div className="w-full h-auto min-h-full flex flex-col max-w-[480px] border-x pb-[72px]">
       <div className="w-full h-full flex flex-col relative">
         <div className="w-full h-14 p-1 flex justify-between">
           <button
@@ -175,7 +178,7 @@ export default function Page() {
           />
         </div>
       </div>
-      <div className="w-full h-14 flex shrink-0 border-t border-app-gray-400 px-5 gap-x-3 fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto border-x">
+      <div className="w-full h-14 flex shrink-0 border-t bg-white border-app-gray-400 px-5 gap-x-3 fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto border-x">
         <label
           className="cursor-pointer flex items-center"
           htmlFor="noteImages"
