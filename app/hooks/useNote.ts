@@ -5,43 +5,32 @@ import { NoteAPI } from "../http";
 import { NoteType } from "../models/diary";
 
 export interface UseNoteProps {
-  diary?: {
-    type?: NoteType;
-    id?: number;
-  };
-  note?: {
-    id?: number;
-  };
+  id?: number;
+  type?: NoteType;
 }
 
 const useNote = (props: UseNoteProps) => {
-  const { diary, note } = props;
+  const { id, type } = props;
 
   const http = useHttp();
   const noteApi = new NoteAPI(http);
 
   return useQuery({
-    queryKey: ["NOTE", diary, note] as const,
+    queryKey: ["NOTE", id, type] as const,
     queryFn: ({ queryKey }) => {
-      const [, diary, note] = queryKey;
-      if (
-        isNil(diary) ||
-        isNil(diary.id) ||
-        isNil(diary.type) ||
-        isNil(note) ||
-        isNil(note.id)
-      ) {
+      const [, id, type] = queryKey;
+      if (isNil(id) || isNil(type)) {
         return null;
       }
-      switch (diary.type) {
+      switch (type) {
         case NoteType.COMMON:
-          return noteApi.getCommonNote(note.id);
+          return noteApi.getCommonNote(id);
         case NoteType.QUESTION:
-          return noteApi.getQuestionNote(note.id);
+          return noteApi.getQuestionNote(id);
         case NoteType.RETROSPECTIVE:
-          return noteApi.getRetrospectNote(note.id);
+          return noteApi.getRetrospectNote(id);
         default:
-          return noteApi.getCommonNote(note.id);
+          return noteApi.getCommonNote(id);
       }
     },
   });

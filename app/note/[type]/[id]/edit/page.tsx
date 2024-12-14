@@ -3,16 +3,19 @@
 import { ImageSvg, SmileSvg, WeatherSvg } from "@/app/assets/icons";
 import ArrowDownSvg from "@/app/assets/icons/ArrowDown.svg";
 import ArrowLeftSvg from "@/app/assets/icons/ArrowLeft.svg";
+import useDiaries from "@/app/hooks/useDiaries";
 import useDiaryNames from "@/app/hooks/useDiaryNames";
 import useImageUpload from "@/app/hooks/useImageUpload";
-import useNoteCommonCreate from "@/app/hooks/useNoteCreate";
+import useNote from "@/app/hooks/useNote";
+import useNoteUpdate from "@/app/hooks/useNoteUpdate";
 import { CalendarDayType, CalendarLibs } from "@/app/lib/calendar";
 import { ImageLibs } from "@/app/lib/image";
 import { Emoji, NoteLibs } from "@/app/lib/note";
+import { NoteType } from "@/app/models/diary";
 import AppCalendar from "@/components/AppCalendar";
 import AppCalendarDay from "@/components/AppCalendar/Day";
 import BottomSheetV2 from "@/components/BottomSheet/v2";
-import QuillEditor from "@/components/Editor";
+import QuillEditor, { ClipBoard } from "@/components/Editor";
 import {
   Sheet,
   SheetClose,
@@ -23,36 +26,71 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
-import Quill from "quill";
+import Quill, { Delta } from "quill";
 import {
   ChangeEventHandler,
   MouseEventHandler,
+  useCallback,
+  useEffect,
   useMemo,
   useRef,
   useState,
 } from "react";
 
-export default function Page() {
+interface PageParams {
+  id: number;
+  type: NoteType;
+}
+
+export default function Page({ params }: { params: PageParams }) {
+  const [isReady, setIsReady] = useState(false);
+  const { id, type } = params;
+  const { array } = useDiaries();
+  const { data: noteData } = useNote({ id, type });
   const { data } = useDiaryNames();
-  const [diary, setDiary] = useState<{
-    id: number;
-    name: string;
-  }>();
+  const [diary, setDiary] = useState<{ id: number; name: string }>();
   const now = useMemo(() => new Date(), []);
   const [selectedDate, setSelectedDate] = useState(now);
   const inputRef = useRef(null as HTMLInputElement | null);
 
   const [textLength, setTextLength] = useState(0);
+  const [initialDelta, setInitialDelta] = useState<Delta>();
   const editorRef = useRef<Quill | null>(null);
   const { mutateAsync, reset } = useImageUpload();
-  const { mutateAsync: onNoteCreate } = useNoteCommonCreate();
   const queryClient = useQueryClient();
   const [emoji, setEmoji] = useState<Emoji>();
   const [weather, setWeather] = useState<Emoji>();
-  const [title, setTitle] = useState<string>();
+  const [title, setTitle] = useState<string>("");
   const router = useRouter();
 
   const season = NoteLibs.createSeason(selectedDate);
+
+  const { mutateAsync: onNoteUpdate } = useNoteUpdate();
+
+  useEffect(() => {
+    if (isReady) {
+      return;
+    }
+    if (noteData && data && array) {
+      const emoji = NoteLibs.getEmojis().find(
+        (value) => value.text === noteData.feeling
+      );
+      const weather = NoteLibs.getWeathers().find(
+        (value) => value.text === noteData.weather
+      );
+      const title = noteData.title;
+      const date = new Date(noteData.date);
+      const diary = array.find((value) => value.title === noteData.diary);
+      setTitle(title);
+      if (diary) {
+        setDiary({ id: diary.id, name: diary.title });
+      }
+      setEmoji(emoji);
+      setWeather(weather);
+      setSelectedDate(date);
+      setIsReady(true);
+    }
+  }, [noteData, data, array, isReady]);
 
   const onFileChange: ChangeEventHandler<HTMLInputElement> = async (event) => {
     const files = Array.from(event.target.files ?? []);
@@ -78,23 +116,42 @@ export default function Page() {
   };
 
   const onSubmit: MouseEventHandler<HTMLButtonElement> = async (event) => {
-    if (editorRef.current) {
-      const content = editorRef.current.getSemanticHTML();
-      const response = await onNoteCreate({
-        diaryId: diary?.id,
-        title,
-        emoji,
-        weather,
-        season,
-        date: selectedDate,
-        content,
-      });
-      if (response && response.id) {
-        await queryClient.invalidateQueries({ queryKey: ["DIARY", diary?.id] });
-        router.replace(`/note/common/${response.id}`);
+    if (emoji && season && weather && diary) {
+      if (editorRef.current) {
+        const content = editorRef.current.getSemanticHTML();
+        const response = await onNoteUpdate({
+          note: {
+            id,
+            type,
+            title,
+            content,
+            weather: weather.text,
+            feeling: emoji.text,
+            season: season,
+            date: selectedDate,
+          },
+          diary: {
+            id: diary.id,
+          },
+        });
+        if (response && response.id) {
+          await Promise.all([
+            queryClient.invalidateQueries({
+              queryKey: ["DIARY"],
+            }),
+            queryClient.invalidateQueries({
+              queryKey: ["NOTE", id, type],
+            }),
+          ]);
+          router.replace(`/note/${type}/${response.id}`);
+        }
       }
     }
   };
+
+  const onClipboard = useCallback((delta: Delta) => {
+    setInitialDelta(delta);
+  }, []);
 
   return (
     <div className="w-full h-auto min-h-full flex flex-col max-w-[480px] border-x pb-[72px]">
@@ -164,18 +221,27 @@ export default function Page() {
             onChange={(event) => {
               setTitle(event.target.value);
             }}
+            value={title}
           />
         </div>
         <div className="w-full bg-white flex flex-col h-full">
-          <QuillEditor
-            forwardedRef={editorRef}
-            readOnly={false}
-            defaultValue={[]}
-            onSelectionChange={() => {}}
-            onTextChange={() => {
-              setTextLength(editorRef.current?.getLength() ?? 0);
-            }}
-          />
+          {initialDelta && (
+            <QuillEditor
+              forwardedRef={editorRef}
+              readOnly={false}
+              defaultValue={initialDelta}
+              onSelectionChange={() => {}}
+              onTextChange={() => {
+                setTextLength(editorRef.current?.getLength() ?? 0);
+              }}
+            />
+          )}
+          {noteData && (
+            <ClipBoard
+              html={noteData.content.join("")}
+              onChange={onClipboard}
+            />
+          )}
         </div>
       </div>
       <div className="w-full h-14 flex shrink-0 border-t bg-white border-app-gray-400 px-5 gap-x-3 fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto border-x">

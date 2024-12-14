@@ -17,6 +17,17 @@ export interface CreateQuestionProps extends CreateNoteProps {
   question: string;
 }
 
+export interface NoteUpdateArgs {
+  noteId: number;
+  diaryId: number;
+  title: string;
+  weather: string;
+  season: string;
+  feeling: string;
+  date: string;
+  content: string;
+}
+
 export class NoteAPI {
   http: Http;
   constructor(http: Http) {
@@ -37,9 +48,11 @@ export class NoteAPI {
     return HttpLibs.toJson<{ content: DiaryNote[] }>(response);
   }
 
-  async deleteNotes() {
-    const response = await this.http.delete("api/note");
-    return HttpLibs.toJson<{ id: number[] }>(response);
+  async deleteNotes(ids: number[]) {
+    const response = await this.http.delete("api/note", {
+      body: JSON.stringify({ id: ids }),
+    });
+    return;
   }
 
   async getNoteShare() {
@@ -84,12 +97,19 @@ export class NoteAPI {
     return HttpLibs.toJson<{ id: number }>(response);
   }
 
-  async patchCommonNote(noteId: number) {
-    const response = await this.http.patch(`/api/note/common/${noteId}`);
+  async patchCommonNote(args: NoteUpdateArgs) {
+    const { noteId, ...body } = args;
+
+    const response = await this.http.patch(`/api/note/common/${noteId}`, {
+      body: JSON.stringify(body),
+    });
     return HttpLibs.toJson<{ id: number }>(response);
   }
-  async patchQuestionNote(questionId: number) {
-    const response = await this.http.patch(`/api/note/question/${questionId}`);
+  async patchQuestionNote(args: NoteUpdateArgs) {
+    const { noteId, ...body } = args;
+    const response = await this.http.patch(`/api/note/question/${noteId}`, {
+      body: JSON.stringify(body),
+    });
     return HttpLibs.toJson<{ id: number }>(response);
   }
   async patchRetrospectNote(retrospectId: number) {
@@ -100,14 +120,14 @@ export class NoteAPI {
   }
 
   async shareNotes(noteIds: number[]) {
-    const response = await this.http.post(`/api/note/share`, {
+    const response = await this.http.post(`/api/shared/note`, {
       body: JSON.stringify({ id: noteIds }),
     });
     return;
   }
 
   async getSharedNotes() {
-    const response = await this.http.get("/api/note/share", {
+    const response = await this.http.get("/api/shared/note", {
       body: JSON.stringify({}),
     });
     return HttpLibs.toJson<{ id: number; user_id: number; type: string }[]>(

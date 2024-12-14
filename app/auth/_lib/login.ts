@@ -44,7 +44,7 @@ const useSubmit = () => {
       return { message: "server_error" };
     }
     if (shouldRedirect) {
-      queryClient.invalidateQueries({ queryKey: ["AUTHORIZATION"] });
+      await queryClient.invalidateQueries({ queryKey: ["AUTHORIZATION"] });
       router.push("/home"); // try/catch문 안에서 X
     }
   };

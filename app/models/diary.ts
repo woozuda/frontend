@@ -37,7 +37,7 @@ export interface Note {
   weather: string;
   season: string;
   feeling: string;
-  content: string | string[];
+  content: string[];
 }
 
 export interface NoteDate {
@@ -58,7 +58,7 @@ export interface sections {
 
 export interface Retrospect {
   retrospectId: number;
-  type: "FOUR_F_S" | "PMI"| "KPT" | "SCS";
+  type: "FOUR_F_S" | "PMI" | "KPT" | "SCS";
   description: string;
   sections: sections[];
   color: string;
@@ -69,7 +69,7 @@ export interface RetrospectText {
 }
 
 export interface CreateRetrospect {
-  type: "FOUR_F_S" | "PMI"| "KPT" | "SCS"
+  type: "FOUR_F_S" | "PMI" | "KPT" | "SCS";
   diaryId: number;
   title: string;
   date: Date;

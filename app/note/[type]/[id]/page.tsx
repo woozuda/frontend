@@ -1,11 +1,9 @@
 "use client";
 
-import { useHttp } from "@/app/contexts/http";
-import { NoteAPI } from "@/app/http";
+import useNote from "@/app/hooks/useNote";
 import { NoteLibs } from "@/app/lib/note";
 import { NoteType } from "@/app/models/diary";
 import { NotePageHeader } from "@/app/pages/note";
-import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 
 interface PageParams {
@@ -15,33 +13,18 @@ interface PageParams {
 
 export default function Page({ params }: { params: PageParams }) {
   const { id, type } = params;
-  const http = useHttp();
-  const noteApi = new NoteAPI(http);
-  const { data: note } = useQuery({
-    queryKey: ["NOTE", { id, type }] as const,
-    queryFn: ({ queryKey }) => {
-      const [, note] = queryKey;
-      switch (note.type) {
-        case NoteType.COMMON:
-          return noteApi.getCommonNote(note.id);
-        case NoteType.QUESTION:
-          return noteApi.getQuestionNote(note.id);
-        case NoteType.RETROSPECTIVE:
-          return noteApi.getRetrospectNote(note.id);
-        default:
-          return noteApi.getCommonNote(note.id);
-      }
-    },
-  });
+  const { data: note } = useNote({ id, type });
 
   if (!note) {
     return null;
   }
 
+  const page = NoteLibs.getContent(note.content.join(""));
+
   return (
     <div className="flex flex-col w-full max-w-[480px]">
       <div className="flex flex-col w-full h-full relative">
-        <NotePageHeader id={note.id} />
+        <NotePageHeader id={note.id} type={type} />
         <div className="px-5 flex items-center w-full gap-x-4 mt-5">
           <div className="flex items-center w-full">
             <h4 className="text-app-gray-1000 text-sub4">{note.diary}</h4>
@@ -67,9 +50,10 @@ export default function Page({ params }: { params: PageParams }) {
               <p className="text-body3 text-app-gray-1200">{note.question}</p>
             </div>
           )}
-          <div className="flex w-full px-5 py-3">
-            <p dangerouslySetInnerHTML={{ __html: note.content }}></p>
-          </div>
+          <div
+            className="flex w-full px-5 py-3 flex-col gap-y-2"
+            dangerouslySetInnerHTML={{ __html: page! }}
+          ></div>
         </div>
       </div>
     </div>

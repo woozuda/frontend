@@ -6,8 +6,11 @@ import ListCard from "@/components/ListCard";
 import { format } from "date-fns";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
+import useDiaryDates from "../hooks/useDiaryDates";
 import useNotes from "../hooks/useNotes";
 import { CalendarLibs, CalendarStageType } from "../lib/calendar";
+import { HTMLLibs } from "../lib/html";
+import { NoteType } from "../models/diary";
 
 interface PageProps {
   searchParams: Record<string, string>;
@@ -21,6 +24,7 @@ export default function Page(props: PageProps) {
     () => new URLSearchParams(props.searchParams),
     [props.searchParams]
   );
+  const { array } = useDiaryDates();
   const date = searchParams.get("date");
   const { notes } = useNotes({ date });
   const currentDate = useMemo(() => {
@@ -75,15 +79,7 @@ export default function Page(props: PageProps) {
   }, [isTouchMoved]);
 
   const now = useMemo(() => new Date(), []);
-  const diaries = useMemo(
-    () => [
-      new Date(2024, 10, 10),
-      new Date(2024, 10, 11),
-      new Date(2024, 10, 13),
-      new Date(2024, 10, 15),
-    ],
-    []
-  );
+  const diaries = array?.map((value) => new Date(value.date));
 
   return (
     <div className="flex w-full h-full flex-col">
@@ -148,13 +144,28 @@ export default function Page(props: PageProps) {
       <div className="flex flex-col w-full gap-y-5 p-5 h-full">
         {notes?.map((note) => {
           const href = `note/${note.type}/${note.note.id}`;
+          const content = note.note.content.join("");
+          const image = HTMLLibs.findThumbnail(
+            HTMLLibs.createDocument(content)
+          );
+          const textContent = HTMLLibs.getTextContent(
+            HTMLLibs.createDocument(content)
+          );
           return (
             <Link href={href} key={href}>
               <ListCard.Container>
-                <ListCard.Header.Default title={note.note.title} />
-                <ListCard.Description html>
-                  {String(note.note.content)}
-                </ListCard.Description>
+                {note.type !== NoteType.RETROSPECTIVE && (
+                  <ListCard.Header.Default title={note.note.title} />
+                )}
+                {note.type === NoteType.RETROSPECTIVE && (
+                  <ListCard.Header.Reflection title={note.note.title} />
+                )}
+                {image && <ListCard.Thumbnail thumbnail={image} />}
+                {textContent && (
+                  <ListCard.Description html>
+                    {textContent}
+                  </ListCard.Description>
+                )}
               </ListCard.Container>
             </Link>
           );

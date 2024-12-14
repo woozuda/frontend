@@ -7,20 +7,18 @@ import BackLink from "@/components/BackLink";
 import BottomSheetV2 from "@/components/BottomSheet/v2";
 import { HeaderV2 } from "@/components/header/v2";
 import { Sheet, SheetClose, SheetTrigger } from "@/components/ui/sheet";
+import Link from "next/link";
 import { isNotNil } from "ramda";
 import { useState } from "react";
 import { toast } from "sonner";
 
 export interface NotePageHeaderProps {
-  diary?: {
-    id?: number;
-    type?: NoteType;
-  };
+  type?: NoteType;
   id?: number;
 }
 
 const NotePageHeader = (props: NotePageHeaderProps) => {
-  const { id } = props;
+  const { id, type } = props;
   const [isConfirm, setIsConfirm] = useState(false);
   const { mutateAsync: shareNotes } = useNoteShare();
 
@@ -102,7 +100,9 @@ const NotePageHeader = (props: NotePageHeaderProps) => {
             </BottomSheetV2>
           </Sheet>
           <div className="w-12 h-12 flex items-center justify-center">
-            <PencilSvg className="text-black" />
+            <Link href={`/note/${type}/${id}/edit`}>
+              <PencilSvg className="text-black" />
+            </Link>
           </div>
         </div>
       </HeaderV2.Right>

@@ -4,6 +4,7 @@ import {
   format,
   setMonth,
   startOfDay,
+  startOfMonth,
   startOfYear,
   subMonths,
 } from "date-fns";
@@ -15,7 +16,6 @@ import {
   PropsWithChildren,
   ReactNode,
   useContext,
-  useMemo,
   useState,
 } from "react";
 
@@ -182,8 +182,8 @@ export interface AppCalendarBodyProps {
 }
 
 const AppCalendarShortBody = (props: AppCalendarBodyProps) => {
-  const today = useMemo(() => new Date(), []);
-  const array = CalendarLibs.createWeekDays(today);
+  const { date } = useContext(AppCalendarContext);
+  const array = CalendarLibs.createWeekDays(date);
   const { children } = props;
 
   return (
@@ -245,13 +245,13 @@ const AppCalendarContainer = forwardRef<HTMLDivElement, AppCalendarProps>(
 
     const onNextClick = () => {
       setDate((date) => {
-        return addMonths(date, 1);
+        return addMonths(startOfMonth(date), 1);
       });
     };
 
     const onPrevClick = () => {
       setDate((date) => {
-        return subMonths(date, 1);
+        return subMonths(startOfMonth(date), 1);
       });
     };
 

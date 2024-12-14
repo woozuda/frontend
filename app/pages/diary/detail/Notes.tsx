@@ -1,5 +1,6 @@
 "use client";
 
+import { HTMLLibs } from "@/app/lib/html";
 import { DiaryNote, NoteType } from "@/app/models/diary";
 import ListCard from "@/components/ListCard";
 import { cn } from "@/lib/utils";
@@ -32,6 +33,45 @@ const DiaryDetailNotes = (props: DiaryDetailNotesProps) => {
                   checkeds.has(note.note.id) &&
                   "border-app-gray-800 border rounded-xl"
               );
+              const image = HTMLLibs.findThumbnail(
+                HTMLLibs.createDocument(note.note.content.join(""))
+              );
+              const textContent = HTMLLibs.getTextContent(
+                HTMLLibs.createDocument(note.note.content.join(""))
+              );
+              if (isClicked) {
+                return (
+                  <ListCard.Container
+                    className={cardClassName}
+                    key={note.note.id}
+                  >
+                    {note.type === NoteType.RETROSPECTIVE && (
+                      <ListCard.Header.Reflection
+                        title={note.note.title}
+                        checked={checkeds.has(note.note.id)}
+                        hasCheckbox={isClicked}
+                        onCheck={(checkedState) => onCheck(note, checkedState)}
+                      />
+                    )}
+                    {note.type !== NoteType.RETROSPECTIVE && (
+                      <ListCard.Header.Default
+                        title={note.note.title}
+                        onCheck={(checkedState) => {
+                          onCheck(note, checkedState);
+                        }}
+                        checked={checkeds.has(note.note.id)}
+                        hasCheckbox={isClicked}
+                      />
+                    )}
+                    {image && <ListCard.Thumbnail thumbnail={image} />}
+                    {textContent && (
+                      <ListCard.Description html>
+                        {textContent}
+                      </ListCard.Description>
+                    )}
+                  </ListCard.Container>
+                );
+              }
               return (
                 <Link
                   key={note.note.id}
@@ -56,8 +96,9 @@ const DiaryDetailNotes = (props: DiaryDetailNotesProps) => {
                         hasCheckbox={isClicked}
                       />
                     )}
+                    {image && <ListCard.Thumbnail thumbnail={image} />}
                     <ListCard.Description html>
-                      {String(note.note.content)}
+                      {note.note.content.join("")}
                     </ListCard.Description>
                   </ListCard.Container>
                 </Link>
