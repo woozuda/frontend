@@ -31,9 +31,9 @@ export default function CreateFrameworkPage() {
 
   const { mutate, isPending } = useCreateRetrospect({
     type: selectedRetrospect!.type,
-    date,
     diaryId: diaryId as number,
     title,
+    date,
     content,
   });
 
