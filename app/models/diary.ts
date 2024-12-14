@@ -58,7 +58,7 @@ export interface sections {
 
 export interface Retrospect {
   retrospectId: number;
-  retrospectName: string;
+  type: "FOUR_F_S" | "PMI"| "KPT" | "SCS";
   description: string;
   sections: sections[];
   color: string;
@@ -69,10 +69,9 @@ export interface RetrospectText {
 }
 
 export interface CreateRetrospect {
-  retrospectId: number;
-  type: "회고";
+  type: "FOUR_F_S" | "PMI"| "KPT" | "SCS"
   diaryId: number;
-  date: Date;
   title: string;
-  retrospectText: RetrospectText;
+  date: Date;
+  content: string[];
 }

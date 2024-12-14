@@ -25,7 +25,7 @@ export default function RetrospectCard({
       }`}
     >
       <div className="flex">
-        <div className="text-lg font-bold">{retrospect.retrospectName}</div>
+        <div className="text-lg font-bold">{retrospect.type}</div>
         {isSelected && (
           <div className="ml-auto">
             <Link
