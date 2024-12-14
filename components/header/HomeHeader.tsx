@@ -33,16 +33,16 @@ const HomeHeader = forwardRef<HTMLElement, HomeHeaderProps>(function HomeHeader(
       <div className="flex items-center">
         <Link
           href={"/calendar"}
-          className="p-3 flex justify-center items-center text-sub3 text-white"
+          className="p-3 flex justify-center items-center"
         >
-          {date}
+          <span className="text-sub3 text-white">{date}</span>
+          <button
+            className="p-3 flex justify-center items-center text-white"
+            onClick={onClick}
+          >
+            <CalendarIcon className="text-white" />
+          </button>
         </Link>
-        <button
-          className="p-3 flex justify-center items-center text-white"
-          onClick={onClick}
-        >
-          <CalendarIcon className="text-white" />
-        </button>
       </div>
     </header>
   );

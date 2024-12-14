@@ -8,6 +8,8 @@ import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import useNotes from "../hooks/useNotes";
 import { CalendarLibs, CalendarStageType } from "../lib/calendar";
+import { HTMLLibs } from "../lib/html";
+import { NoteType } from "../models/diary";
 
 interface PageProps {
   searchParams: Record<string, string>;
@@ -148,13 +150,21 @@ export default function Page(props: PageProps) {
       <div className="flex flex-col w-full gap-y-5 p-5 h-full">
         {notes?.map((note) => {
           const href = `note/${note.type}/${note.note.id}`;
+          const content = note.note.content.join("");
+          const image = HTMLLibs.findThumbnail(
+            HTMLLibs.createDocument(content)
+          );
           return (
             <Link href={href} key={href}>
               <ListCard.Container>
-                <ListCard.Header.Default title={note.note.title} />
-                <ListCard.Description html>
-                  {String(note.note.content)}
-                </ListCard.Description>
+                {note.type !== NoteType.RETROSPECTIVE && (
+                  <ListCard.Header.Default title={note.note.title} />
+                )}
+                {note.type === NoteType.RETROSPECTIVE && (
+                  <ListCard.Header.Reflection title={note.note.title} />
+                )}
+                {image && <ListCard.Thumbnail thumbnail={image} />}
+                <ListCard.Description html>{content}</ListCard.Description>
               </ListCard.Container>
             </Link>
           );

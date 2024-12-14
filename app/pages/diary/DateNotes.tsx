@@ -4,6 +4,7 @@ import { ArrowLeftSvg } from "@/app/assets/icons";
 import useNotes from "@/app/hooks/useNotes";
 import { DiaryLibs } from "@/app/lib/diary";
 import { HTMLLibs } from "@/app/lib/html";
+import { NoteType } from "@/app/models/diary";
 import { HeaderV2 } from "@/components/header/v2";
 import ListCard from "@/components/ListCard";
 import { cn } from "@/lib/utils";
@@ -59,7 +60,12 @@ const DiaryDateNotes = () => {
                     key={note.note.id}
                   >
                     <ListCard.Container>
-                      <ListCard.Header.Default title={note.note.title} />
+                      {note.type !== NoteType.RETROSPECTIVE && (
+                        <ListCard.Header.Default title={note.note.title} />
+                      )}
+                      {note.type === NoteType.RETROSPECTIVE && (
+                        <ListCard.Header.Reflection title={note.note.title} />
+                      )}
                       {image && <ListCard.Thumbnail thumbnail={image} />}
                       <ListCard.Description html>
                         {note.note.content.join("")}
