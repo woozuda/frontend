@@ -57,7 +57,6 @@ export default function Page({ params }: { params: PageParams }) {
   const [initialDelta, setInitialDelta] = useState<Delta>();
   const editorRef = useRef<Quill | null>(null);
   const { mutateAsync, reset } = useImageUpload();
-  const { mutateAsync: onNoteUpdate } = useNoteUpdate();
   const queryClient = useQueryClient();
   const [emoji, setEmoji] = useState<Emoji>();
   const [weather, setWeather] = useState<Emoji>();
@@ -65,6 +64,8 @@ export default function Page({ params }: { params: PageParams }) {
   const router = useRouter();
 
   const season = NoteLibs.createSeason(selectedDate);
+
+  const { mutateAsync: onNoteUpdate } = useNoteUpdate();
 
   useEffect(() => {
     if (isReady) {
@@ -139,7 +140,7 @@ export default function Page({ params }: { params: PageParams }) {
               queryKey: ["DIARY", diary.id],
             }),
             queryClient.invalidateQueries({
-              queryKey: ["NOTE", { id, type }],
+              queryKey: ["NOTE", id, type],
             }),
           ]);
           router.replace(`/note/${type}/${response.id}`);
