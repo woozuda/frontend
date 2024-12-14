@@ -25,4 +25,18 @@ export class HTMLLibs {
   static findThumbnail(doc: HTMLElement) {
     return doc.querySelector("img")?.src;
   }
+
+  static getTextContent(doc: HTMLElement) {
+    const children = doc.querySelector("body")?.children;
+    if (children) {
+      const textContent = Array.from(children).reduce((content, element) => {
+        if (element.outerHTML.includes("img")) {
+          return content;
+        }
+        content += element.outerHTML;
+        return content;
+      }, "");
+      return textContent;
+    }
+  }
 }

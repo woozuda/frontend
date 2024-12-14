@@ -25,6 +25,9 @@ const DiaryLatest = () => {
               const image = HTMLLibs.findThumbnail(
                 HTMLLibs.createDocument(note.note.content.join(""))
               );
+              const textContent = HTMLLibs.getTextContent(
+                HTMLLibs.createDocument(note.note.content.join(""))
+              );
               return (
                 <Link
                   href={`/note/${note.type}/${note.note.id}`}
@@ -38,9 +41,11 @@ const DiaryLatest = () => {
                       <ListCard.Header.Reflection title={note.note.title} />
                     )}
                     {image && <ListCard.Thumbnail thumbnail={image} />}
-                    <ListCard.Description html>
-                      {note.note.content.join("")}
-                    </ListCard.Description>
+                    {textContent && (
+                      <ListCard.Description html>
+                        {textContent}
+                      </ListCard.Description>
+                    )}
                   </ListCard.Container>
                 </Link>
               );

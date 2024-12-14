@@ -154,6 +154,9 @@ export default function Page(props: PageProps) {
           const image = HTMLLibs.findThumbnail(
             HTMLLibs.createDocument(content)
           );
+          const textContent = HTMLLibs.getTextContent(
+            HTMLLibs.createDocument(content)
+          );
           return (
             <Link href={href} key={href}>
               <ListCard.Container>
@@ -164,7 +167,11 @@ export default function Page(props: PageProps) {
                   <ListCard.Header.Reflection title={note.note.title} />
                 )}
                 {image && <ListCard.Thumbnail thumbnail={image} />}
-                <ListCard.Description html>{content}</ListCard.Description>
+                {textContent && (
+                  <ListCard.Description html>
+                    {textContent}
+                  </ListCard.Description>
+                )}
               </ListCard.Container>
             </Link>
           );
