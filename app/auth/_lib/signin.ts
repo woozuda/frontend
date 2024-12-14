@@ -38,12 +38,10 @@ const onSubmit = async (prevState: any, formData: FormData) => {
       },
       credentials: "include",
     });
-
-    if (res.status === 403) {
+    if (res.status === 409) {
       return { message: "user_exists" };
     }
 
-    // await res.json();
     shouldRedirect = true;
   } catch (err) {
     console.error(err);
