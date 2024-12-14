@@ -31,6 +31,16 @@ export default function Page(props: PageProps) {
       </div>
     );
   }
+  if (param === ReportEnums.CREATION) {
+    return (
+      <div className="w-full flex flex-col gap-y-3 pb-5 h-full">
+        <ReportHeader />
+        <div className="flex flex-col w-full px-5 py-4">
+          {/* <DiaryResult /> */}
+        </div>
+      </div>
+    )
+  }
   return (
     <div className="w-full flex flex-col gap-y-3 pb-5 h-full">
       <ReportHeader />
