@@ -40,7 +40,7 @@ export default function Page({ params }: { params: PageParams }) {
 
   return (
     <div className="flex flex-col w-full max-w-[480px]">
-      <div className="flex flex-col w-full overflow-y-scroll h-full relative">
+      <div className="flex flex-col w-full h-full relative">
         <NotePageHeader id={note.id} />
         <div className="px-5 flex items-center w-full gap-x-4 mt-5">
           <div className="flex items-center w-full">
@@ -58,7 +58,7 @@ export default function Page({ params }: { params: PageParams }) {
             </div>
           </div>
         </div>
-        <div className="flex w-full flex-col py-3">
+        <div className="flex w-full flex-col py-3 h-full">
           <div className="flex items-center h-[54px] w-full px-5 py-4">
             <h2 className="text-h2 text-app-gray-1200">{note.title}</h2>
           </div>

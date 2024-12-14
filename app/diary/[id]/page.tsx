@@ -44,8 +44,8 @@ export default function Page({ params }: { params: { id: number } }) {
     setAction(DiaryActionType.DEFAULT);
   };
   return (
-    <div className="w-full h-full max-w-[480px] flex flex-col bg-auth bg-cover bg-no-repeat bg-center bg-sky-950">
-      <div className="w-full h-full flex flex-col relative overflow-y-scroll">
+    <div className="w-full max-h-full h-auto max-w-[480px] flex flex-col bg-auth bg-cover bg-no-repeat bg-center bg-sky-950">
+      <div className="w-full h-full flex flex-col relative">
         <div className="w-full h-[240px] sticky top-0 left-0 shrink-0">
           <img
             src={data.imgUrl}

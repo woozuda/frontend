@@ -94,8 +94,8 @@ export default function Page() {
   };
 
   return (
-    <div className="w-full h-full flex flex-col max-w-[412px] border-x border">
-      <div className="w-full h-full flex flex-col overflow-y-scroll relative">
+    <div className="w-full h-auto min-h-full flex flex-col max-w-[480px] border-x">
+      <div className="w-full h-full flex flex-col relative">
         <div className="w-full h-14 p-1 flex justify-between">
           <button
             className="p-0 w-12 h-12 flex justify-center items-center bg-white"
@@ -163,7 +163,7 @@ export default function Page() {
             }}
           />
         </div>
-        <div className="w-full bg-white flex flex-col">
+        <div className="w-full bg-white flex flex-col h-full">
           <QuillEditor
             forwardedRef={editorRef}
             readOnly={false}
@@ -175,7 +175,7 @@ export default function Page() {
           />
         </div>
       </div>
-      <div className="w-full h-14 flex shrink-0 border-t border-app-gray-400 px-5 gap-x-3">
+      <div className="w-full h-14 flex shrink-0 border-t border-app-gray-400 px-5 gap-x-3 fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto border-x">
         <label
           className="cursor-pointer flex items-center"
           htmlFor="noteImages"
