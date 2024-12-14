@@ -1,5 +1,6 @@
 import { DiaryNote } from "@/app/models/diary";
 import { getMonth } from "date-fns";
+import { HTMLLibs } from "../html";
 
 export enum NoteSeason {
   SPRING = "봄",
@@ -96,5 +97,9 @@ export class NoteLibs {
     }, {} as Record<string, DiaryNote[]>);
 
     return Object.entries(reducedNotes);
+  }
+  static getContent(content: string) {
+    const doc = HTMLLibs.createDocument(content);
+    return HTMLLibs.reduceElements(doc);
   }
 }
