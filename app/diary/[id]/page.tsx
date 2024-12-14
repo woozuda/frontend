@@ -2,6 +2,8 @@
 
 import { ArrowLeftSvg } from "@/app/assets/icons";
 import useDiary from "@/app/hooks/useDiary";
+import useNoteDelete from "@/app/hooks/useNoteDelete";
+import useNoteShare from "@/app/hooks/useNoteShare";
 import { DiaryActionType } from "@/app/lib/diary";
 import { DiaryNote } from "@/app/models/diary";
 import {
@@ -9,10 +11,11 @@ import {
   DiaryDetailNotesHeader,
   DiaryDetailNotesSheet,
 } from "@/app/pages/diary/detail";
+import { useQueryClient } from "@tanstack/react-query";
 import { useIntersectionObserver } from "@uidotdev/usehooks";
 import Link from "next/link";
 import { useState } from "react";
-import { Toaster } from "sonner";
+import { toast, Toaster } from "sonner";
 
 export default function Page({ params }: { params: { id: number } }) {
   const { id } = params;
@@ -21,6 +24,9 @@ export default function Page({ params }: { params: { id: number } }) {
   const [action, setAction] = useState(DiaryActionType.DEFAULT);
   const [isClicked, setIsClicked] = useState(false);
   const [ref, entry] = useIntersectionObserver();
+  const { mutateAsync: deleteNotes } = useNoteDelete();
+  const { mutateAsync: shareNotes } = useNoteShare();
+  const queryClient = useQueryClient();
 
   if (!data) {
     return null;
@@ -42,6 +48,31 @@ export default function Page({ params }: { params: { id: number } }) {
     setIsClicked(false);
     setCheckeds(new Set());
     setAction(DiaryActionType.DEFAULT);
+  };
+  const onActionChange = async (type: DiaryActionType) => {
+    if (type === DiaryActionType.DELETE) {
+      setAction(DiaryActionType.DELETE);
+    } else if (type === DiaryActionType.SHARE) {
+      try {
+        await shareNotes({ ids: Array.from(checkeds) });
+      } catch (error) {
+        toast.error("알 수 없는 오류가 발생했습니다.");
+      } finally {
+        setAction(DiaryActionType.SHARE);
+      }
+    }
+  };
+  const onDelete = async () => {
+    try {
+      await deleteNotes({ ids: Array.from(checkeds) });
+    } catch (error) {
+      toast.error("알 수 없는 오류가 발생했습니다.");
+    } finally {
+      setIsClicked(false);
+      setCheckeds(new Set());
+      setAction(DiaryActionType.DEFAULT);
+      await queryClient.invalidateQueries({ queryKey: ["DIARY", id] });
+    }
   };
   return (
     <div className="w-full max-h-full h-auto max-w-[480px] flex flex-col bg-auth bg-cover bg-no-repeat bg-center bg-sky-950">
@@ -95,7 +126,8 @@ export default function Page({ params }: { params: { id: number } }) {
               action={action}
               checkedSize={checkeds.size}
               onCancel={onCancel}
-              onActionChange={(action) => setAction(action)}
+              onActionChange={onActionChange}
+              onDelete={onDelete}
             />
           </div>
           <Toaster />
