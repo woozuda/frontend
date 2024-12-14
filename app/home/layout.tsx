@@ -43,7 +43,7 @@ export default function Layout(props: PropsWithChildren) {
         }}
       >
         <HomeHeader
-          date={format(date, "yyyy년 MM월", { locale: ko })}
+          date={format(date, "MM월 dd일", { locale: ko })}
           className={bgColor}
         />
         <div
