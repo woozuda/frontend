@@ -1,7 +1,9 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
 const useSubmit = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const onSubmit = async (prevState: any, formData: FormData) => {
     if (!formData.get("email") || !(formData.get("email") as string)?.trim()) {
       return { message: "no_email" };
@@ -42,6 +44,7 @@ const useSubmit = () => {
       return { message: "server_error" };
     }
     if (shouldRedirect) {
+      queryClient.invalidateQueries({ queryKey: ["AUTHORIZATION"] });
       router.push("/home"); // try/catch문 안에서 X
     }
   };
