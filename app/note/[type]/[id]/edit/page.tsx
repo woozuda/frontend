@@ -137,7 +137,7 @@ export default function Page({ params }: { params: PageParams }) {
         if (response && response.id) {
           await Promise.all([
             queryClient.invalidateQueries({
-              queryKey: ["DIARY", diary.id],
+              queryKey: ["DIARY"],
             }),
             queryClient.invalidateQueries({
               queryKey: ["NOTE", id, type],

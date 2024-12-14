@@ -6,6 +6,7 @@ import ListCard from "@/components/ListCard";
 import { format } from "date-fns";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
+import useDiaryDates from "../hooks/useDiaryDates";
 import useNotes from "../hooks/useNotes";
 import { CalendarLibs, CalendarStageType } from "../lib/calendar";
 import { HTMLLibs } from "../lib/html";
@@ -23,6 +24,7 @@ export default function Page(props: PageProps) {
     () => new URLSearchParams(props.searchParams),
     [props.searchParams]
   );
+  const { array } = useDiaryDates();
   const date = searchParams.get("date");
   const { notes } = useNotes({ date });
   const currentDate = useMemo(() => {
@@ -77,15 +79,7 @@ export default function Page(props: PageProps) {
   }, [isTouchMoved]);
 
   const now = useMemo(() => new Date(), []);
-  const diaries = useMemo(
-    () => [
-      new Date(2024, 10, 10),
-      new Date(2024, 10, 11),
-      new Date(2024, 10, 13),
-      new Date(2024, 10, 15),
-    ],
-    []
-  );
+  const diaries = array?.map((value) => new Date(value.date));
 
   return (
     <div className="flex w-full h-full flex-col">
