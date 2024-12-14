@@ -3,11 +3,11 @@
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { motion } from "framer-motion";
-import { useMy } from "./_hooks/useMy";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import { useAlarm } from "./_hooks/useAlarm";
 import { useAnalysisType } from "./_hooks/useAnalysisType";
-import { useState, useEffect } from "react";
-import Link from "next/link";
+import { useMy } from "./_hooks/useMy";
 
 export default function MyPage() {
   const [alarm, setAlarm] = useState(false);
@@ -30,7 +30,7 @@ export default function MyPage() {
   }
 
   return (
-    <main className="w-full h-full flex flex-col items-center gap-6 py-6 px-4">
+    <main className="w-full flex flex-col items-center gap-6 py-6 px-4">
       <section className="w-full flex flex-col gap-6">
         <h1 className="font-bold text-xl">MY</h1>
         <div className="flex flex-col gap-4">

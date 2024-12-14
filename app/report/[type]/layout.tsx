@@ -33,8 +33,8 @@ export default function Layout(props: LayoutProps) {
   );
 
   return (
-    <div className="w-full h-full max-w-[480px] flex flex-col bg-auth bg-cover bg-no-repeat bg-center bg-sky-950">
-      <div className="w-full h-full flex flex-col relative overflow-y-scroll">
+    <div className="w-full min-h-full h-auto max-w-[480px] flex flex-col bg-auth bg-cover bg-no-repeat bg-center bg-sky-950 pb-[70px]">
+      <div className="w-full h-full flex flex-col relative">
         <div
           className={cn(
             bgColor,
@@ -80,7 +80,9 @@ export default function Layout(props: LayoutProps) {
           {children}
         </div>
       </div>
-      <GlobalNavigationBar />
+      <div className="fixed bottom-0 left-0 right-0 w-full max-w-[480px] mx-auto">
+        <GlobalNavigationBar />
+      </div>
     </div>
   );
 }
