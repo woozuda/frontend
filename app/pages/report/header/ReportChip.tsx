@@ -17,7 +17,11 @@ const ReportChipHeader = (props: ReportChipHeaderProps) => {
     params.set("type", type);
     const url = `/report/${ReportEnums.RETROSPECTIVE}?${params}`;
 
-    return { text: type, url, active: paramType === type };
+    return {
+      text: ReportLibs.getChipText(type),
+      url,
+      active: paramType === type,
+    };
   });
 
   return (
