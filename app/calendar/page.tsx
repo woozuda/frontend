@@ -3,10 +3,11 @@
 import AppCalendar from "@/components/AppCalendar";
 import AppCalendarDay from "@/components/AppCalendar/Day";
 import ListCard from "@/components/ListCard";
+import { useIntersectionObserver } from "@uidotdev/usehooks";
 import { format } from "date-fns";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import useDiaryDates from "../hooks/useDiaryDates";
 import useNotes from "../hooks/useNotes";
 import { CalendarLibs, CalendarStageType } from "../lib/calendar";
@@ -18,7 +19,7 @@ export default function Page() {
   const searchParams = useSearchParams();
   const { array } = useDiaryDates();
   const date = searchParams.get("date");
-  const { notes } = useNotes({ date });
+  const { data, isFetching, isLoading, fetchNextPage } = useNotes({ date });
   const currentDate = useMemo(() => {
     const dateParam = searchParams.get("date") ?? new Date();
     const date = new Date(dateParam);
@@ -31,6 +32,23 @@ export default function Page() {
   const { ref, isTouchMoved } = useCalendarToggle();
   const now = useMemo(() => new Date(), []);
   const diaries = array?.map((value) => new Date(value.date));
+
+  const notes = data?.pages.flatMap((page) => page.content);
+
+  const fetchNextNotes = useCallback(async () => {
+    if (isLoading || isFetching) {
+      return;
+    }
+    await fetchNextPage();
+  }, [isFetching, isLoading, fetchNextPage]);
+
+  const [bottomRef, bottomEntry] = useIntersectionObserver();
+
+  useEffect(() => {
+    if (bottomEntry?.isIntersecting) {
+      fetchNextNotes();
+    }
+  }, [bottomEntry?.isIntersecting, fetchNextNotes]);
 
   return (
     <div className="flex w-full h-full flex-col">
@@ -121,6 +139,7 @@ export default function Page() {
             </Link>
           );
         })}
+        <div className="w-full h-0.5 bg-transparent" ref={bottomRef} />
       </div>
     </div>
   );
