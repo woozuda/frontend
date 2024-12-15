@@ -12,9 +12,9 @@ import { ReadonlyURLSearchParams } from "next/navigation";
 import { isNil } from "ramda";
 
 export enum ReportEnums {
-  COMMON = "COMMON",
-  RETROSPECTIVE = "RETROSPECTIVE",
-  CREATION = "CREATION",
+  COMMON = "common",
+  RETROSPECTIVE = "retrospective",
+  CREATION = "creation",
 }
 
 export class ReportLibs {
@@ -100,12 +100,19 @@ export class ReportLibs {
     return format(date, "yyyy-MM-dd");
   }
 
+  static getChipText(type: RetrospectEnums) {
+    if (type === RetrospectEnums.FOUR_F_S) {
+      return "4FS";
+    }
+    return type;
+  }
+
   static getRetrospectType(searchParams: ReadonlyURLSearchParams) {
     const type = searchParams.get("type");
 
     switch (type) {
-      case RetrospectEnums.FOUR_FS: {
-        return RetrospectEnums.FOUR_FS;
+      case RetrospectEnums.FOUR_F_S: {
+        return RetrospectEnums.FOUR_F_S;
       }
       case RetrospectEnums.KPT: {
         return RetrospectEnums.KPT;
@@ -117,7 +124,7 @@ export class ReportLibs {
         return RetrospectEnums.SCS;
       }
       default: {
-        return RetrospectEnums.FOUR_FS;
+        return RetrospectEnums.FOUR_F_S;
       }
     }
   }
