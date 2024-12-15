@@ -8,8 +8,8 @@ export class ReportAPI {
 
   async getReportDiary(start: string, end: string) {
     const searchParams = new URLSearchParams();
-    searchParams.set("startDate", start);
-    searchParams.set("endDate", end);
+    searchParams.set("start_date", start);
+    searchParams.set("end_date", end);
     const url = `api/report/diary?${searchParams}`;
 
     const response = await this.http.get(url);
@@ -18,8 +18,8 @@ export class ReportAPI {
 
   async getReport4FS(start: string, end: string) {
     const searchParams = new URLSearchParams();
-    searchParams.set("startDate", start);
-    searchParams.set("endDate", end);
+    searchParams.set("start_date", start);
+    searchParams.set("end_date", end);
     const url = `api/report/recall/4FS?${searchParams}`;
 
     const response = await this.http.get(url);
@@ -28,8 +28,8 @@ export class ReportAPI {
 
   async getReportKPT(start: string, end: string) {
     const searchParams = new URLSearchParams();
-    searchParams.set("startDate", start);
-    searchParams.set("endDate", end);
+    searchParams.set("start_date", start);
+    searchParams.set("end_date", end);
     const url = `api/report/recall/KTP?${searchParams}`;
 
     const response = await this.http.get(url);
@@ -38,8 +38,8 @@ export class ReportAPI {
 
   async getReportPMI(start: string, end: string) {
     const searchParams = new URLSearchParams();
-    searchParams.set("startDate", start);
-    searchParams.set("endDate", end);
+    searchParams.set("start_date", start);
+    searchParams.set("end_date", end);
     const url = `api/report/recall/PMI?${searchParams}`;
 
     const response = await this.http.get(url);
@@ -48,8 +48,8 @@ export class ReportAPI {
 
   async getReportSCS(start: string, end: string) {
     const searchParams = new URLSearchParams();
-    searchParams.set("startDate", start);
-    searchParams.set("endDate", end);
+    searchParams.set("start_date", start);
+    searchParams.set("end_date", end);
     const url = `api/report/recall/SCS?${searchParams}`;
 
     const response = await this.http.get(url);
@@ -58,8 +58,8 @@ export class ReportAPI {
 
   async createReportDiary(start: string, end: string) {
     const searchParams = new URLSearchParams();
-    searchParams.set("startDate", start);
-    searchParams.set("endDate", end);
+    searchParams.set("start_date", start);
+    searchParams.set("end_date", end);
     const url = `api/report/diary/analyze?${searchParams}`;
 
     const response = await this.http.post(url);
@@ -68,8 +68,8 @@ export class ReportAPI {
 
   async createReport4FS(start: string, end: string) {
     const searchParams = new URLSearchParams();
-    searchParams.set("startDate", start);
-    searchParams.set("endDate", end);
+    searchParams.set("start_date", start);
+    searchParams.set("end_date", end);
     const url = `api/report/recall/analyze/4FS?${searchParams}`;
 
     const response = await this.http.post(url);
@@ -78,8 +78,8 @@ export class ReportAPI {
 
   async createReportKPT(start: string, end: string) {
     const searchParams = new URLSearchParams();
-    searchParams.set("startDate", start);
-    searchParams.set("endDate", end);
+    searchParams.set("start_date", start);
+    searchParams.set("end_date", end);
     const url = `api/report/recall/analyze/KTP?${searchParams}`;
 
     const response = await this.http.post(url);
@@ -88,8 +88,8 @@ export class ReportAPI {
 
   async createReportPMI(start: string, end: string) {
     const searchParams = new URLSearchParams();
-    searchParams.set("startDate", start);
-    searchParams.set("endDate", end);
+    searchParams.set("start_date", start);
+    searchParams.set("end_date", end);
     const url = `api/report/recall/analyze/PMI?${searchParams}`;
 
     const response = await this.http.post(url);
@@ -98,8 +98,8 @@ export class ReportAPI {
 
   async createReportSCS(start: string, end: string) {
     const searchParams = new URLSearchParams();
-    searchParams.set("startDate", start);
-    searchParams.set("endDate", end);
+    searchParams.set("start_date", start);
+    searchParams.set("end_date", end);
     const url = `api/report/recall/analyze/SCS?${searchParams}`;
 
     const response = await this.http.post(url);
