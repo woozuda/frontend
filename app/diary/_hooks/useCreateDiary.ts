@@ -13,6 +13,7 @@ export function useCreateDiary(createInfo: ICreateInfo) {
     onSuccess: async (data: { id: number}) => {
       toast.success("다이어리 생성이 완료되었습니다.");
       await queryClient.invalidateQueries({ queryKey: ["DIARY"] });
+      await queryClient.refetchQueries({ queryKey: ["DIARY"] });
       router.replace("/diary");
     },
     onError: () => {
