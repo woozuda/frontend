@@ -74,7 +74,7 @@ const AppCalendarNavBar = () => {
           <ArrowRightSvg />
         </button>
       </div>
-      <Link href={"/home"}>
+      <Link href={"/"}>
         <button className="w-10 h-10 flex justify-center items-center text-app-gray-400">
           <XMarkSvg />
         </button>
