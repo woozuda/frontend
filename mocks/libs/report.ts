@@ -1,7 +1,7 @@
 import {
   Report4FS,
   ReportDiary,
-  ReportKTP,
+  ReportKPT,
   ReportPMI,
   ReportSCS,
 } from "@/app/models/report";
@@ -36,7 +36,7 @@ export class MockReportLibs {
     };
   }
 
-  static createReportKTP(): Omit<ReportKTP, "type"> {
+  static createReportKPT(): Omit<ReportKPT, "type"> {
     return {
       startDate: "2024-12-08",
       endDate: "2024-12-08",

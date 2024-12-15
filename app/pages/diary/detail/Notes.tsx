@@ -97,9 +97,11 @@ const DiaryDetailNotes = (props: DiaryDetailNotesProps) => {
                       />
                     )}
                     {image && <ListCard.Thumbnail thumbnail={image} />}
-                    <ListCard.Description html>
-                      {note.note.content.join("")}
-                    </ListCard.Description>
+                    {textContent && (
+                      <ListCard.Description html>
+                        {textContent}
+                      </ListCard.Description>
+                    )}
                   </ListCard.Container>
                 </Link>
               );

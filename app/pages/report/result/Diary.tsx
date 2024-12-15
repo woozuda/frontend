@@ -1,6 +1,6 @@
 "use client";
 
-import useDiaryAnalysis from "@/app/hooks/useDiaryAnalysis";
+import useReportDiary from "@/app/hooks/useReportDiary";
 import { ReportLibs } from "@/app/lib/report";
 import ReportCard from "@/components/ReportCard";
 import { useSearchParams } from "next/navigation";
@@ -9,7 +9,7 @@ const DiaryResult = () => {
   const searchParams = useSearchParams();
   const [start, end] = ReportLibs.getPeriod(searchParams);
 
-  const { data } = useDiaryAnalysis({ startDate: start, endDate: end });
+  const { data } = useReportDiary({ startDate: start, endDate: end });
 
   return (
     <div className="flex flex-col w-full gap-y-[60px]">
