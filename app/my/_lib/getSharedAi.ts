@@ -3,7 +3,6 @@ export async function getSharedAi() {
         const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/my/shared/ai`,
           {
             method: "post",
-            //body
             credentials: "include",
           })
           if (!res.ok) {

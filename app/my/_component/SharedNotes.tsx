@@ -67,19 +67,19 @@ export default function SharedNotes() {
                 key={noteItem.note.id}
                 className="flex flex-col w-full items-center gap-2"
               >
-                <Link
+                {/* <Link
                 className="w-full"
                   href={`/api/${
                     noteItem.note.diary
                   }/note/${noteItem.type.toLowerCase()}/${noteItem.note.id}`}
-                >
+                > */}
                   <SharedCard
                     noteItem={noteItem}
                     mode={mode}
                     noShareList={noShareList}
                     setNoShareList={setNoshareList}
                   />
-                </Link>
+                {/* </Link> */}
               </div>
             ))}
           </div>

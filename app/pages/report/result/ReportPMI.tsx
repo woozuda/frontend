@@ -1,6 +1,6 @@
 "use client";
 
-import useReport from "@/app/hooks/useReport";
+import useReportRetrospective from "@/app/hooks/useReportRetrospective";
 import { ReportLibs } from "@/app/lib/report";
 import { RetrospectEnums } from "@/app/models/report";
 import ReportCard from "@/components/ReportCard";
@@ -13,7 +13,11 @@ const ReportPMIResult = () => {
     searchParams as ReadonlyURLSearchParams
   );
 
-  const { data } = useReport({ startDate: start, endDate: end, type });
+  const { data } = useReportRetrospective({
+    startDate: start,
+    endDate: end,
+    type,
+  });
 
   if (data?.type !== RetrospectEnums.PMI) {
     return null;

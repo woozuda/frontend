@@ -3,6 +3,8 @@
 import { ArrowLeftSvg } from "@/app/assets/icons";
 import useNotes from "@/app/hooks/useNotes";
 import { DiaryLibs } from "@/app/lib/diary";
+import { HTMLLibs } from "@/app/lib/html";
+import { NoteType } from "@/app/models/diary";
 import { HeaderV2 } from "@/components/header/v2";
 import ListCard from "@/components/ListCard";
 import { cn } from "@/lib/utils";
@@ -24,7 +26,7 @@ const DiaryDateNotes = () => {
       : "bg-transparent z-20";
 
   return (
-    <div className="w-full h-full max-w-[480px] flex flex-col bg-auth bg-cover bg-no-repeat bg-center bg-sky-950">
+    <div className="w-full min-h-full h-auto max-w-[480px] flex flex-col bg-auth bg-cover bg-no-repeat bg-center bg-sky-950">
       <div className="w-full h-full flex flex-col relative">
         <HeaderV2 className={cn(bgColor, "sticky left-0 top-0 right-0")}>
           <HeaderV2.Left>
@@ -49,16 +51,31 @@ const DiaryDateNotes = () => {
           <div className="flex flex-col w-full p-5 relative">
             <div className="flex flex-col w-full gap-y-4">
               {notes?.map((note) => {
+                const image = HTMLLibs.findThumbnail(
+                  HTMLLibs.createDocument(note.note.content.join(""))
+                );
+                const textContent = HTMLLibs.getTextContent(
+                  HTMLLibs.createDocument(note.note.content.join(""))
+                );
                 return (
                   <Link
                     href={`/note/${note.type}/${note.note.id}`}
                     key={note.note.id}
                   >
                     <ListCard.Container>
-                      <ListCard.Header.Default title={note.note.title} />
-                      <ListCard.Description html>
-                        {String(note.note.content)}
-                      </ListCard.Description>
+                      {note.type !== NoteType.RETROSPECTIVE && (
+                        <ListCard.Header.Default title={note.note.title} />
+                      )}
+                      {note.type === NoteType.RETROSPECTIVE && (
+                        <ListCard.Header.Reflection title={note.note.title} />
+                      )}
+                      {image && <ListCard.Thumbnail thumbnail={image} />}
+
+                      {textContent && (
+                        <ListCard.Description html>
+                          {textContent}
+                        </ListCard.Description>
+                      )}
                     </ListCard.Container>
                   </Link>
                 );

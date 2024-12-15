@@ -1,10 +1,8 @@
 "use client";
 
+import { CalendarLibs, CalendarStageType } from "@/app/lib/calendar";
 import AppCalendar from "@/components/AppCalendar";
 import AppCalendarDay from "@/components/AppCalendar/Day";
-import { useRef, useState } from "react";
-import { CalendarLibs, CalendarStageType } from "@/app/lib/calendar";
-
 import {
   CalendarAccordion,
   CalendarAccordionItem,
@@ -16,6 +14,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { useRef, useState } from "react";
 
 type Props = {
   date: Date;
@@ -34,13 +33,15 @@ export default function CalendarDrawer({ date, setDate }: Props) {
         <CalendarAccordion type="single" collapsible>
           <CalendarAccordionItem value="item-1">
             <CalendarAccordionTrigger>
-              {`${date.getFullYear()}년 ${date.getMonth()}월 ${date.getDate()}일`}
+              {`${date.getFullYear()}년 ${
+                date.getMonth() + 1
+              }월 ${date.getDate()}일`}
             </CalendarAccordionTrigger>
           </CalendarAccordionItem>
         </CalendarAccordion>
       </DrawerTrigger>
       <DrawerContent className="flex flex-col items-center gap-4 pb-6">
-        <DrawerTitle>달력</DrawerTitle>
+        <DrawerTitle className="hidden">달력</DrawerTitle>
         <div className="flex w-full h-full flex-col">
           <AppCalendar.Container
             defaultDate={currentDate}
@@ -48,8 +49,11 @@ export default function CalendarDrawer({ date, setDate }: Props) {
               ref.current = element;
             }}
           >
-            <AppCalendar.Header />
-            <AppCalendar.WeekDay className="w-full px-5 text-black" />
+            <AppCalendar.Header classNames={{ text: "text-black text-lg" }} />
+            <AppCalendar.WeekDay
+              classNames={{ text: "text-black" }}
+              className=""
+            />
             <AppCalendar.BodyContainer>
               <AppCalendar.Body>
                 {({ date }) => {

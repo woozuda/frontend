@@ -1,5 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
 const useSubmit = () => {
   const router = useRouter();
@@ -44,8 +44,8 @@ const useSubmit = () => {
       return { message: "server_error" };
     }
     if (shouldRedirect) {
-      queryClient.invalidateQueries({ queryKey: ["AUTHORIZATION"] });
-      router.push("/home"); // try/catch문 안에서 X
+      await queryClient.invalidateQueries({ queryKey: ["AUTHORIZATION"] });
+      redirect("/"); // try/catch문 안에서 X
     }
   };
 

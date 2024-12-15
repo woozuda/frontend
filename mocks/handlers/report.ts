@@ -18,10 +18,10 @@ export const handlers = [
     return HttpResponse.json({});
   }),
 
-  http.get("api/report/recall/ktp", () => {
-    return HttpResponse.json(MockReportLibs.createReportKTP(), { status: 200 });
+  http.get("api/report/recall/kpt", () => {
+    return HttpResponse.json(MockReportLibs.createReportKPT(), { status: 200 });
   }),
-  http.post("api/report/recall/ktp", () => {
+  http.post("api/report/recall/kpt", () => {
     return HttpResponse.json({});
   }),
 

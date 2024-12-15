@@ -19,6 +19,9 @@ export async function createRetrospect({
           date,
           content,
         }),
+        headers: {
+          "content-type": "application/json",
+        },
         credentials: "include",
       }
     );
@@ -26,6 +29,10 @@ export async function createRetrospect({
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);
     }
+
+    const data = await res.json();
+
+    return data;
 
   } catch (err) {
     console.error(err);

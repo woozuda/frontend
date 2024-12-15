@@ -10,10 +10,11 @@ export function useCreateDiary(createInfo: ICreateInfo) {
 
   const { mutate, isPending } = useMutation({
     mutationFn: () => createDiary(createInfo),
-    onSuccess: () => {
+    onSuccess: async (data: { id: number}) => {
       toast.success("다이어리 생성이 완료되었습니다.");
-      queryClient.invalidateQueries({ queryKey: ["DIARY"] });
-      router.replace("/home");
+      await queryClient.invalidateQueries({ queryKey: ["DIARY"] });
+      await queryClient.refetchQueries({ queryKey: ["DIARY"] });
+      router.replace("/diary");
     },
     onError: () => {
       toast.error("다이어리 생성 중 오류가 발생했습니다.", {

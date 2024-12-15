@@ -16,5 +16,8 @@ const QuillEditor = dynamic(
   },
   { ssr: false }
 );
+const ClipBoard = dynamic(() => import("./ClipBoard"));
+
+export { ClipBoard };
 
 export default QuillEditor;

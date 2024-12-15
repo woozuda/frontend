@@ -1,12 +1,4 @@
-import { Http, HttpLibs } from "../lib/http";
-import {
-  Report4FS,
-  ReportDiary,
-  ReportKTP,
-  ReportPMI,
-  ReportSCS,
-  RetrospectEnums,
-} from "../models/report";
+import { Http } from "../lib/http";
 
 export class ReportAPI {
   http: Http;
@@ -14,65 +6,103 @@ export class ReportAPI {
     this.http = http;
   }
 
-  async getDiaryAnalysis(start: string, end: string) {
+  async getReportDiary(start: string, end: string) {
     const searchParams = new URLSearchParams();
     searchParams.set("startDate", start);
     searchParams.set("endDate", end);
-    const url = `api/report/diary/analysis?${searchParams}`;
+    const url = `api/report/diary?${searchParams}`;
 
     const response = await this.http.get(url);
-    return HttpLibs.toJson<ReportDiary>(response);
+    return response;
   }
 
   async getReport4FS(start: string, end: string) {
     const searchParams = new URLSearchParams();
     searchParams.set("startDate", start);
     searchParams.set("endDate", end);
-    const url = `api/report/recall/4fs?${searchParams}`;
+    const url = `api/report/recall/4FS?${searchParams}`;
 
     const response = await this.http.get(url);
-    const data = await HttpLibs.toJson<Report4FS>(response);
-    data.type = RetrospectEnums.FOUR_FS;
-
-    return data;
+    return response;
   }
 
-  async getReportKTP(start: string, end: string) {
+  async getReportKPT(start: string, end: string) {
     const searchParams = new URLSearchParams();
     searchParams.set("startDate", start);
     searchParams.set("endDate", end);
-    const url = `api/report/recall/ktp?${searchParams}`;
+    const url = `api/report/recall/KTP?${searchParams}`;
 
     const response = await this.http.get(url);
-    const data = await HttpLibs.toJson<ReportKTP>(response);
-    data.type = RetrospectEnums.KPT;
-
-    return data;
+    return response;
   }
 
   async getReportPMI(start: string, end: string) {
     const searchParams = new URLSearchParams();
     searchParams.set("startDate", start);
     searchParams.set("endDate", end);
-    const url = `api/report/recall/pmi?${searchParams}`;
+    const url = `api/report/recall/PMI?${searchParams}`;
 
     const response = await this.http.get(url);
-    const data = await HttpLibs.toJson<ReportPMI>(response);
-    data.type = RetrospectEnums.PMI;
-
-    return data;
+    return response;
   }
 
   async getReportSCS(start: string, end: string) {
     const searchParams = new URLSearchParams();
     searchParams.set("startDate", start);
     searchParams.set("endDate", end);
-    const url = `api/report/recall/scs?${searchParams}`;
+    const url = `api/report/recall/SCS?${searchParams}`;
 
     const response = await this.http.get(url);
-    const data = await HttpLibs.toJson<ReportSCS>(response);
-    data.type = RetrospectEnums.SCS;
+    return response;
+  }
 
-    return data;
+  async createReportDiary(start: string, end: string) {
+    const searchParams = new URLSearchParams();
+    searchParams.set("startDate", start);
+    searchParams.set("endDate", end);
+    const url = `api/report/diary/analyze?${searchParams}`;
+
+    const response = await this.http.post(url);
+    return response.ok;
+  }
+
+  async createReport4FS(start: string, end: string) {
+    const searchParams = new URLSearchParams();
+    searchParams.set("startDate", start);
+    searchParams.set("endDate", end);
+    const url = `api/report/recall/analyze/4FS?${searchParams}`;
+
+    const response = await this.http.post(url);
+    return response.ok;
+  }
+
+  async createReportKPT(start: string, end: string) {
+    const searchParams = new URLSearchParams();
+    searchParams.set("startDate", start);
+    searchParams.set("endDate", end);
+    const url = `api/report/recall/analyze/KTP?${searchParams}`;
+
+    const response = await this.http.post(url);
+    return response.ok;
+  }
+
+  async createReportPMI(start: string, end: string) {
+    const searchParams = new URLSearchParams();
+    searchParams.set("startDate", start);
+    searchParams.set("endDate", end);
+    const url = `api/report/recall/analyze/PMI?${searchParams}`;
+
+    const response = await this.http.post(url);
+    return response.ok;
+  }
+
+  async createReportSCS(start: string, end: string) {
+    const searchParams = new URLSearchParams();
+    searchParams.set("startDate", start);
+    searchParams.set("endDate", end);
+    const url = `api/report/recall/analyze/SCS?${searchParams}`;
+
+    const response = await this.http.post(url);
+    return response.ok;
   }
 }

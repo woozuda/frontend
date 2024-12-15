@@ -1,33 +1,33 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+// import { Checkbox } from "@/components/ui/checkbox";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { useAlarm } from "./_hooks/useAlarm";
-import { useAnalysisType } from "./_hooks/useAnalysisType";
-import { useMy } from "./_hooks/useMy";
+// import { useEffect, useState } from "react";
+// import { useAlarm } from "./_hooks/useAlarm";
+// import { useAnalysisType } from "./_hooks/useAnalysisType";
+// import { useMy } from "./_hooks/useMy";
 
 export default function MyPage() {
-  const [alarm, setAlarm] = useState(false);
-  const { data } = useMy();
-  const { mutate, isPending } = useAlarm(alarm);
-  const { analysisMutate, analysisIsPending } = useAnalysisType();
+  // const [alarm, setAlarm] = useState(false);
+  // const { data } = useMy();
+  // const { mutate, isPending } = useAlarm(alarm);
+  // const { analysisMutate, analysisIsPending } = useAnalysisType();
 
-  useEffect(() => {
-    if (data) {
-      setAlarm(data.alarm);
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data) {
+  //     setAlarm(data.alarm);
+  //   }
+  // }, [data]);
 
-  const onChangeAlarm = (e: boolean) => {
-    mutate(e);
-  };
+  // const onChangeAlarm = (e: boolean) => {
+  //   mutate(e);
+  // };
 
-  if (!data) {
-    return null;
-  }
+  // if (!data) {
+  //   return null;
+  // }
 
   return (
     <main className="w-full flex flex-col items-center gap-6 py-6 px-4">
@@ -35,7 +35,7 @@ export default function MyPage() {
         <h1 className="font-bold text-xl">MY</h1>
         <div className="flex flex-col gap-4">
           <h1 className="font-bold text-xl">내 계정</h1>
-          <span>{data.username}</span>
+          {/* <span>{data.username}</span> */}
         </div>
       </section>
       <section className="w-full">
@@ -48,7 +48,7 @@ export default function MyPage() {
         </Link>
       </section>
       <div className="w-full border-b-2 my-4"></div>
-      <section className="w-full flex flex-col gap-6">
+      {/* <section className="w-full flex flex-col gap-6">
         <h1 className="font-bold text-2xl">설정</h1>
         <div className="flex flex-col gap-4">
           <h1 className="text-xl">분석 형태 설정</h1>
@@ -93,7 +93,7 @@ export default function MyPage() {
             매주 작성한 일기를 바탕으로 분석이 완료되면 알림을 보내 드려요.
           </span>
         </div>
-      </section>
+      </section> */}
     </main>
   );
 }

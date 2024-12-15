@@ -2,6 +2,7 @@
 
 import { DiaryActionType } from "@/app/lib/diary";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 export interface DiaryDetailNotesSheetProps {
   action?: DiaryActionType;
@@ -9,10 +10,13 @@ export interface DiaryDetailNotesSheetProps {
 
   checkedSize?: number;
   onCancel?: () => unknown;
+  onDelete?: () => unknown;
+  onShare?: () => unknown;
 }
 
 const DiaryDetailNotesSheet = (props: DiaryDetailNotesSheetProps) => {
-  const { action, onActionChange, checkedSize, onCancel } = props;
+  const { action, onActionChange, checkedSize, onCancel, onDelete, onShare } =
+    props;
   const sheetClassName = cn(
     "w-full max-w-[480px] bg-black flex overflow-hidden items-center justify-center",
     "transition-all ease-in-out px-5 py-6 rounded-t-[20px]",
@@ -58,7 +62,10 @@ const DiaryDetailNotesSheet = (props: DiaryDetailNotesSheetProps) => {
               >
                 <h4 className="text-sub4 text-white">취소</h4>
               </button>
-              <button className="w-full flex justify-center items-center bg-app-gray-1000 rounded-lg">
+              <button
+                className="w-full flex justify-center items-center bg-app-gray-1000 rounded-lg"
+                onClick={onDelete}
+              >
                 <h4 className="text-sub4 text-white">삭제하기</h4>
               </button>
             </div>
@@ -77,9 +84,12 @@ const DiaryDetailNotesSheet = (props: DiaryDetailNotesSheetProps) => {
               >
                 <h4 className="text-sub4 text-white">취소</h4>
               </button>
-              <button className="w-full flex justify-center items-center bg-app-gray-1000 rounded-lg">
+              <Link
+                className="w-full flex justify-center items-center bg-app-gray-1000 rounded-lg"
+                href={"/my/shared"}
+              >
                 <h4 className="text-sub4 text-white">확인</h4>
-              </button>
+              </Link>
             </div>
           </div>
         )}
