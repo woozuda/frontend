@@ -12,11 +12,12 @@ import { useIntersectionObserver } from "@uidotdev/usehooks";
 import { format } from "date-fns";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { useCallback, useEffect } from "react";
 
 const DiaryDateNotes = () => {
   const searchParams = useSearchParams();
   const date = DiaryLibs.getDiaryDate(searchParams);
-  const { notes } = useNotes({ date });
+  const { data, isFetching, isLoading, fetchNextPage } = useNotes({ date });
 
   const [ref, entry] = useIntersectionObserver();
 
@@ -24,6 +25,23 @@ const DiaryDateNotes = () => {
     entry && !entry.isIntersecting
       ? "bg-app-primary-100 z-20"
       : "bg-transparent z-20";
+
+  const notes = data?.pages.flatMap((page) => page.content);
+
+  const fetchNextNotes = useCallback(async () => {
+    if (isLoading || isFetching) {
+      return;
+    }
+    await fetchNextPage();
+  }, [isFetching, isLoading, fetchNextPage]);
+
+  const [bottomRef, bottomEntry] = useIntersectionObserver();
+
+  useEffect(() => {
+    if (bottomEntry?.isIntersecting) {
+      fetchNextNotes();
+    }
+  }, [bottomEntry?.isIntersecting, fetchNextNotes]);
 
   return (
     <div className="w-full min-h-full h-auto max-w-[480px] flex flex-col bg-auth bg-cover bg-no-repeat bg-center bg-sky-950">
@@ -81,6 +99,7 @@ const DiaryDateNotes = () => {
                 );
               })}
             </div>
+            <div className="w-full h-0.5 bg-transparent" ref={bottomRef}></div>
           </div>
         </div>
       </div>

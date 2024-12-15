@@ -3,12 +3,30 @@ import { HTMLLibs } from "@/app/lib/html";
 import { NoteLibs } from "@/app/lib/note";
 import { NoteType } from "@/app/models/diary";
 import ListCard from "@/components/ListCard";
+import { useIntersectionObserver } from "@uidotdev/usehooks";
 import { format } from "date-fns";
 import Link from "next/link";
+import { useCallback, useEffect } from "react";
 
 const DiaryLatest = () => {
-  const { notes } = useNotes();
+  const { data, isLoading, isFetching, fetchNextPage } = useNotes();
+  const notes = data?.pages.flatMap((page) => page.content);
   const array = NoteLibs.groupNotes([notes ?? []]);
+
+  const fetchNextNotes = useCallback(async () => {
+    if (isLoading || isFetching) {
+      return;
+    }
+    await fetchNextPage();
+  }, [isFetching, isLoading, fetchNextPage]);
+
+  const [bottomRef, bottomEntry] = useIntersectionObserver();
+
+  useEffect(() => {
+    if (bottomEntry?.isIntersecting) {
+      fetchNextNotes();
+    }
+  }, [bottomEntry?.isIntersecting, fetchNextNotes]);
 
   return (
     <div className="flex flex-col w-full gap-y-4">
@@ -53,6 +71,7 @@ const DiaryLatest = () => {
           </div>
         );
       })}
+      <div className="w-full h-0.5 bg-transparent" ref={bottomRef} />
     </div>
   );
 };

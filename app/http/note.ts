@@ -1,7 +1,13 @@
 import { Http, HttpLibs } from "@/app/lib/http";
 import { isNotNil } from "ramda";
 import { NoteSeason } from "../lib/note";
-import { DiaryNote, Note, NoteDate, RetrospectNote, RetrospectiveEnums } from "../models/diary";
+import {
+  DiaryNote,
+  Note,
+  NoteDate,
+  RetrospectNote,
+  RetrospectiveEnums,
+} from "../models/diary";
 
 export interface CreateNoteProps {
   diaryId: number;
@@ -37,6 +43,19 @@ export interface RetrospectUpdateArgs {
   content: string[];
 }
 
+export interface NoteResponse {
+  content: DiaryNote[];
+  pageable: {
+    pageNumber: number;
+    pageSize: number;
+    offset: number;
+  };
+  last: boolean;
+  totalElements: number;
+  totalPages: number;
+  size: number;
+}
+
 export class NoteAPI {
   http: Http;
   constructor(http: Http) {
@@ -48,13 +67,16 @@ export class NoteAPI {
     return HttpLibs.toJson<{ question: string }>(response);
   }
 
-  async getNotes(date?: string | null) {
-    let api = "api/note";
+  async getNotes(page: number, size: number, date?: string | null) {
+    const searchParams = new URLSearchParams();
     if (isNotNil(date)) {
-      api += `?date=${date}`;
+      searchParams.set("date", date);
     }
+    searchParams.set("page", String(page));
+    searchParams.set("size", String(size));
+    const api = `api/note?${searchParams}`;
     const response = await this.http.get(api);
-    return HttpLibs.toJson<{ content: DiaryNote[] }>(response);
+    return HttpLibs.toJson<NoteResponse>(response);
   }
 
   async deleteNotes(ids: number[]) {
@@ -124,7 +146,8 @@ export class NoteAPI {
   async patchRetrospectNote(args: RetrospectUpdateArgs) {
     const { noteId, ...body } = args;
     const response = await this.http.patch(
-      `/api/note/retrospective/${noteId}`, {
+      `/api/note/retrospective/${noteId}`,
+      {
         body: JSON.stringify(body),
       }
     );
