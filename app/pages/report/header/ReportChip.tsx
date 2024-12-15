@@ -1,14 +1,12 @@
+"use client";
+
 import { ReportEnums, ReportLibs } from "@/app/lib/report";
 import { RetrospectEnums } from "@/app/models/report";
 import Link from "next/link";
-import { ReadonlyURLSearchParams } from "next/navigation";
+import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation";
 
-export interface ReportChipHeaderProps {
-  searchParams: Record<string, string>;
-}
-
-const ReportChipHeader = (props: ReportChipHeaderProps) => {
-  const searchParams = new URLSearchParams(props.searchParams);
+const ReportChipHeader = () => {
+  const searchParams = useSearchParams();
   const paramType = ReportLibs.getRetrospectType(
     searchParams as ReadonlyURLSearchParams
   );

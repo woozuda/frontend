@@ -8,14 +8,11 @@ import {
   DiaryLatest,
 } from "@/app/pages/diary";
 import { DiaryLayout } from "@/app/pages/diary/layout";
+import { useSearchParams } from "next/navigation";
 import { isNotNil } from "ramda";
 
-interface PageProps {
-  searchParams: Record<string, string>;
-}
-
-export default function Page(props: PageProps) {
-  const searchParams = new URLSearchParams(props.searchParams);
+export default function Page() {
+  const searchParams = useSearchParams();
   const listType = DiaryLibs.getListType(searchParams);
   const diaryDate = DiaryLibs.getDiaryDate(searchParams);
 

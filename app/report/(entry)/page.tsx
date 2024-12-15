@@ -1,11 +1,7 @@
 import { DiaryReport } from "@/app/pages/report";
 import { ReportHeader } from "@/app/pages/report/header";
 
-interface PageProps {
-  searchParams: Record<string, string>;
-}
-
-export default function Page(props: PageProps) {
+export default function Page() {
   return (
     <div className="w-full flex gap-y-3 flex-col pb-5 h-full">
       <ReportHeader />
