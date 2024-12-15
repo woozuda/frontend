@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { addDays } from "date-fns";
 import { toast } from "sonner";
 import { useHttp } from "../contexts/http";
 import { ReportAPI } from "../http/report";
@@ -20,8 +21,8 @@ const useReportCreate = () => {
     mutationKey: ["REPORT_CREATE"],
     mutationFn: async (props: CreateReportProps) => {
       const { startDate, endDate, type } = props;
-      const start = ReportLibs.toDateParam(startDate);
-      const end = ReportLibs.toDateParam(endDate);
+      const start = ReportLibs.toDateParam(addDays(startDate, 1));
+      const end = ReportLibs.toDateParam(addDays(endDate, 1));
       switch (type) {
         case "DIARY": {
           return reportApi.createReportDiary(start, end);
