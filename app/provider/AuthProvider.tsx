@@ -26,7 +26,7 @@ const AuthProvider = (props: PropsWithChildren) => {
   }
 
   if (pathname.includes("auth") && ok) {
-    return redirect("/home");
+    return redirect("/");
   }
   if (pathname.includes("auth") && !ok) {
     return props.children;

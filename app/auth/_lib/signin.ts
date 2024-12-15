@@ -48,7 +48,7 @@ const onSubmit = async (prevState: any, formData: FormData) => {
     return { message: "server_error" };
   }
   if (shouldRedirect) {
-    redirect("/home"); // try/catch문 안에서 X
+    redirect("/"); // try/catch문 안에서 X
   }
 };
 

@@ -27,7 +27,7 @@ const navigations = [
       active: <HomeActiveSvg color={{ from: "#5AC6F4", to: "#FFC3DF" }} />,
       inactive: <HomeSvg className="text-app-gray-900" />,
     },
-    href: "/home",
+    href: "/",
   },
   {
     text: "리포트",
