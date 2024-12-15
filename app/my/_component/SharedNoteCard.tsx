@@ -1,12 +1,13 @@
 "use client";
 
+import { NoteType } from "@/app/models/diary";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import Link from "next/link";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 type Props = {
   noteItem: {
-    type: "COMMON" | "QUESTION" | "RETROSPECT";
+    type: NoteType;
     note: {
       id: number;
       title: string;
@@ -47,7 +48,7 @@ export default function SharedCard({
   return (
     <div className="flex flex-col w-full gap-4 p-4 bg-app-primary-200 rounded-lg">
       <div className="flex flex-col gap-2 items-center">
-        {noteItem.type === "RETROSPECT" && (
+        {noteItem.type === NoteType.RETROSPECTIVE && (
           <div className="mr-auto p-1 rounded-xl bg-app-primary-400 border-none text-sm text-white text-center font-light">
             회고일기
           </div>

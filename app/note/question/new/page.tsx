@@ -5,14 +5,17 @@ import ArrowDownSvg from "@/app/assets/icons/ArrowDown.svg";
 import ArrowLeftSvg from "@/app/assets/icons/ArrowLeft.svg";
 import useDiaryNames from "@/app/hooks/useDiaryNames";
 import useImageUpload from "@/app/hooks/useImageUpload";
+import useQuestion from "@/app/hooks/useQuestion";
 import useNoteQuestionCreate from "@/app/hooks/useQuestionCreate";
 import { CalendarDayType, CalendarLibs } from "@/app/lib/calendar";
 import { ImageLibs } from "@/app/lib/image";
 import { Emoji, NoteLibs } from "@/app/lib/note";
+import { NoteType } from "@/app/models/diary";
 import AppCalendar from "@/components/AppCalendar";
 import AppCalendarDay from "@/components/AppCalendar/Day";
 import BottomSheetV2 from "@/components/BottomSheet/v2";
 import QuillEditor from "@/components/Editor";
+import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetClose,
@@ -20,7 +23,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
 import { useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
@@ -32,12 +34,11 @@ import {
   useRef,
   useState,
 } from "react";
-import useQuestion from "@/app/hooks/useQuestion";
 import { Toaster, toast } from "sonner";
 
 export default function Page() {
   const { data } = useDiaryNames();
-  const { data: questionData} = useQuestion();
+  const { data: questionData } = useQuestion();
   const [diary, setDiary] = useState<{
     id: number;
     name: string;
@@ -49,7 +50,7 @@ export default function Page() {
   const [textLength, setTextLength] = useState(0);
   const editorRef = useRef<Quill | null>(null);
   const { mutateAsync, reset } = useImageUpload();
-  const { mutateAsync: onQuestionCreate } = useNoteQuestionCreate()
+  const { mutateAsync: onQuestionCreate } = useNoteQuestionCreate();
   const queryClient = useQueryClient();
   const [emoji, setEmoji] = useState<Emoji>();
   const [weather, setWeather] = useState<Emoji>();
@@ -82,29 +83,29 @@ export default function Page() {
   };
 
   const onSubmit: MouseEventHandler<HTMLButtonElement> = async (event) => {
-    console.log("onsubmit")
+    console.log("onsubmit");
     if (!diary) {
-        console.log("다이어리")
-        toast.error("다이어리를 선택해 주세요.")
-        return
+      console.log("다이어리");
+      toast.error("다이어리를 선택해 주세요.");
+      return;
     }
     if (!title) {
-        toast.error("일기 제목을 입력해 주세요.")
-        return
+      toast.error("일기 제목을 입력해 주세요.");
+      return;
     }
     if (!emoji) {
-        toast.error("이모지를 선택해 주세요.")
-        return
+      toast.error("이모지를 선택해 주세요.");
+      return;
     }
     if (!weather) {
-        toast.error("날씨를 선택해 주세요.")
-        return
+      toast.error("날씨를 선택해 주세요.");
+      return;
     }
     if (!selectedDate) {
-        toast.error("날짜를 선택해 주세요.")
-        return
+      toast.error("날짜를 선택해 주세요.");
+      return;
     }
-    
+
     if (editorRef.current) {
       const content = editorRef.current.getSemanticHTML();
 
@@ -120,7 +121,7 @@ export default function Page() {
       });
       if (response && response.id) {
         await queryClient.invalidateQueries({ queryKey: ["DIARY", diary?.id] });
-        router.replace(`/note/question/${response.id}`);
+        router.replace(`/note/${NoteType.QUESTION}/${response.id}`);
       }
     }
   };
@@ -146,8 +147,8 @@ export default function Page() {
         </div>
         <div className="flex justify-center">
           <Button className="w-full min-h-12 h-auto flex items-center whitespace-break-spaces py-4 mx-4 rounded-xl bg-gradient-to-r from-[#5AC6F4] to-[#FFC3DF] text-body2 text-app-gray-1200 text-start">
-              {questionData && questionData.question}
-            </Button>
+            {questionData && questionData.question}
+          </Button>
         </div>
         <Sheet>
           <SheetTrigger>

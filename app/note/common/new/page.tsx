@@ -9,6 +9,7 @@ import useNoteCommonCreate from "@/app/hooks/useNoteCreate";
 import { CalendarDayType, CalendarLibs } from "@/app/lib/calendar";
 import { ImageLibs } from "@/app/lib/image";
 import { Emoji, NoteLibs } from "@/app/lib/note";
+import { NoteType } from "@/app/models/diary";
 import AppCalendar from "@/components/AppCalendar";
 import AppCalendarDay from "@/components/AppCalendar/Day";
 import BottomSheetV2 from "@/components/BottomSheet/v2";
@@ -91,7 +92,7 @@ export default function Page() {
       });
       if (response && response.id) {
         await queryClient.invalidateQueries({ queryKey: ["DIARY", diary?.id] });
-        router.replace(`/note/common/${response.id}`);
+        router.replace(`/note/${NoteType.COMMON}/${response.id}`);
       }
     }
   };
