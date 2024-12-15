@@ -145,7 +145,7 @@ export default function Page() {
           </button>
         </div>
         <div className="flex justify-center">
-            <Button className="w-full min-h-12 py-6 mx-4 rounded-xl bg-gradient-to-r from-[#5AC6F4] to-[#FFC3DF] text-lg text-black">
+          <Button className="w-full min-h-12 h-auto flex items-center whitespace-break-spaces py-4 mx-4 rounded-xl bg-gradient-to-r from-[#5AC6F4] to-[#FFC3DF] text-body2 text-app-gray-1200 text-start">
               {questionData && questionData.question}
             </Button>
         </div>
