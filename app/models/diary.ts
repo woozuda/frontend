@@ -4,6 +4,13 @@ export enum NoteType {
   RETROSPECTIVE = "retrospective",
 }
 
+export enum RetrospectiveEnums {
+  FOUR_F_S = "FOUR_F_S",
+  PMI = "PMI",
+  KPT = "KPT",
+  SCS = "SCS"
+}
+
 export interface Diary {
   id: number;
   title: string;
@@ -31,13 +38,15 @@ export interface Note {
   id: number;
   diary: string;
   title: string;
-  question?: string;
-  tag: string[];
   date: string;
-  weather: string;
-  season: string;
-  feeling: string;
   content: string[];
+  diaryId: number;
+  question?: string;
+  tag?: string[];
+  weather?: string;
+  season?: string;
+  feeling?: string;
+  framework?: RetrospectiveEnums; 
 }
 
 export interface NoteDate {
@@ -58,10 +67,20 @@ export interface sections {
 
 export interface Retrospect {
   retrospectId: number;
-  type: "FOUR_F_S" | "PMI" | "KPT" | "SCS";
+  type: RetrospectiveEnums;
   description: string;
   sections: sections[];
   color: string;
+}
+
+export interface RetrospectNote {
+  id: number;
+  diaryId: number;
+  diary: string;
+  title: string;
+  date: string;
+  framework: RetrospectiveEnums;
+  content: string[];
 }
 
 export interface RetrospectText {
@@ -69,7 +88,7 @@ export interface RetrospectText {
 }
 
 export interface CreateRetrospect {
-  type: "FOUR_F_S" | "PMI" | "KPT" | "SCS";
+  type: RetrospectiveEnums;
   diaryId: number;
   title: string;
   date: string;

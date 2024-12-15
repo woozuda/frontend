@@ -119,13 +119,11 @@ export class MockNoteLibs {
     return {
       id: 201,
       diary: "다이어리 제목",
-      title: "일기 제목",
-      tag: ["일기 태그 1", "일기 태그 2"],
-      date: "2024-12-04 22:00:00",
-      weather: "맑음",
-      season: "겨울",
-      feeling: "기쁨",
-      content: "일기 내용",
+      diaryId: 1,
+      title: "나는 나비",
+      date: "2024-12-04",
+      framework: "KPT",
+      content: ["이건 K", "이건 P", "이건 T"],
     };
   }
 }

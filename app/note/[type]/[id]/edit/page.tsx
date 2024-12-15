@@ -8,6 +8,7 @@ import useDiaryNames from "@/app/hooks/useDiaryNames";
 import useImageUpload from "@/app/hooks/useImageUpload";
 import useNote from "@/app/hooks/useNote";
 import useNoteUpdate from "@/app/hooks/useNoteUpdate";
+import useRetrospectUpdate from "@/app/hooks/useRetrospectUpdate";
 import { CalendarDayType, CalendarLibs } from "@/app/lib/calendar";
 import { ImageLibs } from "@/app/lib/image";
 import { Emoji, NoteLibs } from "@/app/lib/note";
@@ -36,6 +37,9 @@ import {
   useRef,
   useState,
 } from "react";
+import { Retrospect as IRetrospect } from "@/app/models/diary";
+import { RETROSPECT } from "@/app/diary/_component/retrospectData";
+import WriteRetrospectForm from "@/app/diary/_component/WriteRetrospectForm";
 
 interface PageParams {
   id: number;
@@ -61,23 +65,47 @@ export default function Page({ params }: { params: PageParams }) {
   const [emoji, setEmoji] = useState<Emoji>();
   const [weather, setWeather] = useState<Emoji>();
   const [title, setTitle] = useState<string>("");
+
+  const [retrospect, setRetrospect] = useState<IRetrospect | undefined>();
+  const [text, setText] = useState<{ [sectionName: string]: string }>({});
+  const [retroContent, setRetroContent] = useState<string[]>([])
   const router = useRouter();
 
   const season = NoteLibs.createSeason(selectedDate);
 
   const { mutateAsync: onNoteUpdate } = useNoteUpdate();
+  const { mutateAsync: onRetrospectUpdate } = useRetrospectUpdate()
+
+  const setRetrospectContent = () => {
+    for (const [key, value] of Object.entries(text)) {
+      setRetroContent((prev) => ([
+        ...prev,
+        value,
+      ]))
+    }
+  }
 
   useEffect(() => {
     if (isReady) {
       return;
     }
     if (noteData && data && array) {
-      const emoji = NoteLibs.getEmojis().find(
-        (value) => value.text === noteData.feeling
-      );
-      const weather = NoteLibs.getWeathers().find(
-        (value) => value.text === noteData.weather
-      );
+      if (noteData.framework) {
+        const selectRetrospect = RETROSPECT.find((retro) => {
+          console.log("Checking retro:", retro);
+          return retro.type === noteData?.framework;
+        });
+        setRetrospect(selectRetrospect);
+      } else {
+        const emoji = NoteLibs.getEmojis().find(
+          (value) => value.text === noteData.feeling
+        );
+        const weather = NoteLibs.getWeathers().find(
+          (value) => value.text === noteData.weather
+        );
+        setEmoji(emoji);
+        setWeather(weather);
+      }
       const title = noteData.title;
       const date = new Date(noteData.date);
       const diary = array.find((value) => value.title === noteData.diary);
@@ -85,8 +113,6 @@ export default function Page({ params }: { params: PageParams }) {
       if (diary) {
         setDiary({ id: diary.id, name: diary.title });
       }
-      setEmoji(emoji);
-      setWeather(weather);
       setSelectedDate(date);
       setIsReady(true);
     }
@@ -146,12 +172,123 @@ export default function Page({ params }: { params: PageParams }) {
           router.replace(`/note/${type}/${response.id}`);
         }
       }
+    } else {
+      setRetrospectContent();
+      const response = await onRetrospectUpdate({
+        note: {
+          id,
+          type: retrospect?.type,
+          title,
+          content: retroContent,
+          date: selectedDate,
+        },
+        diary: {
+          id: Number(diary?.id),
+        },
+      });
+      if (response && response.id) {
+        await Promise.all([
+          queryClient.invalidateQueries({
+            queryKey: ["DIARY"],
+          }),
+          queryClient.invalidateQueries({
+            queryKey: ["NOTE", id, type],
+          }),
+        ]);
+        router.replace(`/note/${type}/${response.id}`);
+      }
     }
   };
 
   const onClipboard = useCallback((delta: Delta) => {
     setInitialDelta(delta);
   }, []);
+
+  if (noteData?.framework) {
+    return (
+      <div className="w-full h-auto min-h-full flex flex-col max-w-[480px] border-x pb-[72px]">
+        <div className="w-full h-full flex flex-col relative">
+          <div className="w-full h-14 p-1 flex justify-between">
+            <button
+              className="p-0 w-12 h-12 flex justify-center items-center bg-white"
+              onClick={() => {
+                router.back();
+              }}
+            >
+              <ArrowLeftSvg className="text-app-gray-1100 !w-6 !h-6" />
+            </button>
+            <button
+              className="flex items-center bg-white h-12 p-3 pr-4"
+              onClick={onSubmit}
+            >
+              <h4 className="text-sub4 text-app-gray-1100">완료</h4>
+            </button>
+          </div>
+          <Sheet>
+            <SheetTrigger>
+              <div className="w-full h-14 flex gap-x-2.5 items-center px-5 py-4">
+                {!diary && (
+                  <h2 className="w-full text-body2 text-app-gray-700 text-start line-clamp-1">
+                    다이어리를 선택해주세요.
+                  </h2>
+                )}
+                {diary && (
+                  <h2 className="w-full text-body2 text-app-gray-700 text-start line-clamp-1">
+                    {diary.name}
+                  </h2>
+                )}
+                <ArrowDownSvg className="flex shrink-0" />
+              </div>
+            </SheetTrigger>
+            <BottomSheetV2 className="gap-y-6 bg-white">
+              <BottomSheetV2.Header>
+                <h2 className="text-h2 text-app-gray-1000">다이어리 선택</h2>
+              </BottomSheetV2.Header>
+              {data?.nameList?.map((item) => {
+                return (
+                  <BottomSheetV2.Option key={item.id}>
+                    <SheetClose asChild>
+                      <button
+                        className="bg-white flex items-center justify-center text-sub4 text-app-gray-1100 h-12"
+                        onClick={() => {
+                          setDiary({
+                            id: item.id,
+                            name: item.name,
+                          });
+                        }}
+                      >
+                        {item.name}
+                      </button>
+                    </SheetClose>
+                  </BottomSheetV2.Option>
+                );
+              })}
+            </BottomSheetV2>
+          </Sheet>
+          <div className="w-full h-px bg-app-gray-400" />
+          <div className="flex w-full h-[54px] items-center px-5 py-4">
+            <input
+              className="!text-h2 w-full text-app-gray-700 p-0 outline-none"
+              type="text"
+              onChange={(event) => {
+                setTitle(event.target.value);
+              }}
+              value={title}
+            />
+          </div>
+          {retrospect && (
+            <div className="w-full px-4 bg-white flex flex-col h-full">
+              <WriteRetrospectForm
+                retrospectId={Number(retrospect?.retrospectId)}
+                text={text}
+                setText={setText}
+              />
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full h-auto min-h-full flex flex-col max-w-[480px] border-x pb-[72px]">
