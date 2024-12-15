@@ -7,9 +7,11 @@ import PlusSvg from "@/app/assets/icons/Plus.svg";
 import Star28Svg from "@/app/assets/icons/Star28.svg";
 import AddDiary from "@/components/AddDiary";
 import Link from "next/link";
+import useQuestion from "@/app/hooks/useQuestion";
 
 export default function Page() {
   const { array } = useDiaries();
+  const { data: questionData } = useQuestion();
 
   return (
     <div className="flex w-full flex-col h-full relative">
@@ -29,7 +31,7 @@ export default function Page() {
               </div>
               <div className="flex items-center w-full bg-gradient-to-r from-gradient-02-100 to-gradient-02-200 px-5 py-4 rounded-lg">
                 <p className="text-white whitespace-break-spaces">
-                  {"오늘 어쩌구 주제로\n일기를 써보는 건 어떠세요?"}
+                  {questionData && questionData.question}
                 </p>
               </div>
             </div>

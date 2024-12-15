@@ -1,9 +1,9 @@
 import { Retrospect as IRetrospect } from "@/app/models/diary";
-
+import { RetrospectiveEnums } from "@/app/models/diary";
 export const RETROSPECT: IRetrospect[] = [
   {
     retrospectId: 1,
-    type: "KPT",
+    type: RetrospectiveEnums.KPT,
     description: "단순하고 빠른 회고가 필요할 때",
     sections: [
       {
@@ -23,7 +23,7 @@ export const RETROSPECT: IRetrospect[] = [
   },
   {
     retrospectId: 2,
-    type: "PMI",
+    type: RetrospectiveEnums.PMI,
     description:
       "상황을 균형있게 평가하여 아이디어를 검토할 때, 결과보다는 과정에서 얻은 인사이트에 초점을 맞추고 싶을 때",
     sections: [
@@ -42,7 +42,7 @@ export const RETROSPECT: IRetrospect[] = [
   },
   {
     retrospectId: 3,
-    type: "FOUR_F_S",
+    type: RetrospectiveEnums.FOUR_F_S,
     description: "경험을 통해 느낀 감정과 배운 점을 깊이 성찰하고 싶을 때",
     sections: [
       { name: "FACT", description: "사실을 적어보세요." },
@@ -57,7 +57,7 @@ export const RETROSPECT: IRetrospect[] = [
   },
   {
     retrospectId: 4,
-    type: "SCS",
+    type: RetrospectiveEnums.SCS,
     description:
       "나의 목표나 습관을 구체적으로 정리하고 실행방안을 도출하고 싶을 때",
     sections: [

@@ -1,7 +1,7 @@
 import { Http, HttpLibs } from "@/app/lib/http";
 import { isNotNil } from "ramda";
 import { NoteSeason } from "../lib/note";
-import { DiaryNote, Note, NoteDate } from "../models/diary";
+import { DiaryNote, Note, NoteDate, RetrospectNote, RetrospectiveEnums } from "../models/diary";
 
 export interface CreateNoteProps {
   diaryId: number;
@@ -26,6 +26,15 @@ export interface NoteUpdateArgs {
   feeling: string;
   date: string;
   content: string;
+}
+
+export interface RetrospectUpdateArgs {
+  noteId: number;
+  diaryId: number;
+  title: string;
+  date: string;
+  type: RetrospectiveEnums | undefined;
+  content: string[];
 }
 
 export class NoteAPI {
@@ -77,7 +86,7 @@ export class NoteAPI {
     const response = await this.http.get(
       `/api/note/retrospect/${retrospectId}`
     );
-    return HttpLibs.toJson<Note>(response);
+    return HttpLibs.toJson<RetrospectNote>(response);
   }
 
   async createCommonNote(props: CreateNoteProps) {
@@ -112,9 +121,12 @@ export class NoteAPI {
     });
     return HttpLibs.toJson<{ id: number }>(response);
   }
-  async patchRetrospectNote(retrospectId: number) {
+  async patchRetrospectNote(args: RetrospectUpdateArgs) {
+    const { noteId, ...body } = args;
     const response = await this.http.patch(
-      `/api/note/retrospect/${retrospectId}`
+      `/api/note/retrospect/${noteId}`, {
+        body: JSON.stringify(body),
+      }
     );
     return HttpLibs.toJson<{ id: number }>(response);
   }
