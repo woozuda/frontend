@@ -30,6 +30,10 @@ export async function createRetrospect({
       throw new Error(`HTTP error! status: ${res.status}`);
     }
 
+    const data = await res.json();
+
+    return data;
+
   } catch (err) {
     console.error(err);
     throw err

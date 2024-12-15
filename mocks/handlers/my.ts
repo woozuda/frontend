@@ -13,12 +13,12 @@ export const handlers = [
             status: 200
         })
     }),
-    http.post("/api/shared/note", () => {
+    http.get("/api/shared/note", () => {
         return HttpResponse.json({
             total: 4,
             sharedNotes: [
                 {
-                    date: new Date('2024-12-12'),
+                    date: '2024-12-12',
                     notes: [
                         {
                             "type": "COMMON",

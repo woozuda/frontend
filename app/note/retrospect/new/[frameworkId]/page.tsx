@@ -11,6 +11,7 @@ import { useParams } from "next/navigation";
 import { useState } from "react";
 import { useCreateRetrospect } from "@/app/diary/_hooks/useCreateRetrospect";
 import { toast } from "sonner";
+import { format } from "date-fns";
 
 export default function CreateFrameworkPage() {
   const { frameworkId } = useParams();
@@ -31,9 +32,9 @@ export default function CreateFrameworkPage() {
 
   const { mutate, isPending } = useCreateRetrospect({
     type: selectedRetrospect!.type,
+    date: format(date, "yyyy-MM-dd"),
     diaryId: diaryId as number,
     title,
-    date,
     content,
   });
 

@@ -4,7 +4,6 @@ export async function getSharedNote() {
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/shared/note`,
       {
         method: "get",
-        //body
         credentials: "include",
       }
     );

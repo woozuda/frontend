@@ -17,14 +17,11 @@ export default function ShortLinkDrawer({ isOpen, setIsOpen }: Props) {
         <SharedDrawer open={isOpen} onOpenChange={setIsOpen}>
             <SharedDrawerContent className="flex flex-col items-center gap-4 px-4 pb-12 bg-black border-none text-white">
                 <SharedDrawerTitle className="mr-auto">숏링크 만들기</SharedDrawerTitle>
-                <Button
-                className="flex-1 w-full h-24 bg-app-gray-300 border border-slate-700 text-slate-600"
-                // onClick={() => onCloseDrawer()}
-              >
-                https://woozuda/share/
-              </Button>
+                <div className="flex justify-center items-center w-full h-12 bg-app-gray-100 rounded-lg border border-slate-700 text-slate-600">
+                  <span>https://woozuda/share/</span>
+                </div>
               <Button
-                className="flex-1 w-full bg-app-gray-1000 text-slate-300"
+                className="w-full h-12 bg-app-gray-1000 text-slate-300"
                 // onClick={() => {mutate(noShareList); onCloseDrawer()}}
                 // disabled={isPending}
               >

@@ -18,6 +18,11 @@ export async function createDiary(createInfo: ICreateInfo) {
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);
     }
+
+    const data = await res.json()
+
+    return data
+    
   } catch (err) {
     console.error(err);
     throw err;

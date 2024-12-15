@@ -36,7 +36,7 @@ export class NoteAPI {
 
   async getQuestion() {
     const response = await this.http.get("api/question");
-    return HttpLibs.toJson<{ quesiton: string }>(response);
+    return HttpLibs.toJson<{ question: string }>(response);
   }
 
   async getNotes(date?: string | null) {
@@ -87,7 +87,7 @@ export class NoteAPI {
     });
     return HttpLibs.toJson<{ id: number }>(response);
   }
-  async createQuestionNote(props: CreateNoteProps) {
+  async createQuestionNote(props: CreateQuestionProps) {
     const body = JSON.stringify(props);
     const response = await this.http.post(`/api/note/question`, { body });
     return HttpLibs.toJson<{ id: number }>(response);

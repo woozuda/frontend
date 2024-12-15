@@ -1,7 +1,7 @@
 export enum NoteType {
-  COMMON = "COMMON",
-  QUESTION = "QUESTION",
-  RETROSPECTIVE = "RETROSPECTIVE",
+  COMMON = "common",
+  QUESTION = "question",
+  RETROSPECTIVE = "retrospective",
 }
 
 export interface Diary {
@@ -72,6 +72,6 @@ export interface CreateRetrospect {
   type: "FOUR_F_S" | "PMI" | "KPT" | "SCS";
   diaryId: number;
   title: string;
-  date: Date;
+  date: string;
   content: string[];
 }
