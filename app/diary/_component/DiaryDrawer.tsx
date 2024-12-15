@@ -43,6 +43,7 @@ export default function DiaryDrawer({ diaryId, setDiaryId }: Props) {
             data && 
             data.diaryList.map((diary: IDiary) => (
               <Button
+              className="border-none"
                 key={diary.id}
                 variant={"outline"}
                 disabled={isFetching}
