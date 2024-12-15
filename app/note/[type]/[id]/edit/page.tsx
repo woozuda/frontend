@@ -92,10 +92,17 @@ export default function Page({ params }: { params: PageParams }) {
     if (noteData && data && array) {
       if (noteData.framework) {
         const selectRetrospect = RETROSPECT.find((retro) => {
-          console.log("Checking retro:", retro);
           return retro.type === noteData?.framework;
         });
         setRetrospect(selectRetrospect);
+
+        selectRetrospect?.sections.map((section, i) => {
+          setText((prev) => ({
+            ...prev,
+            [section.name]: noteData.content[i],
+          }));
+        })
+
       } else {
         const emoji = NoteLibs.getEmojis().find(
           (value) => value.text === noteData.feeling

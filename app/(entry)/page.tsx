@@ -29,11 +29,13 @@ export default function Page() {
               <div className="w-12 flex justify-center items-center">
                 <Star28Svg className="text-white" />
               </div>
-              <div className="flex items-center w-full bg-gradient-to-r from-gradient-02-100 to-gradient-02-200 px-5 py-4 rounded-lg">
-                <p className="text-white whitespace-break-spaces">
-                  {questionData && questionData.question}
-                </p>
-              </div>
+              <Link href={"/note/question/new"}>
+                <div className="flex items-center w-full bg-gradient-to-r from-gradient-02-100 to-gradient-02-200 px-5 py-4 rounded-lg">
+                  <p className="text-white whitespace-break-spaces">
+                    {questionData && questionData.question}
+                  </p>
+                </div>
+              </Link>
             </div>
           </div>
         </div>
