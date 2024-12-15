@@ -21,7 +21,7 @@ export function useCreateRetrospect({
         date,
         content,
       }),
-    onSuccess: () => {
+    onSuccess: (data: { id: number}) => {
       toast.success("회고 작성이 완료되었습니다.");
       router.replace("/home");
     },

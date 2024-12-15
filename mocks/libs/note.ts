@@ -1,7 +1,7 @@
 export class MockNoteLibs {
   static createQuestion() {
     return {
-      question: "오늘의 질문",
+      question: "당신이 가장 행복할 때는 언제인가요?",
     };
   }
 

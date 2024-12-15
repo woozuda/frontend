@@ -72,6 +72,6 @@ export interface CreateRetrospect {
   type: "FOUR_F_S" | "PMI" | "KPT" | "SCS";
   diaryId: number;
   title: string;
-  date: Date;
+  date: string;
   content: string[];
 }
