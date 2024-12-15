@@ -1,7 +1,7 @@
 export enum NoteType {
-  COMMON = "COMMON",
-  QUESTION = "QUESTION",
-  RETROSPECTIVE = "RETROSPECTIVE",
+  COMMON = "common",
+  QUESTION = "question",
+  RETROSPECTIVE = "retrospective",
 }
 
 export interface Diary {
