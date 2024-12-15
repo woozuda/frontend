@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { addDays } from "date-fns";
 import { useHttp } from "../contexts/http";
 import { ReportAPI } from "../http/report";
 import { HttpLibs } from "../lib/http";
@@ -25,8 +26,8 @@ const useReportRetrospective = (props: UseReportProps) => {
   return useQuery({
     queryKey: [
       "DIARY_ANALYSIS",
-      ReportLibs.toDateParam(startDate),
-      ReportLibs.toDateParam(endDate),
+      ReportLibs.toDateParam(addDays(startDate, 1)),
+      ReportLibs.toDateParam(addDays(endDate, 1)),
       type,
     ] as const,
     queryFn: async ({ queryKey }) => {
