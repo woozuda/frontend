@@ -23,7 +23,7 @@ export const handlers = [
   http.get("api/note/question/:id", () => {
     return HttpResponse.json(MockNoteLibs.createQuestionNote());
   }),
-  http.get("api/note/retrospect/:id", () => {
+  http.get("api/note/retrospective/:id", () => {
     return HttpResponse.json(MockNoteLibs.createRetrospectNote());
   }),
   http.post("api/note/common", () => {
@@ -32,7 +32,7 @@ export const handlers = [
   http.post("api/note/question", () => {
     return HttpResponse.json({ id: 100 });
   }),
-  http.post("api/note/retrospect", () => {
+  http.post("api/note/retrospective", () => {
     return HttpResponse.json({ id: 100 });
   }),
   http.patch("api/note/common/:id", () => {
@@ -41,7 +41,7 @@ export const handlers = [
   http.patch("api/note/question/:id", () => {
     return HttpResponse.json({ id: 100 });
   }),
-  http.patch("api/note/retrospect/:id", () => {
+  http.patch("api/note/retrospective/:id", () => {
     return HttpResponse.json({ id: 100 });
   }),
   http.post("api/note/share", () => {

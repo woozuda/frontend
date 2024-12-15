@@ -84,7 +84,7 @@ export class NoteAPI {
   }
   async getRetrospectNote(retrospectId: number) {
     const response = await this.http.get(
-      `/api/note/retrospect/${retrospectId}`
+      `/api/note/retrospective/${retrospectId}`
     );
     return HttpLibs.toJson<RetrospectNote>(response);
   }
@@ -124,7 +124,7 @@ export class NoteAPI {
   async patchRetrospectNote(args: RetrospectUpdateArgs) {
     const { noteId, ...body } = args;
     const response = await this.http.patch(
-      `/api/note/retrospect/${noteId}`, {
+      `/api/note/retrospective/${noteId}`, {
         body: JSON.stringify(body),
       }
     );
