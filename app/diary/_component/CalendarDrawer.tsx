@@ -1,9 +1,9 @@
 "use client";
 
+import { CalendarLibs, CalendarStageType } from "@/app/lib/calendar";
 import AppCalendar from "@/components/AppCalendar";
 import AppCalendarDay from "@/components/AppCalendar/Day";
 import { useRef, useState } from "react";
-import { CalendarLibs, CalendarStageType } from "@/app/lib/calendar";
 
 import {
   CalendarAccordion,
@@ -34,7 +34,9 @@ export default function CalendarDrawer({ date, setDate }: Props) {
         <CalendarAccordion type="single" collapsible>
           <CalendarAccordionItem value="item-1">
             <CalendarAccordionTrigger>
-              {`${date.getFullYear()}년 ${date.getMonth()}월 ${date.getDate()}일`}
+              {`${date.getFullYear()}년 ${
+                date.getMonth() + 1
+              }월 ${date.getDate()}일`}
             </CalendarAccordionTrigger>
           </CalendarAccordionItem>
         </CalendarAccordion>
