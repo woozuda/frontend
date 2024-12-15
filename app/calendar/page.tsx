@@ -5,6 +5,7 @@ import AppCalendarDay from "@/components/AppCalendar/Day";
 import ListCard from "@/components/ListCard";
 import { format } from "date-fns";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import useDiaryDates from "../hooks/useDiaryDates";
 import useNotes from "../hooks/useNotes";
@@ -13,15 +14,8 @@ import { HTMLLibs } from "../lib/html";
 import { NoteType } from "../models/diary";
 import useCalendarToggle from "./hooks";
 
-interface PageProps {
-  searchParams: Record<string, string>;
-}
-
-export default function Page(props: PageProps) {
-  const searchParams = useMemo(
-    () => new URLSearchParams(props.searchParams),
-    [props.searchParams]
-  );
+export default function Page() {
+  const searchParams = useSearchParams();
   const { array } = useDiaryDates();
   const date = searchParams.get("date");
   const { notes } = useNotes({ date });
