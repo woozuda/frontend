@@ -67,7 +67,10 @@ const GlobalNavigationBar = (props: GlobalNavigationBarProps) => {
     <section className={className}>
       {navigations.map((nav) => {
         const { text } = GNBLibs.getItemStyle(pathname, nav.href);
-        const active = pathname.includes(nav.href);
+        const active =
+          nav.href === "/"
+            ? pathname === nav.href
+            : pathname.includes(nav.href);
         return (
           <Link
             href={nav.href}

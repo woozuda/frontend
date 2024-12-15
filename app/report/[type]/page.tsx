@@ -1,3 +1,5 @@
+"use client";
+
 import { ReportEnums, ReportLibs } from "@/app/lib/report";
 import { RetrospectEnums } from "@/app/models/report";
 import {
@@ -8,16 +10,16 @@ import {
   ReportSCSReport,
 } from "@/app/pages/report";
 import { ReportChipHeader, ReportHeader } from "@/app/pages/report/header";
-import { ReadonlyURLSearchParams } from "next/navigation";
+import {
+  ReadonlyURLSearchParams,
+  useParams,
+  useSearchParams,
+} from "next/navigation";
 
-interface PageProps {
-  params: Record<string, string>;
-  searchParams: Record<string, string>;
-}
-
-export default function Page(props: PageProps) {
-  const param = props.params["type"] as ReportEnums;
-  const searchParams = new URLSearchParams(props.searchParams);
+export default function Page() {
+  const params = useParams<{ type: string }>();
+  const param = params.type;
+  const searchParams = useSearchParams();
   const type = ReportLibs.getRetrospectType(
     searchParams as ReadonlyURLSearchParams
   );
@@ -45,7 +47,7 @@ export default function Page(props: PageProps) {
     <div className="w-full flex flex-col gap-y-3 pb-5 h-full">
       <ReportHeader />
       <div className="flex flex-col w-full px-5">
-        <ReportChipHeader searchParams={props.searchParams} />
+        <ReportChipHeader />
       </div>
       {type === RetrospectEnums.FOUR_F_S && <Report4FSReport />}
       {type === RetrospectEnums.KPT && <ReportKPTReport />}
