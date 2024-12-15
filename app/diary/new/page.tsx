@@ -75,9 +75,19 @@ export default function CreateDiaryPage() {
     setDiaryThemeInput(e.target.value);
   };
   const handleThemeKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === " ") {
+
+    const trimmedValue = diaryThemeInput.trim();
+
+    if (e.key === " " || e.key === "Enter") {
       e.preventDefault();
-      const trimmedValue = diaryThemeInput.trim();
+      
+      if (!trimmedValue) {
+        return;
+      }  
+      if (diaryTheme.length >= 10) {
+        toast.error("태그는 최대 10개까지 등록할 수 있습니다.")
+        return
+      }
       if (trimmedValue) {
         setDiaryTheme((prevThemes) => [...prevThemes, trimmedValue]);
         setDiaryThemeInput("");
@@ -180,7 +190,7 @@ export default function CreateDiaryPage() {
             placeholder="제목을 적어주세요"
             value={diaryName}
             onChange={(e) => setDiaryName(e.target.value)}
-            className="w-full h-12 bg-slate-100 border-none p-4 font-light"
+            className="w-full h-12 bg-slate-100 border-none p-4 font-light placeholder:text-sm"
           />
         </div>
         <div className="flex flex-col gap-4">
@@ -189,12 +199,16 @@ export default function CreateDiaryPage() {
             ref={themeInput}
             id="diary-theme"
             name="diary-theme"
-            placeholder="주제를 적어주세요"
+            placeholder="Enter를 눌러 핵심 키워드를 등록해주세요"
             value={diaryThemeInput}
             onChange={handleThemeChange}
             onKeyUp={handleThemeKeyDown}
-            className="w-full h-12 bg-slate-100 border-none p-4 font-light"
+            className="w-full h-12 bg-slate-100 border-none p-4 font-light placeholder:text-sm"
           />
+          <div className="flex text-right text-xs text-muted-foreground">
+            <span>검색 태그는 최대 10개 까지 등록할 수 있습니다.</span>
+            <p className="ml-auto">{diaryTheme.length || 0}/10</p>
+          </div>
         </div>
         <div className="flex items-center flex-wrap gap-2">
           {diaryTheme.map((chip, index) => (
@@ -213,10 +227,11 @@ export default function CreateDiaryPage() {
           ))}
         </div>
       </section>
-      {/* {diaryName && diaryTheme.length > 0 && diaryCover && ( */}
       <section className="w-full mt-auto">
         <Button
-          className="w-full h-12 rounded-2xl bg-app-primary-100"
+          className={`w-full h-12 rounded-2xl ${diaryCover && diaryName && diaryTheme.length > 0
+            ? "bg-app-primary-100"
+            : "bg-app-primary-300"}`}
           onClick={() => {
             if (!isPending && allSet()) {
               mutate();
@@ -227,7 +242,6 @@ export default function CreateDiaryPage() {
           다이어리 생성하기
         </Button>
       </section>
-      {/* )} */}
     </main>
   );
 }

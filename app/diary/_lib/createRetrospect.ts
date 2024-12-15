@@ -19,6 +19,9 @@ export async function createRetrospect({
           date,
           content,
         }),
+        headers: {
+          "content-type": "application/json",
+        },
         credentials: "include",
       }
     );
