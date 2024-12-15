@@ -5,21 +5,19 @@ import AppCalendarDay from "@/components/AppCalendar/Day";
 import ListCard from "@/components/ListCard";
 import { format } from "date-fns";
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo } from "react";
 import useDiaryDates from "../hooks/useDiaryDates";
 import useNotes from "../hooks/useNotes";
 import { CalendarLibs, CalendarStageType } from "../lib/calendar";
 import { HTMLLibs } from "../lib/html";
 import { NoteType } from "../models/diary";
+import useCalendarToggle from "./hooks";
 
 interface PageProps {
   searchParams: Record<string, string>;
 }
 
 export default function Page(props: PageProps) {
-  const ref = useRef(null as HTMLDivElement | null);
-  const touchStartRef = useRef(0);
-  const [isTouchMoved, setIsTouchMoved] = useState(false);
   const searchParams = useMemo(
     () => new URLSearchParams(props.searchParams),
     [props.searchParams]
@@ -36,48 +34,7 @@ export default function Page(props: PageProps) {
     return date;
   }, [searchParams]);
 
-  useEffect(() => {
-    if (isTouchMoved) {
-      return;
-    }
-    const onTouchMove = function (event: TouchEvent) {
-      const targetY = event.touches[0].clientY;
-      if (targetY - touchStartRef.current > 10) {
-        setIsTouchMoved(true);
-      }
-    };
-    const onTouchStart = function (event: TouchEvent) {
-      touchStartRef.current = event.touches[0].clientY;
-    };
-    ref.current?.addEventListener("touchmove", onTouchMove);
-    ref.current?.addEventListener("touchstart", onTouchStart);
-    return () => {
-      ref.current?.removeEventListener("touchmove", onTouchMove);
-      ref.current?.removeEventListener("touchstart", onTouchStart);
-    };
-  }, [isTouchMoved]);
-
-  useEffect(() => {
-    if (!isTouchMoved) {
-      return;
-    }
-    const onTouchMove = function (event: TouchEvent) {
-      const targetY = event.touches[0].clientY;
-      if (targetY - touchStartRef.current < -10) {
-        setIsTouchMoved(false);
-      }
-    };
-    const onTouchStart = function (event: TouchEvent) {
-      touchStartRef.current = event.touches[0].clientY;
-    };
-    ref.current?.addEventListener("touchmove", onTouchMove);
-    ref.current?.addEventListener("touchstart", onTouchStart);
-    return () => {
-      ref.current?.removeEventListener("touchmove", onTouchMove);
-      ref.current?.removeEventListener("touchstart", onTouchStart);
-    };
-  }, [isTouchMoved]);
-
+  const { ref, isTouchMoved } = useCalendarToggle();
   const now = useMemo(() => new Date(), []);
   const diaries = array?.map((value) => new Date(value.date));
 
