@@ -11,13 +11,14 @@ import { cn } from "@/lib/utils";
 import { useIntersectionObserver } from "@uidotdev/usehooks";
 import { format } from "date-fns";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect } from "react";
 
 const DiaryDateNotes = () => {
   const searchParams = useSearchParams();
   const date = DiaryLibs.getDiaryDate(searchParams);
   const { data, isFetching, isLoading, fetchNextPage } = useNotes({ date });
+  const router = useRouter();
 
   const [ref, entry] = useIntersectionObserver();
 
@@ -49,12 +50,14 @@ const DiaryDateNotes = () => {
         <HeaderV2 className={cn(bgColor, "sticky left-0 top-0 right-0")}>
           <HeaderV2.Left>
             <div className="flex items-center">
-              <Link
+              <button
                 className="p-3 flex justify-center items-center"
-                href="/diary"
+                onClick={() => {
+                  router.back();
+                }}
               >
                 <ArrowLeftSvg className="text-white" />
-              </Link>
+              </button>
               <h3 className="text-sub3 text-white">
                 {format(date!, "MM월 dd일")}
               </h3>

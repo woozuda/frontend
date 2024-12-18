@@ -13,7 +13,7 @@ import {
 } from "@/app/pages/diary/detail";
 import { useQueryClient } from "@tanstack/react-query";
 import { useIntersectionObserver } from "@uidotdev/usehooks";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { toast, Toaster } from "sonner";
 
@@ -28,6 +28,7 @@ export default function Page({ params }: { params: { id: number } }) {
   const { mutateAsync: deleteNotes } = useNoteDelete();
   const { mutateAsync: shareNotes } = useNoteShare();
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   const notes = useMemo(() => {
     return DiaryLibs.groupNotes(data);
@@ -95,22 +96,26 @@ export default function Page({ params }: { params: { id: number } }) {
             className="w-full h-full object-cover object-top absolute"
           />
           <div className="w-full h-14 flex items-center relative p-1">
-            <Link
-              href={"/diary"}
+            <button
+              onClick={() => {
+                router.back();
+              }}
               className="w-12 h-12 flex items-center justify-center"
             >
               <ArrowLeftSvg className="text-white" />
-            </Link>
+            </button>
           </div>
         </div>
         {entry && !entry.isIntersecting && (
           <div className="w-full h-14 flex items-center p-1 z-20 sticky top-0 left-0 right-0 shrink-0 bg-app-primary-100">
-            <Link
+            <button
               className="flex justify-center items-center w-12 h-12 shrink-0"
-              href={"/diary"}
+              onClick={() => {
+                router.back();
+              }}
             >
               <ArrowLeftSvg className="text-white" />
-            </Link>
+            </button>
             <div className="flex items-center">
               <h3 className="text-sub3 text-white">{initialPage?.title}</h3>
             </div>

@@ -18,12 +18,14 @@ import { Sheet, SheetClose, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import { useIntersectionObserver } from "@uidotdev/usehooks";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 export default function DiaryLayout(props: PropsWithChildren) {
   const { children } = props;
   const [ref, entry] = useIntersectionObserver();
   const { array, isLoading } = useDiaries();
+  const router = useRouter();
 
   const bgColor =
     entry && !entry.isIntersecting
@@ -44,12 +46,14 @@ export default function DiaryLayout(props: PropsWithChildren) {
       <div className="w-full h-full flex flex-col relative">
         <HeaderV2 className={cn(bgColor, "sticky left-0 top-0 right-0")}>
           <HeaderV2.Left>
-            <Link
+            <button
               className="p-3 flex justify-center items-center"
-              href="/diary"
+              onClick={() => {
+                router.back();
+              }}
             >
               <h2 className="text-h2 text-white">다이어리</h2>
-            </Link>
+            </button>
           </HeaderV2.Left>
           <HeaderV2.Right>
             <Sheet>
