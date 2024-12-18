@@ -1,6 +1,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useHttp } from "../contexts/http";
 import { DiaryAPI } from "../http";
+import { DiaryLibs } from "../lib/diary";
 
 export interface UseDiaryProps {
   id?: number;
@@ -20,11 +21,11 @@ const useDiary = (props: UseDiaryProps) => {
       }
       const response = await diaryApi.getDiary(id, pageParam, 10);
 
-      return response;
+      return DiaryLibs.fromResponse(response);
     },
     initialPageParam: 0,
     getNextPageParam: (page, pages, pageParam) => {
-      if (page && page.page && page.page.last) {
+      if (page && page.last) {
         return null;
       }
       return pageParam + 1;

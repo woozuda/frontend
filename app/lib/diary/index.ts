@@ -1,3 +1,4 @@
+import { DiaryResponse } from "@/app/http/diary";
 import { Diary, DiaryNote } from "@/app/models/diary";
 import { InfiniteData } from "@tanstack/react-query";
 import { format } from "date-fns";
@@ -77,7 +78,7 @@ export class DiaryLibs {
     if (isNil(data)) {
       return null;
     }
-    const contents = data.pages.flatMap((page) => page?.page?.content);
+    const contents = data.pages.flatMap((page) => page?.notes);
     const array = contents.reduce((record, content) => {
       if (!content) {
         return record;
@@ -91,6 +92,29 @@ export class DiaryLibs {
     }, {} as Record<string, DiaryNote[]>);
 
     return Object.entries(array);
+  }
+
+  static fromResponse(response: DiaryResponse): Diary {
+    const { id, title, subject, imgUrl, startDate, endDate, noteCount, page } =
+      response;
+    const { content, last, pageable, totalElements, totalPages } = page;
+    const diary = {
+      id,
+      title,
+      subject,
+      imgUrl,
+      startDate,
+      endDate,
+      noteCount,
+    } as Partial<Diary>;
+    diary.notes = content;
+    diary.last = last;
+    diary.offset = pageable.offset;
+    diary.pageNumber = pageable.offset;
+    diary.pageSize = pageable.pageSize;
+    diary.totalElements = totalElements;
+    diary.totalPages = totalPages;
+    return diary as Diary;
   }
 }
 

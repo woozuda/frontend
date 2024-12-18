@@ -19,18 +19,13 @@ export interface Diary {
   startDate: string;
   endDate: string;
   noteCount: number;
-  page?: {
-    content: DiaryNote[];
-    pageable: {
-      pageNumber: number;
-      pageSize: number;
-      offset: number;
-    };
-    last: boolean;
-    totalElements: number;
-    totalPages: number;
-    size: number;
-  };
+  notes: DiaryNote[];
+  pageNumber: number;
+  pageSize: number;
+  offset: number;
+  last: boolean;
+  totalElements: number;
+  totalPages: number;
 }
 
 export interface DiaryNote {

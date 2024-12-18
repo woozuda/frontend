@@ -1,5 +1,27 @@
 import { Http, HttpLibs } from "@/app/lib/http";
-import { Diary, DiaryName } from "../models/diary";
+import { Diary, DiaryName, DiaryNote } from "../models/diary";
+
+export interface DiaryResponse {
+  id: number;
+  title: string;
+  subject: string[];
+  imgUrl: string;
+  startDate: string;
+  endDate: string;
+  noteCount: number;
+  page: {
+    content: DiaryNote[];
+    pageable: {
+      pageNumber: number;
+      pageSize: number;
+      offset: number;
+    };
+    last: boolean;
+    totalElements: number;
+    totalPages: number;
+    size: number;
+  };
+}
 
 export class DiaryAPI {
   http: Http;
@@ -29,7 +51,7 @@ export class DiaryAPI {
     const api = `api/diary/${id}?${searchParams}`;
     const response = await this.http.get(api);
 
-    return HttpLibs.toJson<Diary>(response);
+    return HttpLibs.toJson<DiaryResponse>(response);
   }
 
   async patchDiary(id: number) {
