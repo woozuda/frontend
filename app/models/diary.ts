@@ -8,7 +8,7 @@ export enum RetrospectiveEnums {
   FOUR_F_S = "FOUR_F_S",
   PMI = "PMI",
   KPT = "KPT",
-  SCS = "SCS"
+  SCS = "SCS",
 }
 
 export interface Diary {
@@ -21,6 +21,15 @@ export interface Diary {
   noteCount: number;
   page?: {
     content: DiaryNote[];
+    pageable: {
+      pageNumber: number;
+      pageSize: number;
+      offset: number;
+    };
+    last: boolean;
+    totalElements: number;
+    totalPages: number;
+    size: number;
   };
 }
 
@@ -46,7 +55,7 @@ export interface Note {
   weather?: string;
   season?: string;
   feeling?: string;
-  framework?: RetrospectiveEnums; 
+  framework?: RetrospectiveEnums;
 }
 
 export interface NoteDate {

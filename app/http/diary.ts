@@ -22,8 +22,13 @@ export class DiaryAPI {
     return HttpLibs.toJson<{ id: number }>(response);
   }
 
-  async getDiary(id: number) {
-    const response = await this.http.get(`api/diary/${id}`);
+  async getDiary(id: number, page: number, size: number) {
+    const searchParams = new URLSearchParams();
+    searchParams.set("page", String(page));
+    searchParams.set("size", String(size));
+    const api = `api/diary/${id}?${searchParams}`;
+    const response = await this.http.get(api);
+
     return HttpLibs.toJson<Diary>(response);
   }
 

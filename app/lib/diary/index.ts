@@ -1,4 +1,7 @@
+import { Diary, DiaryNote } from "@/app/models/diary";
+import { InfiniteData } from "@tanstack/react-query";
 import { format } from "date-fns";
+import { isNil } from "ramda";
 
 export enum DiaryListType {
   DEFAULT = "default",
@@ -68,6 +71,26 @@ export class DiaryLibs {
     }, {} as Record<string, Record<string, { count: number; date: Date }>>);
 
     return Object.entries(obj);
+  }
+
+  static groupNotes(data: InfiniteData<Diary | null, unknown> | undefined) {
+    if (isNil(data)) {
+      return null;
+    }
+    const contents = data.pages.flatMap((page) => page?.page?.content);
+    const array = contents.reduce((record, content) => {
+      if (!content) {
+        return record;
+      }
+      const key = format(content.note.date, "yyyy-MM-dd");
+      if (!(key in record)) {
+        record[key] = [];
+      }
+      record[key].push(content);
+      return record;
+    }, {} as Record<string, DiaryNote[]>);
+
+    return Object.entries(array);
   }
 }
 
