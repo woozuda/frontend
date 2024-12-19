@@ -53,6 +53,9 @@ body {
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
+
+    --chart-positive: rgba(90, 198, 244, 0.6);
+    --chart-denial: #1c306a;
   }
   .dark {
     --background: 0 0% 3.9%;
@@ -79,6 +82,9 @@ body {
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+
+    --chart-positive: rgba(90, 198, 244, 0.6);
+    --chart-denial: #1c306a;
   }
 }
 
