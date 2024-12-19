@@ -1,5 +1,7 @@
 import { DiaryResponse } from "@/app/http/diary";
 import { Diary, DiaryNote } from "@/app/models/diary";
+import { ReportDiary } from "@/app/models/report";
+import { ChartData } from "@/components/Chart";
 import { InfiniteData } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { isNil } from "ramda";
@@ -115,6 +117,34 @@ export class DiaryLibs {
     diary.totalElements = totalElements;
     diary.totalPages = totalPages;
     return diary as Diary;
+  }
+
+  static getChartData(data: ReportDiary) {
+    const positive = data.positive;
+    const denial = data.denial;
+    if (positive === 0 && denial === 0) {
+      return {
+        labels: {
+          positive: "0%",
+          denial: "0%",
+        },
+        data: [
+          { emotion: "positive", value: 100, fill: "var(--chart-positive)" },
+          { emotion: "denial", value: 100, fill: "var(--chart-denial)" },
+        ] as ChartData[],
+      };
+    }
+    const sum = positive + denial;
+    return {
+      labels: {
+        positive: `${Math.floor((positive / sum) * 100)}%`,
+        denial: `${Math.floor((denial / sum) * 100)}%`,
+      },
+      data: [
+        { emotion: "positive", value: positive, fill: "var(--chart-positive)" },
+        { emotion: "denial", value: denial, fill: "var(--chart-denial)" },
+      ] as ChartData[],
+    };
   }
 }
 

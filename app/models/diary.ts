@@ -98,3 +98,8 @@ export interface CreateRetrospect {
   date: string;
   content: string[];
 }
+
+export interface NoteCount {
+  diary: number;
+  retrospective: number;
+}

@@ -56,6 +56,11 @@ export interface NoteResponse {
   size: number;
 }
 
+export interface NoteCountResponse {
+  nonRetroCount: number;
+  retroCount: number;
+}
+
 export class NoteAPI {
   http: Http;
   constructor(http: Http) {
@@ -168,5 +173,15 @@ export class NoteAPI {
     return HttpLibs.toJson<{ id: number; user_id: number; type: string }[]>(
       response
     );
+  }
+
+  async getNoteCount(startDate: string, endDate: string) {
+    const searchParams = new URLSearchParams();
+    searchParams.set("startDate", startDate);
+    searchParams.set("endDate", endDate);
+    const api = `/api/note/count?${searchParams}`;
+    const response = await this.http.get(api);
+
+    return HttpLibs.toJson<NoteCountResponse>(response);
   }
 }
