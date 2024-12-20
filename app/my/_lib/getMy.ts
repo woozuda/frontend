@@ -4,13 +4,12 @@ export async function getMy() {
           {
             method: "get",
           })
-
           if (!res.ok) {
             throw new Error(`HTTP error! status: ${res.status}`);
           }
 
           const data = await res.json()
-          
+
           return data
 
     } catch(err) {

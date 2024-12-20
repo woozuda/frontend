@@ -3,6 +3,8 @@
 import { ImageSvg, SmileSvg, WeatherSvg } from "@/app/assets/icons";
 import ArrowDownSvg from "@/app/assets/icons/ArrowDown.svg";
 import ArrowLeftSvg from "@/app/assets/icons/ArrowLeft.svg";
+import { RETROSPECT } from "@/app/diary/_component/retrospectData";
+import WriteRetrospectForm from "@/app/diary/_component/WriteRetrospectForm";
 import useDiaries from "@/app/hooks/useDiaries";
 import useDiaryNames from "@/app/hooks/useDiaryNames";
 import useImageUpload from "@/app/hooks/useImageUpload";
@@ -12,7 +14,7 @@ import useRetrospectUpdate from "@/app/hooks/useRetrospectUpdate";
 import { CalendarDayType, CalendarLibs } from "@/app/lib/calendar";
 import { ImageLibs } from "@/app/lib/image";
 import { Emoji, NoteLibs } from "@/app/lib/note";
-import { NoteType } from "@/app/models/diary";
+import { Retrospect as IRetrospect, NoteType } from "@/app/models/diary";
 import AppCalendar from "@/components/AppCalendar";
 import AppCalendarDay from "@/components/AppCalendar/Day";
 import BottomSheetV2 from "@/components/BottomSheet/v2";
@@ -37,9 +39,6 @@ import {
   useRef,
   useState,
 } from "react";
-import { Retrospect as IRetrospect } from "@/app/models/diary";
-import { RETROSPECT } from "@/app/diary/_component/retrospectData";
-import WriteRetrospectForm from "@/app/diary/_component/WriteRetrospectForm";
 
 interface PageParams {
   id: number;
@@ -111,7 +110,7 @@ export default function Page({ params }: { params: PageParams }) {
       }
       const title = noteData.title;
       const date = new Date(noteData.date);
-      const diary = array.find((value) => value.title === noteData.diary);
+      const diary = array.find((value) => value.id === noteData.diaryId);
       setTitle(title);
       if (diary) {
         setDiary({ id: diary.id, name: diary.title });

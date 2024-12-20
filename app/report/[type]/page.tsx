@@ -3,6 +3,7 @@
 import { ReportEnums, ReportLibs } from "@/app/lib/report";
 import { RetrospectEnums } from "@/app/models/report";
 import {
+  AiCreation,
   DiaryReport,
   Report4FSReport,
   ReportKPTReport,
@@ -37,8 +38,8 @@ export default function Page() {
     return (
       <div className="w-full flex flex-col gap-y-3 pb-5 h-full">
         <ReportHeader />
-        <div className="flex flex-col w-full px-5 py-4">
-          {/* <DiaryResult /> */}
+        <div className="flex flex-col w-full px-5 py-4 h-full">
+          <AiCreation />
         </div>
       </div>
     );

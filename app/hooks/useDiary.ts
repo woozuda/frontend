@@ -1,7 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { useHttp } from "../contexts/http";
 import { DiaryAPI } from "../http";
-import { DiaryNote } from "../models/diary";
+import { DiaryLibs } from "../lib/diary";
 
 export interface UseDiaryProps {
   id?: number;
@@ -12,26 +12,23 @@ const useDiary = (props: UseDiaryProps) => {
   const http = useHttp();
   const diaryApi = new DiaryAPI(http);
 
-  return useQuery({
+  return useInfiniteQuery({
     queryKey: ["DIARY", id] as const,
-    queryFn: async ({ queryKey }) => {
+    queryFn: async ({ pageParam, queryKey }) => {
       const [, id] = queryKey;
       if (id === undefined) {
         return null;
       }
-      const { page, ...diary } = await diaryApi.getDiary(id);
+      const response = await diaryApi.getDiary(id, pageParam, 10);
 
-      const reducedNotes = page?.content?.reduce((record, note) => {
-        if (!(note.note.date in record)) {
-          record[note.note.date] = [];
-        }
-        record[note.note.date].push(note);
-        return record;
-      }, {} as Record<string, DiaryNote[]>);
-      return {
-        ...diary,
-        notes: reducedNotes ? Object.entries(reducedNotes) : null,
-      };
+      return DiaryLibs.fromResponse(response);
+    },
+    initialPageParam: 0,
+    getNextPageParam: (page, pages, pageParam) => {
+      if (page && page.last) {
+        return null;
+      }
+      return pageParam + 1;
     },
   });
 };

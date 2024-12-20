@@ -1,26 +1,29 @@
 "use client";
 
+import useAiCreation from "@/app/hooks/useAiCreation";
 import useNoteCount from "@/app/hooks/useNoteCount";
-import useReportCreateState from "@/app/hooks/useReportCreateState";
-import useReportDiary from "@/app/hooks/useReportDiary";
 import { ReportLibs } from "@/app/lib/report";
+import { useMutationState } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 import { isNil } from "ramda";
 import { DiaryInsufficient } from "./insufficient";
-import { DiaryResult } from "./result";
+import { AiCreationResult } from "./result";
 import ReportSpinner from "./spinner";
-import { DiarySufficient } from "./sufficient";
+import { AiCreationSufficient } from "./sufficient";
 
-const DiaryReport = () => {
+const AiCreation = () => {
   const searchParams = useSearchParams();
   const [start, end] = ReportLibs.getPeriod(searchParams);
   const { data: counts } = useNoteCount({ startDate: start, endDate: end });
-  const { data, isFetching } = useReportDiary({
+  const { data, isFetching } = useAiCreation({
     startDate: start,
     endDate: end,
   });
-  const mutationState = useReportCreateState({
-    type: "DIARY",
+  const mutationState = useMutationState({
+    filters: {
+      mutationKey: ["AI_CREATION_CREATE"],
+      status: "pending",
+    },
   });
 
   if (mutationState.length > 0 || isFetching) {
@@ -32,13 +35,13 @@ const DiaryReport = () => {
   }
 
   if (isNil(data)) {
-    return <DiarySufficient />;
+    return <AiCreationSufficient />;
   }
   return (
     <div className="flex flex-col w-full px-5 py-1 pb-10">
-      <DiaryResult />
+      <AiCreationResult />
     </div>
   );
 };
 
-export default DiaryReport;
+export default AiCreation;
