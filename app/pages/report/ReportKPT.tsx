@@ -1,12 +1,12 @@
 "use client";
 
-import useNoteCount from "@/app/hooks/useNoteCount";
+import useReportCount from "@/app/hooks/useReportCount";
 import useReportCreateState from "@/app/hooks/useReportCreateState";
 import useReportRetrospective from "@/app/hooks/useReportRetrospective";
 import { ReportLibs } from "@/app/lib/report";
 import { RetrospectEnums } from "@/app/models/report";
 import { useSearchParams } from "next/navigation";
-import { isNil } from "ramda";
+import { isNil, isNotNil } from "ramda";
 import { ReportInsufficient } from "./insufficient";
 import { ReportKPTResult } from "./result";
 import ReportSpinner from "./spinner";
@@ -21,9 +21,10 @@ const ReportKPTReport = () => {
     endDate: end,
     type,
   });
-  const { data: counts } = useNoteCount({
+  const { data: counts } = useReportCount({
     startDate: start,
     endDate: end,
+    type: RetrospectEnums.KPT,
   });
   const mutationState = useReportCreateState({
     type: RetrospectEnums.KPT,
@@ -33,7 +34,7 @@ const ReportKPTReport = () => {
     return <ReportSpinner />;
   }
 
-  if (counts && counts.retrospective < 2) {
+  if (isNotNil(counts) && counts < 2) {
     return <ReportInsufficient />;
   }
 

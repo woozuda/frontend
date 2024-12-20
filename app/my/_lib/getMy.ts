@@ -1,10 +1,13 @@
 export async function getMy() {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/my`, {
-      method: "post",
-      //body
-      credentials: "include",
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/my/email`,
+      {
+        method: "get",
+        //body
+        credentials: "include",
+      }
+    );
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);
     }
