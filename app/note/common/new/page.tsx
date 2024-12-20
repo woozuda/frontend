@@ -9,6 +9,7 @@ import useNoteCommonCreate from "@/app/hooks/useNoteCreate";
 import { CalendarDayType, CalendarLibs } from "@/app/lib/calendar";
 import { ImageLibs } from "@/app/lib/image";
 import { Emoji, NoteLibs } from "@/app/lib/note";
+import { ReportLibs } from "@/app/lib/report";
 import { NoteType } from "@/app/models/diary";
 import AppCalendar from "@/components/AppCalendar";
 import AppCalendarDay from "@/components/AppCalendar/Day";
@@ -22,9 +23,10 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useQueryClient } from "@tanstack/react-query";
-import { format } from "date-fns";
+import { addDays, endOfWeek, format, startOfWeek } from "date-fns";
 import { useRouter } from "next/navigation";
 import Quill from "quill";
+import { isNil } from "ramda";
 import {
   ChangeEventHandler,
   MouseEventHandler,
@@ -32,6 +34,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { toast } from "sonner";
 
 export default function Page() {
   const { data } = useDiaryNames();
@@ -46,8 +49,8 @@ export default function Page() {
   const [textLength, setTextLength] = useState(0);
   const editorRef = useRef<Quill | null>(null);
   const { mutateAsync, reset } = useImageUpload();
-  const { mutateAsync: onNoteCreate } = useNoteCommonCreate();
   const queryClient = useQueryClient();
+  const { mutateAsync: onNoteCreate } = useNoteCommonCreate({});
   const [emoji, setEmoji] = useState<Emoji>();
   const [weather, setWeather] = useState<Emoji>();
   const [title, setTitle] = useState<string>();
@@ -79,10 +82,27 @@ export default function Page() {
   };
 
   const onSubmit: MouseEventHandler<HTMLButtonElement> = async (event) => {
+    if (isNil(diary)) {
+      toast.error("다이어리를 찾을 수 없습니다.");
+      return null;
+    }
+    if (isNil(emoji) || isNil(weather)) {
+      toast.error("감정 및 날씨 아이콘을 입력해주세요.");
+      return null;
+    }
+    if (isNil(title)) {
+      toast.error("제목을 입력해 주세요.");
+      return null;
+    }
+    if (isNil(selectedDate) || isNil(season)) {
+      toast.error("날짜를 찾을 수 없습니다.");
+      return null;
+    }
     if (editorRef.current) {
       const content = editorRef.current.getSemanticHTML();
       const response = await onNoteCreate({
-        diaryId: diary?.id,
+        diaryId: diary.id,
+        diary: diary.name,
         title,
         emoji,
         weather,
@@ -90,8 +110,19 @@ export default function Page() {
         date: selectedDate,
         content,
       });
+
+      const startDate = ReportLibs.toDateParam(
+        addDays(startOfWeek(selectedDate), 1)
+      );
+      const endDate = ReportLibs.toDateParam(
+        addDays(endOfWeek(selectedDate), 1)
+      );
+
       if (response && response.id) {
-        await queryClient.invalidateQueries({ queryKey: ["DIARY", diary?.id] });
+        await queryClient.invalidateQueries({ queryKey: ["DIARY"] });
+        await queryClient.invalidateQueries({
+          queryKey: ["NOTE_COUNT", startDate, endDate],
+        });
         router.replace(`/note/${NoteType.COMMON}/${response.id}`);
       }
     }

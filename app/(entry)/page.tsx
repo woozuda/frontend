@@ -5,16 +5,43 @@ import useDiaries from "../hooks/useDiaries";
 
 import PlusSvg from "@/app/assets/icons/Plus.svg";
 import Star28Svg from "@/app/assets/icons/Star28.svg";
-import AddDiary from "@/components/AddDiary";
-import Link from "next/link";
 import useQuestion from "@/app/hooks/useQuestion";
+import AddDiary from "@/components/AddDiary";
+import Spinner from "@/components/Spinner";
+import Link from "next/link";
+import { PropsWithChildren } from "react";
+import { DiaryEmptyBanner } from "../pages/diary/Empty";
+
+const PageContainer = (props: PropsWithChildren) => {
+  return (
+    <div className="flex w-full flex-col h-full relative">{props.children}</div>
+  );
+};
 
 export default function Page() {
-  const { array } = useDiaries();
+  const { array, isLoading } = useDiaries();
   const { data: questionData } = useQuestion();
 
+  if (isLoading) {
+    return (
+      <PageContainer>
+        <div className="flex flex-col w-full h-full items-center justify-center">
+          <Spinner />
+        </div>
+      </PageContainer>
+    );
+  }
+
+  if (!array || array.length === 0) {
+    return (
+      <PageContainer>
+        <DiaryEmptyBanner />
+      </PageContainer>
+    );
+  }
+
   return (
-    <div className="flex w-full flex-col h-full relative">
+    <PageContainer>
       <div className="w-full flex flex-col gap-y-[60px]">
         <div className="flex w-full p-5">
           <div className="w-full flex flex-col gap-y-6">
@@ -61,6 +88,6 @@ export default function Page() {
           </div>
         </div>
       </div>
-    </div>
+    </PageContainer>
   );
 }

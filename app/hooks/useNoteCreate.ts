@@ -1,39 +1,36 @@
 import { useMutation } from "@tanstack/react-query";
 import { format } from "date-fns";
-import { isNil } from "ramda";
 import { useHttp } from "../contexts/http";
 import { NoteAPI } from "../http";
 import { NoteSeason } from "../lib/note";
 
 export interface CreateNoteProps {
-  diaryId?: number;
-  emoji?: { icon: string; text: string };
-  weather?: { icon: string; text: string };
-  title?: string;
+  diaryId: number;
+  diary: string;
+  emoji: { icon: string; text: string };
+  weather: { icon: string; text: string };
+  title: string;
   content: string;
-  date?: Date;
-  season?: NoteSeason;
+  date: Date;
+  season: NoteSeason;
 }
 
-const useNoteCommonCreate = () => {
+export interface UseNoteCommonCreateProps {
+  onSuccess?: (
+    data: { id: number } | undefined,
+    variables: CreateNoteProps
+  ) => unknown;
+  onError?: (error: unknown, variables: CreateNoteProps) => unknown;
+}
+
+const useNoteCommonCreate = (props: UseNoteCommonCreateProps) => {
+  const { onSuccess, onError } = props;
   const http = useHttp();
   const noteApi = new NoteAPI(http);
   return useMutation({
     mutationKey: ["NOTE_CREATE"],
     mutationFn: async (props: CreateNoteProps) => {
       const { diaryId, emoji, weather, title, content, date, season } = props;
-      if (isNil(diaryId)) {
-        return null;
-      }
-      if (isNil(emoji) || isNil(weather)) {
-        return null;
-      }
-      if (isNil(title)) {
-        return null;
-      }
-      if (isNil(date) || isNil(season)) {
-        return null;
-      }
       const response = await noteApi.createCommonNote({
         diaryId,
         feeling: emoji.text,
@@ -44,6 +41,12 @@ const useNoteCommonCreate = () => {
         season: season!,
       });
       return response;
+    },
+    onSuccess(data, variables, context) {
+      onSuccess?.(data, variables);
+    },
+    onError(error, variables, context) {
+      onError?.(error, variables);
     },
   });
 };

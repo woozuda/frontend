@@ -1,4 +1,24 @@
-import { Http } from "../lib/http";
+import { Http, HttpLibs } from "../lib/http";
+import { ReportLibs } from "../lib/report";
+import { RetrospectEnums, SharedAiCreation } from "../models/report";
+
+export interface AiCreationPoetryResponse {
+  generatedPoetry: string;
+  status: string;
+  message: string;
+}
+
+export interface AiCreationTextResponse {
+  generatedText: string;
+  status: string;
+  message: string;
+}
+
+export interface AiCreationImageResponse {
+  generatedImageUrl: string;
+  status: string;
+  message: string;
+}
 
 export class ReportAPI {
   http: Http;
@@ -56,6 +76,16 @@ export class ReportAPI {
     return response;
   }
 
+  async getAiCreation(start: string, end: string) {
+    const searchParams = new URLSearchParams();
+    searchParams.set("start_date", start);
+    searchParams.set("end_date", end);
+    const url = `api/creation?${searchParams}`;
+
+    const response = await this.http.get(url);
+    return response;
+  }
+
   async createReportDiary(start: string, end: string) {
     const searchParams = new URLSearchParams();
     searchParams.set("start_date", start);
@@ -104,5 +134,72 @@ export class ReportAPI {
 
     const response = await this.http.post(url);
     return response.ok;
+  }
+
+  async createAiCreationPoetry(start: string, end: string) {
+    const searchParams = new URLSearchParams();
+    searchParams.set("start_date", start);
+    searchParams.set("end_date", end);
+    const url = `api/diary/creation/poetry?${searchParams}`;
+
+    const response = await this.http.post(url);
+    return response.ok;
+  }
+
+  async createAiCreation(start: string, end: string) {
+    const searchParams = new URLSearchParams();
+    searchParams.set("start_date", start);
+    searchParams.set("end_date", end);
+    const url = `api/creation/analyze?${searchParams}`;
+
+    const response = await this.http.post(url);
+    return response.ok;
+  }
+
+  async createAiCreationWriting(start: string, end: string) {
+    const searchParams = new URLSearchParams();
+    searchParams.set("start_date", start);
+    searchParams.set("end_date", end);
+    const url = `api/diary/creation/writing?${searchParams}`;
+
+    const response = await this.http.post(url);
+    return response.ok;
+  }
+
+  async createAiCreationImage(start: string, end: string) {
+    const searchParams = new URLSearchParams();
+    searchParams.set("start_date", start);
+    searchParams.set("end_date", end);
+    const url = `api/diary/creation/picture?${searchParams}`;
+
+    const response = await this.http.post(url);
+    return response.ok;
+  }
+
+  async getReportCount(start: string, end: string, type: RetrospectEnums) {
+    const searchParams = new URLSearchParams();
+    searchParams.set("start_date", start);
+    searchParams.set("end_date", end);
+    const api = `/api/report/recall/${ReportLibs.getApiPath(
+      type
+    )}/count?${searchParams}`;
+
+    const response = await this.http.get(api);
+    const text = await response.text();
+    return Number(text.trim());
+  }
+
+  async shareAiCreations(noteIds: number[]) {
+    const response = await this.http.post(`/api/shared/ai`, {
+      body: JSON.stringify({ id: noteIds }),
+    });
+    return response;
+  }
+
+  async getSharedAiCreations() {
+    const response = await this.http.get("/api/shared/ai", {
+      body: JSON.stringify({}),
+    });
+    return HttpLibs.toJson<SharedAiCreation>(response);
   }
 }
