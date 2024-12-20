@@ -1,15 +1,16 @@
-export async function getSharedAi() {
+export async function getAiType() {
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/shared/ai`,
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/my/aitype`,
           {
             method: "get",
           })
+
           if (!res.ok) {
             throw new Error(`HTTP error! status: ${res.status}`);
           }
 
           const data = await res.json()
-
+          
           return data
 
     } catch(err) {

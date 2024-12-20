@@ -1,16 +1,44 @@
 import { http, HttpResponse } from "msw";
 
 export const handlers = [
-  http.post("/api/my", () => {
+  http.get("/api/my/email", () => {
     return HttpResponse.json({
-      username: "woozuda@gmail.com",
-      analysisType: "2",
-      alarm: false,
+      email: "woozuda@gmail.com",
     });
   }),
-  http.post("/api/my/alarm", () => {
+  http.get("/api/my/aitype", () => {
+    return HttpResponse.json({
+      "aiType": "PICTURE_NOVEL", 
+    });
+  }),
+  http.get("/api/my/alarm", () => {
+    return HttpResponse.json({
+      "alarm": "on", 
+    });
+  }),
+  http.post("/api/my/poem", () => {
     return HttpResponse.json({
       status: 200,
+    });
+  }),
+  http.post("/api/my/novel", () => {
+    return HttpResponse.json({
+      status: 200,
+    });
+  }),
+  http.post("/api/my/alarm/on", () => {
+    return HttpResponse.json({
+      status: 200,
+    });
+  }),
+  http.post("/api/my/alarm/off", () => {
+    return HttpResponse.json({
+      status: 200,
+    });
+  }),
+  http.get("/api/shortlink", () => {
+    return HttpResponse.json({
+      shortlink: "pQLgtjo"
     });
   }),
   http.get("/api/shared/note", () => {
@@ -145,33 +173,67 @@ export const handlers = [
       ],
     });
   }),
-  http.post("/api/my/shared/ai", () => {
+  // http.get("/api/my/shared/ai", () => {
+  //   return HttpResponse.json({
+  //     total: 2,
+  //     sharedAi: [
+  //       {
+  //         date: new Date("2024-12-12"),
+  //         ai: {
+  //           type: "그림과소설",
+  //           id: 123,
+  //           title: "오발탄",
+  //           content:
+  //             "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quam doloribus autem tempore blanditiis iste unde quasi dolor ducimus et, accusantium quibusdam tempora mollitiLorem ipsum, dolor sit amet consectetur adipisicing elit. Quam doloribus autem tempore blanditiis iste unde quasi dolor ducimus et, accusantium quibusdam tempora molliti",
+  //           image:
+  //             "https://upload.wikimedia.org/wikipedia/ko/thumb/a/a6/Pok%C3%A9mon_Pikachu_art.png/200px-Pok%C3%A9mon_Pikachu_art.png",
+  //         },
+  //       },
+  //       {
+  //         date: new Date("2024-12-19"),
+  //         ai: {
+  //           type: "그림과시",
+  //           id: 1234,
+  //           title: "꽃",
+  //           content:
+  //             "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quam doloribus autem tempore blanditiis iste unde quasi dolor ducimus et, accusantium quibusdam tempora mollitiLorem ipsum, dolor sit amet consectetur adipisicing elit. Quam doloribus autem tempore blanditiis iste unde quasi dolor ducimus et, accusantium quibusdam tempora molliti",
+  //           image:
+  //             "https://upload.wikimedia.org/wikipedia/ko/thumb/a/a6/Pok%C3%A9mon_Pikachu_art.png/200px-Pok%C3%A9mon_Pikachu_art.png",
+  //         },
+  //       },
+  //     ],
+  //   });
+  // }),
+  http.get("/api/shared/ai", () => {
     return HttpResponse.json({
       total: 2,
-      sharedAi: [
+      sharedAiCreations: [
         {
-          date: new Date("2024-12-12"),
-          ai: {
-            type: "그림과소설",
-            id: 123,
-            title: "오발탄",
-            content:
-              "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quam doloribus autem tempore blanditiis iste unde quasi dolor ducimus et, accusantium quibusdam tempora mollitiLorem ipsum, dolor sit amet consectetur adipisicing elit. Quam doloribus autem tempore blanditiis iste unde quasi dolor ducimus et, accusantium quibusdam tempora molliti",
-            image:
-              "https://upload.wikimedia.org/wikipedia/ko/thumb/a/a6/Pok%C3%A9mon_Pikachu_art.png/200px-Pok%C3%A9mon_Pikachu_art.png",
-          },
-        },
-        {
-          date: new Date("2024-12-19"),
-          ai: {
-            type: "그림과시",
-            id: 1234,
-            title: "꽃",
-            content:
-              "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quam doloribus autem tempore blanditiis iste unde quasi dolor ducimus et, accusantium quibusdam tempora mollitiLorem ipsum, dolor sit amet consectetur adipisicing elit. Quam doloribus autem tempore blanditiis iste unde quasi dolor ducimus et, accusantium quibusdam tempora molliti",
-            image:
-              "https://upload.wikimedia.org/wikipedia/ko/thumb/a/a6/Pok%C3%A9mon_Pikachu_art.png/200px-Pok%C3%A9mon_Pikachu_art.png",
-          },
+          start_date: "2024-11-02",
+          aiCreations: [
+            {
+              "creationType": "POETRY",
+              "aiCreation": {
+                "ai_creation_id": 3,
+                "creationType": "POETRY",
+                "start_date": "2024-11-02",
+                "end_date": "2024-11-08",
+                "image_url": "https://upload.wikimedia.org/wikipedia/ko/thumb/a/a6/Pok%C3%A9mon_Pikachu_art.png/200px-Pok%C3%A9mon_Pikachu_art.png",
+                "text": "시와 소설이에요3"
+              }
+            },
+            {
+              "creationType": "POETRY",
+              "aiCreation": {
+                  "ai_creation_id": 4,
+                  "creationType": "POETRY",
+                  "start_date": "2024-11-02",
+                  "end_date": "2024-11-08",
+                  "image_url": "https://upload.wikimedia.org/wikipedia/ko/thumb/a/a6/Pok%C3%A9mon_Pikachu_art.png/200px-Pok%C3%A9mon_Pikachu_art.png",
+                  "text": "시와 소설이에요4"
+              }
+          }
+          ]
         },
       ],
     });

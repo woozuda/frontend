@@ -68,22 +68,19 @@ export default function Page({ params }: { params: PageParams }) {
 
   const [retrospect, setRetrospect] = useState<IRetrospect | undefined>();
   const [text, setText] = useState<{ [sectionName: string]: string }>({});
-  const [retroContent, setRetroContent] = useState<string[]>([])
+  const [retroContent, setRetroContent] = useState<string[]>([]);
   const router = useRouter();
 
   const season = NoteLibs.createSeason(selectedDate);
 
   const { mutateAsync: onNoteUpdate } = useNoteUpdate();
-  const { mutateAsync: onRetrospectUpdate } = useRetrospectUpdate()
+  const { mutateAsync: onRetrospectUpdate } = useRetrospectUpdate();
 
   const setRetrospectContent = () => {
     for (const [key, value] of Object.entries(text)) {
-      setRetroContent((prev) => ([
-        ...prev,
-        value,
-      ]))
+      setRetroContent((prev) => [...prev, value]);
     }
-  }
+  };
 
   useEffect(() => {
     if (isReady) {
@@ -101,8 +98,7 @@ export default function Page({ params }: { params: PageParams }) {
             ...prev,
             [section.name]: noteData.content[i],
           }));
-        })
-
+        });
       } else {
         const emoji = NoteLibs.getEmojis().find(
           (value) => value.text === noteData.feeling
@@ -286,6 +282,7 @@ export default function Page({ params }: { params: PageParams }) {
           {retrospect && (
             <div className="w-full px-4 bg-white flex flex-col h-full">
               <WriteRetrospectForm
+                mode="edit"
                 retrospectId={Number(retrospect?.retrospectId)}
                 text={text}
                 setText={setText}
