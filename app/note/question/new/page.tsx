@@ -120,7 +120,7 @@ export default function Page() {
         content,
       });
       if (response && response.id) {
-        await queryClient.invalidateQueries({ queryKey: ["DIARY", diary?.id] });
+        await queryClient.invalidateQueries({ queryKey: ["DIARY"] });
         router.replace(`/note/${NoteType.QUESTION}/${response.id}`);
       }
     }
