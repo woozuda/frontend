@@ -65,3 +65,12 @@ export interface ReportSCS {
   continue_strength: string;
   continue_suggestion: string;
 }
+
+export interface AiCreation {
+  type: AiCreationEnums;
+  startDate: string;
+  endDate: string;
+  id: number;
+  title: string;
+  content: string[];
+}

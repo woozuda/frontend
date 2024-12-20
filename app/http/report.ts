@@ -56,6 +56,16 @@ export class ReportAPI {
     return response;
   }
 
+  async getAiCreation(start: string, end: string) {
+    const searchParams = new URLSearchParams();
+    searchParams.set("start_date", start);
+    searchParams.set("end_date", end);
+    const url = `api/diary/creation?${searchParams}`;
+
+    const response = await this.http.get(url);
+    return response;
+  }
+
   async createReportDiary(start: string, end: string) {
     const searchParams = new URLSearchParams();
     searchParams.set("start_date", start);
