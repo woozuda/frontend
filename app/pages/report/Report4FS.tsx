@@ -1,12 +1,12 @@
 "use client";
 
-import useNoteCount from "@/app/hooks/useNoteCount";
+import useReportCount from "@/app/hooks/useReportCount";
 import useReportCreateState from "@/app/hooks/useReportCreateState";
 import useReportRetrospective from "@/app/hooks/useReportRetrospective";
 import { ReportLibs } from "@/app/lib/report";
 import { RetrospectEnums } from "@/app/models/report";
 import { useSearchParams } from "next/navigation";
-import { isNil } from "ramda";
+import { isNil, isNotNil } from "ramda";
 import { ReportInsufficient } from "./insufficient";
 import { Report4FSResult } from "./result";
 import ReportSpinner from "./spinner";
@@ -21,10 +21,12 @@ const Report4FSReport = () => {
     endDate: end,
     type,
   });
-  const { data: counts } = useNoteCount({
+  const { data: counts } = useReportCount({
     startDate: start,
     endDate: end,
+    type: RetrospectEnums.FOUR_F_S,
   });
+
   const mutationState = useReportCreateState({
     type: RetrospectEnums.FOUR_F_S,
   });
@@ -33,7 +35,7 @@ const Report4FSReport = () => {
     return <ReportSpinner />;
   }
 
-  if (counts && counts.retrospective < 2) {
+  if (isNotNil(counts) && counts < 2) {
     return <ReportInsufficient />;
   }
 

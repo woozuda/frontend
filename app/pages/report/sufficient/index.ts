@@ -1,4 +1,5 @@
+import AiCreationSufficient from "./AiCreation";
 import DiarySufficient from "./Diary";
 import ReportSufficient from "./Report";
 
-export { DiarySufficient, ReportSufficient };
+export { AiCreationSufficient, DiarySufficient, ReportSufficient };

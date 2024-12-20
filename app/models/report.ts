@@ -65,3 +65,39 @@ export interface ReportSCS {
   continue_strength: string;
   continue_suggestion: string;
 }
+
+export enum AiCreationEnums {
+  POETRY = "poetry",
+  WRITING = "writing",
+  IMAGE = "image",
+}
+
+export interface AiCreation {
+  start_date: string;
+  end_date: string;
+  image_url: string;
+  text: string;
+  id: number;
+}
+
+export interface SharedAiCreation {
+  total: number;
+  sharedAiCreations: [
+    {
+      start_date: string;
+      aiCreations: [
+        {
+          creationType: string;
+          aiCreation: {
+            ai_creation_id: number;
+            creationType: string;
+            start_date: string;
+            end_date: string;
+            image_url: string;
+            text: string;
+          };
+        }
+      ];
+    }
+  ];
+}

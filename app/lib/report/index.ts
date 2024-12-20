@@ -17,6 +17,11 @@ export enum ReportEnums {
   CREATION = "creation",
 }
 
+export enum AiCreationActionType {
+  DEFAULT = "default",
+  SHARE = "share",
+}
+
 export class ReportLibs {
   static getTabStyle(type: ReportEnums, param?: ReportEnums) {
     if (type === ReportEnums.COMMON && param === undefined) {
@@ -105,6 +110,23 @@ export class ReportLibs {
       return "4FS";
     }
     return type;
+  }
+
+  static getApiPath(type: RetrospectEnums) {
+    switch (type) {
+      case RetrospectEnums.FOUR_F_S: {
+        return "4FS";
+      }
+      case RetrospectEnums.KPT: {
+        return "KPT";
+      }
+      case RetrospectEnums.PMI: {
+        return "PMI";
+      }
+      case RetrospectEnums.SCS: {
+        return "SCS";
+      }
+    }
   }
 
   static getRetrospectType(searchParams: ReadonlyURLSearchParams) {
