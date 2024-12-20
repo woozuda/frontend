@@ -9,6 +9,7 @@ import useNoteCommonCreate from "@/app/hooks/useNoteCreate";
 import { CalendarDayType, CalendarLibs } from "@/app/lib/calendar";
 import { ImageLibs } from "@/app/lib/image";
 import { Emoji, NoteLibs } from "@/app/lib/note";
+import { ReportLibs } from "@/app/lib/report";
 import { NoteType } from "@/app/models/diary";
 import AppCalendar from "@/components/AppCalendar";
 import AppCalendarDay from "@/components/AppCalendar/Day";
@@ -22,7 +23,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useQueryClient } from "@tanstack/react-query";
-import { format } from "date-fns";
+import { addDays, endOfWeek, format, startOfWeek } from "date-fns";
 import { useRouter } from "next/navigation";
 import Quill from "quill";
 import { isNil } from "ramda";
@@ -110,8 +111,18 @@ export default function Page() {
         content,
       });
 
+      const startDate = ReportLibs.toDateParam(
+        addDays(startOfWeek(selectedDate), 1)
+      );
+      const endDate = ReportLibs.toDateParam(
+        addDays(endOfWeek(selectedDate), 1)
+      );
+
       if (response && response.id) {
         await queryClient.invalidateQueries({ queryKey: ["DIARY"] });
+        await queryClient.invalidateQueries({
+          queryKey: ["NOTE_COUNT", startDate, endDate],
+        });
         router.replace(`/note/${NoteType.COMMON}/${response.id}`);
       }
     }
