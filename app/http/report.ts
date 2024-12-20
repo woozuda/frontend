@@ -1,6 +1,6 @@
-import { Http } from "../lib/http";
+import { Http, HttpLibs } from "../lib/http";
 import { ReportLibs } from "../lib/report";
-import { RetrospectEnums } from "../models/report";
+import { RetrospectEnums, SharedAiCreation } from "../models/report";
 
 export interface AiCreationPoetryResponse {
   generatedPoetry: string;
@@ -187,5 +187,19 @@ export class ReportAPI {
     const response = await this.http.get(api);
     const text = await response.text();
     return Number(text.trim());
+  }
+
+  async shareAiCreations(noteIds: number[]) {
+    const response = await this.http.post(`/api/shared/ai`, {
+      body: JSON.stringify({ id: noteIds }),
+    });
+    return response;
+  }
+
+  async getSharedAiCreations() {
+    const response = await this.http.get("/api/shared/ai", {
+      body: JSON.stringify({}),
+    });
+    return HttpLibs.toJson<SharedAiCreation>(response);
   }
 }

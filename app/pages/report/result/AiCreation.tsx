@@ -1,11 +1,11 @@
 import useAiCreation from "@/app/hooks/useAiCreation";
-import useAiCreationCreate from "@/app/hooks/useAiCreationCreate";
+import useAiCreationShare from "@/app/hooks/useAiCreationShare";
 import { AiCreationActionType, ReportLibs } from "@/app/lib/report";
-import { AiCreationEnums } from "@/app/models/report";
 import { useMy } from "@/app/my/_hooks/useMy";
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 import { useSearchParams } from "next/navigation";
-import { useCallback, useState } from "react";
+import { useState } from "react";
+import { toast } from "sonner";
 import AiCreationShare from "../sheet/AiCreationShare";
 
 const AiCreationResult = () => {
@@ -16,17 +16,16 @@ const AiCreationResult = () => {
 
   const { data } = useAiCreation({ startDate: start, endDate: end });
 
-  const onError = useCallback(() => {
-    setAction(AiCreationActionType.SHARE);
-  }, []);
-
-  const { mutateAsync } = useAiCreationCreate({ onError });
+  const { mutateAsync } = useAiCreationShare();
   const onShare = async () => {
+    if (!data) {
+      toast.error("창작물이 존재하지 않습니다.");
+      return;
+    }
     await mutateAsync({
-      startDate: start,
-      endDate: end,
-      type: AiCreationEnums.POETRY,
+      ids: [data.id],
     });
+    setAction(AiCreationActionType.SHARE);
   };
 
   const html = data ? data.content.join("") : "";

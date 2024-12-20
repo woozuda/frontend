@@ -80,3 +80,25 @@ export interface AiCreation {
   title: string;
   content: string[];
 }
+
+export interface SharedAiCreation {
+  total: number;
+  sharedAiCreations: [
+    {
+      start_date: string;
+      aiCreations: [
+        {
+          creationType: string;
+          aiCreation: {
+            ai_creation_id: number;
+            creationType: string;
+            start_date: string;
+            end_date: string;
+            image_url: string;
+            text: string;
+          };
+        }
+      ];
+    }
+  ];
+}
