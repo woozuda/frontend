@@ -66,6 +66,12 @@ export interface ReportSCS {
   continue_suggestion: string;
 }
 
+export enum AiCreationEnums {
+  POETRY = "poetry",
+  WRITING = "writing",
+  IMAGE = "image",
+}
+
 export interface AiCreation {
   type: AiCreationEnums;
   startDate: string;

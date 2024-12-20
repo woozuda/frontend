@@ -17,6 +17,11 @@ export enum ReportEnums {
   CREATION = "creation",
 }
 
+export enum AiCreationActionType {
+  DEFAULT = "default",
+  SHARE = "share",
+}
+
 export class ReportLibs {
   static getTabStyle(type: ReportEnums, param?: ReportEnums) {
     if (type === ReportEnums.COMMON && param === undefined) {

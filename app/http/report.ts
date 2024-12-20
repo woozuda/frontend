@@ -1,5 +1,23 @@
 import { Http } from "../lib/http";
 
+export interface AiCreationPoetryResponse {
+  generatedPoetry: string;
+  status: string;
+  message: string;
+}
+
+export interface AiCreationTextResponse {
+  generatedText: string;
+  status: string;
+  message: string;
+}
+
+export interface AiCreationImageResponse {
+  generatedImageUrl: string;
+  status: string;
+  message: string;
+}
+
 export class ReportAPI {
   http: Http;
   constructor(http: Http) {
@@ -111,6 +129,36 @@ export class ReportAPI {
     searchParams.set("start_date", start);
     searchParams.set("end_date", end);
     const url = `api/report/recall/analyze/SCS?${searchParams}`;
+
+    const response = await this.http.post(url);
+    return response.ok;
+  }
+
+  async createAiCreationPoetry(start: string, end: string) {
+    const searchParams = new URLSearchParams();
+    searchParams.set("start_date", start);
+    searchParams.set("end_date", end);
+    const url = `api/diary/creation/poetry?${searchParams}`;
+
+    const response = await this.http.post(url);
+    return response.ok;
+  }
+
+  async createAiCreationWriting(start: string, end: string) {
+    const searchParams = new URLSearchParams();
+    searchParams.set("start_date", start);
+    searchParams.set("end_date", end);
+    const url = `api/diary/creation/writing?${searchParams}`;
+
+    const response = await this.http.post(url);
+    return response.ok;
+  }
+
+  async createAiCreationImage(start: string, end: string) {
+    const searchParams = new URLSearchParams();
+    searchParams.set("start_date", start);
+    searchParams.set("end_date", end);
+    const url = `api/diary/creation/picture?${searchParams}`;
 
     const response = await this.http.post(url);
     return response.ok;
