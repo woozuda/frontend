@@ -28,13 +28,16 @@ const AiCreationResult = () => {
     setAction(AiCreationActionType.SHARE);
   };
 
-  const html = data ? data.content.join("") : "";
-
   return (
-    <div className="w-full flex flex-col px-5 pt-4 pb-5 gap-y-4">
-      <h2 className="text-h2 text-white">{data?.title}</h2>
+    <div className="w-full flex flex-col px-5 pt-4 pb-5 gap-y-4 bg-app-dim bg-opacity-20 rounded-xl">
+      {/* <h2 className="text-h2 text-white">{data?.title}</h2> */}
+      {data && data.image_url && (
+        <img src={data.image_url} className="rounded-sm w-full h-full" />
+      )}
       <div className="w-full flex flex-col">
-        <p dangerouslySetInnerHTML={{ __html: html }}></p>
+        <p className="whitespace-break-spaces text-body2 text-app-gray-500">
+          {data?.text.split("\n").join("\n")}
+        </p>
       </div>
       <Sheet
         onOpenChange={(open) => {
