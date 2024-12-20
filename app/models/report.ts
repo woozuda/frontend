@@ -73,12 +73,11 @@ export enum AiCreationEnums {
 }
 
 export interface AiCreation {
-  type: AiCreationEnums;
-  startDate: string;
-  endDate: string;
+  start_date: string;
+  end_date: string;
+  image_url: string;
+  text: string;
   id: number;
-  title: string;
-  content: string[];
 }
 
 export interface SharedAiCreation {
