@@ -30,6 +30,8 @@ const useAiCreationCreate = (props: UseAiCreationCreateProps) => {
       const start = ReportLibs.toDateParam(addDays(startDate, 1));
       const end = ReportLibs.toDateParam(addDays(endDate, 1));
 
+      return reportApi.createAiCreation(start, end);
+
       switch (type) {
         case AiCreationEnums.POETRY:
           return reportApi.createAiCreationPoetry(start, end);

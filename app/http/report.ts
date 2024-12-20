@@ -146,6 +146,16 @@ export class ReportAPI {
     return response.ok;
   }
 
+  async createAiCreation(start: string, end: string) {
+    const searchParams = new URLSearchParams();
+    searchParams.set("start_date", start);
+    searchParams.set("end_date", end);
+    const url = `api/creation/analyze?${searchParams}`;
+
+    const response = await this.http.post(url);
+    return response.ok;
+  }
+
   async createAiCreationWriting(start: string, end: string) {
     const searchParams = new URLSearchParams();
     searchParams.set("start_date", start);
