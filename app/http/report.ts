@@ -1,4 +1,6 @@
 import { Http } from "../lib/http";
+import { ReportLibs } from "../lib/report";
+import { RetrospectEnums } from "../models/report";
 
 export interface AiCreationPoetryResponse {
   generatedPoetry: string;
@@ -78,7 +80,7 @@ export class ReportAPI {
     const searchParams = new URLSearchParams();
     searchParams.set("start_date", start);
     searchParams.set("end_date", end);
-    const url = `api/diary/creation?${searchParams}`;
+    const url = `api/creation?${searchParams}`;
 
     const response = await this.http.get(url);
     return response;
@@ -162,5 +164,18 @@ export class ReportAPI {
 
     const response = await this.http.post(url);
     return response.ok;
+  }
+
+  async getReportCount(start: string, end: string, type: RetrospectEnums) {
+    const searchParams = new URLSearchParams();
+    searchParams.set("start_date", start);
+    searchParams.set("end_date", end);
+    const api = `/api/report/recall/${ReportLibs.getApiPath(
+      type
+    )}/count?${searchParams}`;
+
+    const response = await this.http.get(api);
+    const text = await response.text();
+    return Number(text.trim());
   }
 }

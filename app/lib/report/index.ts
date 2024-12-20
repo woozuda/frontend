@@ -112,6 +112,23 @@ export class ReportLibs {
     return type;
   }
 
+  static getApiPath(type: RetrospectEnums) {
+    switch (type) {
+      case RetrospectEnums.FOUR_F_S: {
+        return "4FS";
+      }
+      case RetrospectEnums.KPT: {
+        return "KPT";
+      }
+      case RetrospectEnums.PMI: {
+        return "PMI";
+      }
+      case RetrospectEnums.SCS: {
+        return "SCS";
+      }
+    }
+  }
+
   static getRetrospectType(searchParams: ReadonlyURLSearchParams) {
     const type = searchParams.get("type");
 
