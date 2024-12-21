@@ -17,7 +17,7 @@ type Props = {
 export default function ShortLinkDrawer({ shortlink, isOpen, setIsOpen }: Props) {
   
   const handleCopyToClipboard = () => {
-    const fullLink = `https://woozuda.swygbro.com/${shortlink}`;
+    const fullLink = `https://woozuda.swygbro.com/my/shared/${shortlink}`;
     navigator.clipboard
       .writeText(fullLink)
       .then(() => {

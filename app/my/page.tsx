@@ -65,7 +65,10 @@ export default function MyPage() {
       <section className="w-full flex flex-col gap-6">
         <h1 className="font-bold text-xl">MY</h1>
         <div className="flex flex-col gap-4">
-          <h1 className="font-bold text-xl">내 계정</h1>
+          <div className="flex items-center">
+            <h1 className="font-bold text-xl">내 계정</h1>
+            <Button className="ml-auto" variant={'ghost'}>로그아웃</Button>
+          </div>
           {
             data ?
             <span>{data.email}</span> :
