@@ -1,10 +1,9 @@
-export async function getSharedNote() {
+export async function getSharedNote(id: string) {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/shared/note`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/shortlink/note/${id}`,
       {
         method: "get",
-        credentials: "include",
       }
     );
     if (!res.ok) {

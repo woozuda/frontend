@@ -1,17 +1,17 @@
 "use client";
 
 import { ManageSvg } from "@/app/assets/icons";
-import SharedCard from "./SharedNoteCard";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSharedNote } from "../_hooks/useSharedNote";
 import { useUnshareNote } from "../_hooks/useUnshareNote";
+import SharedCard from "./SharedNoteCard";
 
+import { Button } from "@/components/ui/button";
 import {
   SharedDrawer,
   SharedDrawerContent,
 } from "@/components/ui/sharedDrawer";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { useParams } from "next/navigation";
 
 export default function SharedNotes() {
   const [mode, setMode] = useState<"view" | "edit">("view");
@@ -19,7 +19,8 @@ export default function SharedNotes() {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
 
   const { mutate, isPending } = useUnshareNote();
-  const { data } = useSharedNote();
+  const { shortlink } = useParams<{ shortlink: string }>();
+  const { data } = useSharedNote({ id: shortlink });
 
   useEffect(() => {
     setDrawerOpen(noShareList.length > 0);
@@ -65,12 +66,12 @@ export default function SharedNotes() {
                 key={noteItem.note.id}
                 className="flex flex-col w-full items-center gap-2"
               >
-                  <SharedCard
-                    noteItem={noteItem}
-                    mode={mode}
-                    noShareList={noShareList}
-                    setNoShareList={setNoshareList}
-                  />
+                <SharedCard
+                  noteItem={noteItem}
+                  mode={mode}
+                  noShareList={noShareList}
+                  setNoShareList={setNoshareList}
+                />
               </div>
             ))}
           </div>

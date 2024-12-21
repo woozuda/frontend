@@ -2,60 +2,62 @@
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { useAlarm } from "./_hooks/useAlarm";
 import { useAiType } from "./_hooks/useAiType";
+import { useAlarm } from "./_hooks/useAlarm";
 import { useMy } from "./_hooks/useMy";
+import { useShortlink } from "./_hooks/useShortlink";
 import { getAiType } from "./_lib/getAitype";
 import { getAlarm } from "./_lib/getAlarm";
-import { useShortlink } from "./_hooks/useShortlink";
 
 export default function MyPage() {
   const [alarm, setAlarm] = useState<boolean>(false);
-  const [aiType, setAiType] = useState<"PICTURE_POEM" | "PICTURE_NOVEL" | undefined>();
-  const [shortlink, setShortlink] = useState<string>('');
+  const [aiType, setAiType] = useState<
+    "PICTURE_POETRY" | "PICTURE_NOVEL" | undefined
+  >();
+  const [shortlink, setShortlink] = useState<string>("");
 
   const { data } = useMy();
   const { mutate: alarmMutate, isPending: alarmIsPending } = useAlarm();
   const { mutate: aiTypeMutate, isPending: aiTypeIsPending } = useAiType();
   const { data: shortlinkData } = useShortlink();
 
-    const { data:aiTypeData } = useQuery({
-        queryKey: ['AITYPE'],
-        queryFn: getAiType,
-    })
-    const { data:alarmData } = useQuery({
-      queryKey: ['ALARM'],
-      queryFn: getAlarm,
-  })
-    
+  const { data: aiTypeData } = useQuery({
+    queryKey: ["AITYPE"],
+    queryFn: getAiType,
+  });
+  const { data: alarmData } = useQuery({
+    queryKey: ["ALARM"],
+    queryFn: getAlarm,
+  });
+
   useEffect(() => {
     if (alarmData) {
-      let defaultCheck
+      let defaultCheck;
       if (alarmData.alarm === "on") {
-        defaultCheck = true
+        defaultCheck = true;
       } else {
-        defaultCheck = false
+        defaultCheck = false;
       }
       setAlarm(defaultCheck);
     }
     if (aiTypeData) {
-      setAiType(aiTypeData.aiType)
+      setAiType(aiTypeData.aiType);
     }
     if (shortlinkData) {
-      setShortlink(shortlinkData.shortlink)
+      setShortlink(shortlinkData.shortlink);
     }
   }, [alarmData, aiTypeData, shortlinkData]);
 
   const onChangeAlarm = (e: boolean) => {
-    let status
+    let status;
     if (e === true) {
-      status = "on"
+      status = "on";
     } else {
-      status = "off"
+      status = "off";
     }
     alarmMutate(status);
   };
@@ -66,11 +68,11 @@ export default function MyPage() {
         <h1 className="font-bold text-xl">MY</h1>
         <div className="flex flex-col gap-4">
           <h1 className="font-bold text-xl">내 계정</h1>
-          {
-            data ?
-            <span>{data.email}</span> :
+          {data ? (
+            <span>{data.email}</span>
+          ) : (
             <span>계정을 불러올 수 없습니다.</span>
-          }
+          )}
         </div>
       </section>
       <section className="w-full">
@@ -85,8 +87,7 @@ export default function MyPage() {
       <div className="w-full border-b-2 my-4"></div>
       <section className="w-full flex flex-col gap-6">
         <h1 className="font-bold text-2xl">설정</h1>
-        {
-          aiTypeData &&
+        {aiTypeData && (
           <div className="flex flex-col gap-4">
             <h1 className="text-xl">분석 형태 설정</h1>
             <span className="text-slate-300">
@@ -104,7 +105,7 @@ export default function MyPage() {
               </Button>
               <Button
                 className={`flex-1 h-12 bg-app-primary-200 hover:bg-app-primary-100 ${
-                  aiType === "PICTURE_POEM" ? "border border-slate-400" : ""
+                  aiType === "PICTURE_POETRY" ? "border border-slate-400" : ""
                 }`}
                 onClick={() => aiTypeMutate("poem")}
                 disabled={aiTypeIsPending}
@@ -113,7 +114,7 @@ export default function MyPage() {
               </Button>
             </div>
           </div>
-        }
+        )}
         <div className="flex flex-col gap-6 mt-6">
           <div className="flex">
             <h1 className="text-xl">알림 설정</h1>
