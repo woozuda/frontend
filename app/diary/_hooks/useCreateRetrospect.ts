@@ -1,5 +1,5 @@
 import { CreateRetrospect as ICreateRetrospect } from "@/app/models/diary";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { createRetrospect } from "../_lib/createRetrospect";
@@ -12,6 +12,7 @@ export function useCreateRetrospect({
   content,
 }: ICreateRetrospect) {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
     mutationFn: () =>
       createRetrospect({
@@ -21,8 +22,10 @@ export function useCreateRetrospect({
         date,
         content,
       }),
-    onSuccess: (data: { id: number }) => {
+    onSuccess: async (data: { id: number }) => {
       toast.success("회고 작성이 완료되었습니다.");
+      await queryClient.invalidateQueries({ queryKey: ["DIARY"] });
+      await queryClient.refetchQueries({ queryKey: ["DIARY"] });
       router.replace("/");
     },
     onError: () => {
