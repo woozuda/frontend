@@ -21,7 +21,7 @@ export default function SharedPage({ params }: { params: { shortlink: string } }
           <DefaultHeader title="공유한 일기" onShare={onShare} />
         </section>
         <section className="w-full">
-          <SharedTab />
+          <SharedTab shortlink={shortlink} />
         </section>
       </div>
       <ShortLinkDrawer shortlink={shortlink} isOpen={isOpen} setIsOpen={setIsOpen} />

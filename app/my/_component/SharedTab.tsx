@@ -4,7 +4,11 @@ import SharedNotes from "../_component/SharedNotes";
 import SharedAi from "../_component/SharedAi";
 import { useState } from "react";
 
-export default function SharedTab() {
+type Props = {
+  shortlink: string
+}
+
+export default function SharedTab({ shortlink }: Props) {
   const [tab, setTab] = useState<"note" | "ai">("note");
   
   const onClickTab = () => {
@@ -35,7 +39,7 @@ export default function SharedTab() {
           <span className="w-full text-center">AI 창작 콘텐츠</span>
         </div>
       </div>
-      {tab === "note" ? <SharedNotes /> : <SharedAi />}
+      {tab === "note" ? <SharedNotes/> : <SharedAi/>}
     </>
   );
 }

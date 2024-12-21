@@ -62,6 +62,14 @@ export default function MyPage() {
     alarmMutate(status);
   };
 
+  const handleLogout = () => {
+    document.cookie = "Authorization=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT;";
+  };
+
+  if (!alarmData || !alarmData || !shortlinkData) {
+    return null
+  }
+
   return (
     <main className="w-full flex flex-col items-center gap-6 py-6 px-4">
       <section className="w-full flex flex-col gap-6">
@@ -96,7 +104,7 @@ export default function MyPage() {
             <div className="flex justify-center gap-2">
               <Button
                 className={`flex-1 h-12 bg-app-primary-200 hover:bg-app-primary-100 ${
-                  aiType === "PICTURE_NOVEL" ? "border border-white" : ""
+                  aiTypeData.aiType === "PICTURE_NOVEL" ? "border border-white" : ""
                 }`}
                 onClick={() => aiTypeMutate("novel")}
                 disabled={aiTypeIsPending}
@@ -119,12 +127,16 @@ export default function MyPage() {
           <div className="flex">
             <h1 className="text-xl">알림 설정</h1>
             <div className="flex items-center gap-2 ml-auto">
-              <Checkbox
-                className="w-5 h-5 rounded-full border-2 border-white"
-                onCheckedChange={onChangeAlarm}
-                defaultChecked={alarm}
-                disabled={alarmIsPending}
-              />
+              {
+                alarmData.alarm &&
+                <Checkbox
+                  className="w-5 h-5 rounded-full border-2 border-white"
+                  onCheckedChange={onChangeAlarm}
+                  defaultChecked={alarmData.alarm}
+                  disabled={alarmIsPending}
+                />
+              
+              }
               <span className=" text-lg">알림 받기</span>
             </div>
           </div>
