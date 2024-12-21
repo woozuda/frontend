@@ -5,21 +5,23 @@ import SharedCard from "./SharedNoteCard";
 import { useState, useEffect } from "react";
 import { useSharedNote } from "../_hooks/useSharedNote";
 import { useUnshareNote } from "../_hooks/useUnshareNote";
-
 import {
   SharedDrawer,
   SharedDrawerContent,
 } from "@/components/ui/sharedDrawer";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 
-export default function SharedNotes() {
+type Props = {
+  shortlink: string
+}
+
+export default function SharedNotes({ shortlink }: Props) {
   const [mode, setMode] = useState<"view" | "edit">("view");
   const [noShareList, setNoshareList] = useState<number[]>([]);
   const [isDrawerOpen, setDrawerOpen] = useState(false);
 
   const { mutate, isPending } = useUnshareNote();
-  const { data } = useSharedNote();
+  const { data } = useSharedNote(shortlink);
 
   useEffect(() => {
     setDrawerOpen(noShareList.length > 0);

@@ -11,13 +11,17 @@ import {
 } from "@/components/ui/sharedDrawer";
 import { Button } from "@/components/ui/button";
 
-export default function SharedAi() {
+type Props = {
+  shortlink: string
+}
+
+export default function SharedAi({ shortlink }: Props) {
   const [mode, setMode] = useState<"view" | "edit">("view");
   const [noShareList, setNoshareList] = useState<number[]>([]);
   const [isDrawerOpen, setDrawerOpen] = useState(false);
 
   const { mutate, isPending } = useUnshareAi();
-  const { data } = useSharedAi();
+  const { data } = useSharedAi(shortlink);
 
   useEffect(() => {
     setDrawerOpen(noShareList.length > 0);

@@ -41,7 +41,7 @@ export const handlers = [
       shortlink: "pQLgtjo"
     });
   }),
-  http.get("/api/shared/note", () => {
+  http.get("/api/shortlink/note/pQLgtjo", () => {
     return HttpResponse.json({
       total: 4,
       sharedNotes: [
@@ -204,7 +204,7 @@ export const handlers = [
   //     ],
   //   });
   // }),
-  http.get("/api/shared/ai", () => {
+  http.get("/api/shortlink/ai/pQLgtjo", () => {
     return HttpResponse.json({
       total: 2,
       sharedAiCreations: [

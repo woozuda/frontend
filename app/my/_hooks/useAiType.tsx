@@ -6,9 +6,10 @@ export function useAiType() {
   const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
     mutationFn: (type: string) => setAiType(type),
-    onSuccess: () => {
+    onSuccess: async () => {
       toast.success("AI 창작 전환이 완료 되었습니다.");
       queryClient.invalidateQueries({ queryKey: ["AITYPE"] });
+      await queryClient.refetchQueries({ queryKey: ["AITYPE"] });
     },
     onError: () => {
       toast.error("AI 창작 전환 중 오류가 발생했습니다.", {

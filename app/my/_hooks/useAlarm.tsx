@@ -6,10 +6,10 @@ export function useAlarm() {
   const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
     mutationFn: (status: string) => setAlarm(status),
-    onSuccess: () => {
+    onSuccess: async () => {
       toast.success("알람 설정이 완료되었습니다.");
-      queryClient.invalidateQueries({ queryKey: ["ALARM"] });
-
+      await queryClient.invalidateQueries({ queryKey: ["ALARM"] });
+      await queryClient.refetchQueries({ queryKey: ["ALARM"] });
     },
     onError: () => {
       toast.error("알람  설정 중 오류가 발생했습니다.", {

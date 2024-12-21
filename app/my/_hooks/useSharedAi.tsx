@@ -2,11 +2,15 @@ import { useQuery } from "@tanstack/react-query";
 import { getSharedAi } from "../_lib/getSharedAi";
 
 
-export function useSharedAi() {
+export function useSharedAi(shortlink: string) {
     const { data } = useQuery({
-        queryKey: ['shared', 'ai'],
-        queryFn: getSharedAi,
+        queryKey: ['shared', 'ai', shortlink],
+        queryFn: ({ queryKey }) => {
+            const [, , link] = queryKey;
+            return getSharedAi(link as string);
+        },
     })
 
     return { data }
 }
+
