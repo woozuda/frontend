@@ -1,27 +1,25 @@
 "use client";
 
 import { ManageSvg } from "@/app/assets/icons";
-import SharedAiCard from "./SharedAiCard";
-import { useState, useEffect } from "react";
-import { useSharedAi } from "../_hooks/useSharedAi";
-import { useUnshareAi } from "../_hooks/useUnshareAi";
+import { Button } from "@/components/ui/button";
 import {
   SharedDrawer,
   SharedDrawerContent,
 } from "@/components/ui/sharedDrawer";
-import { Button } from "@/components/ui/button";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useSharedAi } from "../_hooks/useSharedAi";
+import { useUnshareAi } from "../_hooks/useUnshareAi";
+import SharedAiCard from "./SharedAiCard";
 
-type Props = {
-  shortlink: string
-}
-
-export default function SharedAi({ shortlink }: Props) {
+export default function SharedAi() {
   const [mode, setMode] = useState<"view" | "edit">("view");
   const [noShareList, setNoshareList] = useState<number[]>([]);
   const [isDrawerOpen, setDrawerOpen] = useState(false);
 
   const { mutate, isPending } = useUnshareAi();
-  const { data } = useSharedAi(shortlink);
+  const { shortlink } = useParams<{ shortlink: string }>();
+  const { data } = useSharedAi({ id: shortlink });
 
   useEffect(() => {
     setDrawerOpen(noShareList.length > 0);

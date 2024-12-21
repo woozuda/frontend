@@ -39,7 +39,7 @@ export default function SharedTab({ shortlink }: Props) {
           <span className="w-full text-center">AI 창작 콘텐츠</span>
         </div>
       </div>
-      {tab === "note" ? <SharedNotes shortlink={shortlink}/> : <SharedAi shortlink={shortlink}/>}
+      {tab === "note" ? <SharedNotes/> : <SharedAi/>}
     </>
   );
 }
