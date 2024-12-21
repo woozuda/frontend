@@ -11,13 +11,17 @@ import { useAiType } from "./_hooks/useAiType";
 import { useMy } from "./_hooks/useMy";
 import { getAiType } from "./_lib/getAitype";
 import { getAlarm } from "./_lib/getAlarm";
+import { useShortlink } from "./_hooks/useShortlink";
 
 export default function MyPage() {
   const [alarm, setAlarm] = useState<boolean>(false);
-  const [aiType, setAiType] = useState<"PICTURE_POEM" | "PICTURE_NOVEL" | undefined>()
+  const [aiType, setAiType] = useState<"PICTURE_POEM" | "PICTURE_NOVEL" | undefined>();
+  const [shortlink, setShortlink] = useState<string>('');
+
   const { data } = useMy();
   const { mutate: alarmMutate, isPending: alarmIsPending } = useAlarm();
   const { mutate: aiTypeMutate, isPending: aiTypeIsPending } = useAiType();
+  const { data: shortlinkData } = useShortlink();
 
     const { data:aiTypeData } = useQuery({
         queryKey: ['AITYPE'],
@@ -41,7 +45,10 @@ export default function MyPage() {
     if (aiTypeData) {
       setAiType(aiTypeData.aiType)
     }
-  }, [alarmData, aiTypeData]);
+    if (shortlinkData) {
+      setShortlink(shortlinkData.shortlink)
+    }
+  }, [alarmData, aiTypeData, shortlinkData]);
 
   const onChangeAlarm = (e: boolean) => {
     let status
@@ -67,7 +74,7 @@ export default function MyPage() {
         </div>
       </section>
       <section className="w-full">
-        <Link href={"/my/shared"}>
+        <Link href={`/my/shared/${shortlink}`}>
           <motion.div whileTap={{ scale: 0.8 }}>
             <Button className="w-full h-12 rounded-xl bg-gradient-to-r from-[#5AC6F4] to-[#FFC3DF] text-slate-100 text-lg">
               공유한 일기 보기

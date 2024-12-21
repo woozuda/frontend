@@ -2,22 +2,17 @@
 
 import { DefaultHeader } from "@/components/header";
 import { useState } from "react";
-import SharedTab from "../_component/SharedTab";
-import ShortLinkDrawer from "../_component/ShortLinkDrawer";
-import { useShortlink } from "../_hooks/useShortlink";
+import SharedTab from "../../_component/SharedTab";
+import ShortLinkDrawer from "../../_component/ShortLinkDrawer";
 
-export default function SharedPage() {
+export default function SharedPage({ params }: { params: { shortlink: string } }) {
+  const { shortlink } = params;
+
   const [isOpen, setIsOpen] = useState(false);
-
-  const { data } = useShortlink();
 
   const onShare = () => {
     setIsOpen(true);
   };
-
-  if (!data) {
-    return null
-  }
 
   return (
     <main className="h-full w-full sm:min-w-[450px] sm:max-w-[500px] py-6 px-4">
@@ -29,7 +24,7 @@ export default function SharedPage() {
           <SharedTab />
         </section>
       </div>
-      <ShortLinkDrawer shortlink={data.shortlink} isOpen={isOpen} setIsOpen={setIsOpen} />
+      <ShortLinkDrawer shortlink={shortlink} isOpen={isOpen} setIsOpen={setIsOpen} />
     </main>
   );
 }
