@@ -1,7 +1,7 @@
-export async function getSharedAi() {
+export async function getShortlink() {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/shared/ai`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/shortlink`,
       {
         method: "get",
         credentials: "include",

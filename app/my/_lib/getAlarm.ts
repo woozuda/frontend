@@ -1,12 +1,13 @@
-export async function getSharedAi() {
+export async function getAlarm() {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/shared/ai`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/my/alarm`,
       {
         method: "get",
         credentials: "include",
       }
     );
+
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);
     }

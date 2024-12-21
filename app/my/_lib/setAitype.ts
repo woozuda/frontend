@@ -1,14 +1,14 @@
 
-export async function setAnalysisType(type: string) {
+export async function setAiType(type: string) {
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/my/type`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/my/${type}`,
         {
           method: "post",
           headers: {
               "Content-Type": "application/json",
             },
-          body: JSON.stringify({ type }),
+          body: JSON.stringify({}),
           credentials: "include",
         }
       );

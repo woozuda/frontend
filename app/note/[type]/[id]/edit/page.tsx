@@ -281,6 +281,7 @@ export default function Page({ params }: { params: PageParams }) {
           {retrospect && (
             <div className="w-full px-4 bg-white flex flex-col h-full">
               <WriteRetrospectForm
+                mode="edit"
                 retrospectId={Number(retrospect?.retrospectId)}
                 text={text}
                 setText={setText}

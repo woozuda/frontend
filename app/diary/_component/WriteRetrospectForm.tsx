@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { useEffect } from "react";
 
 type Props = {
+  mode?: string;
   retrospectId: number;
   text: IRetrospectText;
   setText: React.Dispatch<
@@ -16,6 +17,7 @@ type Props = {
 };
 
 export default function WriteRetrospectForm({
+  mode,
   retrospectId,
   text,
   setText,
@@ -39,15 +41,17 @@ export default function WriteRetrospectForm({
       [sectionName]: value,
     }));
   };
-  
-  useEffect(() => {
-    const initialText = sections.reduce((acc, section) => {
-      acc[section.name] = "";
-      return acc;
-    }, {} as { [key: string]: string });
 
-    setText(initialText);
+  useEffect(() => {
+    if (mode !== "edit") {
+      const initialText = sections.reduce((acc, section) => {
+        acc[section.name] = "";
+        return acc;
+      }, {} as { [key: string]: string });
+      setText(initialText);
+    }
   }, [sections, setText]);
+  console.log(text);
 
   return sections.map((section) => (
     <div className="flex flex-col gap-2 mb-6" key={section.name}>

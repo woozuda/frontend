@@ -1,14 +1,14 @@
 
-export async function setAlarm(alarm: boolean) {
+export async function setAlarm(status: string) {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/my/alarm`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/my/alarm/${status}`,
       {
         method: "post",
         headers: {
             "Content-Type": "application/json",
           },
-        body: JSON.stringify({ alarm }),
+        body: JSON.stringify({ }),
         credentials: "include",
       }
     );

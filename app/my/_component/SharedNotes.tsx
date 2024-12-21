@@ -43,8 +43,6 @@ export default function SharedNotes() {
     return null;
   }
 
-  console.log(data);
-
   return (
     <div className="w-full flex flex-col gap-6 mt-6">
       <div className="flex gap-4">
@@ -67,19 +65,12 @@ export default function SharedNotes() {
                 key={noteItem.note.id}
                 className="flex flex-col w-full items-center gap-2"
               >
-                {/* <Link
-                className="w-full"
-                  href={`/api/${
-                    noteItem.note.diary
-                  }/note/${noteItem.type.toLowerCase()}/${noteItem.note.id}`}
-                > */}
                   <SharedCard
                     noteItem={noteItem}
                     mode={mode}
                     noShareList={noShareList}
                     setNoShareList={setNoshareList}
                   />
-                {/* </Link> */}
               </div>
             ))}
           </div>

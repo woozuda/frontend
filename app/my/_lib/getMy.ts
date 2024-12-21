@@ -4,7 +4,6 @@ export async function getMy() {
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/my/email`,
       {
         method: "get",
-        //body
         credentials: "include",
       }
     );
@@ -12,7 +11,7 @@ export async function getMy() {
       throw new Error(`HTTP error! status: ${res.status}`);
     }
 
-    const data = (await res.json()) as unknown;
+    const data = await res.json();
 
     return data;
   } catch (err) {
