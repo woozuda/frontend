@@ -25,6 +25,13 @@ const AuthProvider = (props: PropsWithChildren) => {
     return null;
   }
 
+  if (
+    pathname.includes("/my/shared") &&
+    !(pathname === "/my/shared") &&
+    !(pathname === "/my/shared/")
+  ) {
+    return props.children;
+  }
   if (pathname.includes("auth") && ok) {
     return redirect("/");
   }
