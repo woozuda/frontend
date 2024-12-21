@@ -1,6 +1,7 @@
 "use client";
 
 import { DiaryActionType } from "@/app/lib/diary";
+import { useShortlink } from "@/app/my/_hooks/useShortlink";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
@@ -17,6 +18,7 @@ export interface DiaryDetailNotesSheetProps {
 const DiaryDetailNotesSheet = (props: DiaryDetailNotesSheetProps) => {
   const { action, onActionChange, checkedSize, onCancel, onDelete, onShare } =
     props;
+  const { data } = useShortlink();
   const sheetClassName = cn(
     "w-full max-w-[480px] bg-black flex overflow-hidden items-center justify-center",
     "transition-all ease-in-out px-5 py-6 rounded-t-[20px]",
@@ -31,6 +33,7 @@ const DiaryDetailNotesSheet = (props: DiaryDetailNotesSheetProps) => {
       action === DiaryActionType.DELETE &&
       "duration-100 h-[175px]"
   );
+  console.log(data);
   return (
     <div className="w-full fixed bg-transparent flex justify-center bottom-0 left-0 right-0">
       <div className={sheetClassName}>
@@ -84,12 +87,14 @@ const DiaryDetailNotesSheet = (props: DiaryDetailNotesSheetProps) => {
               >
                 <h4 className="text-sub4 text-white">취소</h4>
               </button>
-              <Link
-                className="w-full flex justify-center items-center bg-app-gray-1000 rounded-lg"
-                href={"/my/shared"}
-              >
-                <h4 className="text-sub4 text-white">확인</h4>
-              </Link>
+              {data && (
+                <Link
+                  className="w-full flex justify-center items-center bg-app-gray-1000 rounded-lg"
+                  href={`/my/shared/${data.shortlink}`}
+                >
+                  <h4 className="text-sub4 text-white">확인</h4>
+                </Link>
+              )}
             </div>
           </div>
         )}

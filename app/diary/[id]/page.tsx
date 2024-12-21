@@ -6,6 +6,7 @@ import useNoteDelete from "@/app/hooks/useNoteDelete";
 import useNoteShare from "@/app/hooks/useNoteShare";
 import { DiaryActionType, DiaryLibs } from "@/app/lib/diary";
 import { DiaryNote } from "@/app/models/diary";
+import { useShortlink } from "@/app/my/_hooks/useShortlink";
 import {
   DiaryDetailNotes,
   DiaryDetailNotesHeader,
@@ -29,6 +30,7 @@ export default function Page({ params }: { params: { id: number } }) {
   const { mutateAsync: shareNotes } = useNoteShare();
   const queryClient = useQueryClient();
   const router = useRouter();
+  const { refetch } = useShortlink();
 
   const notes = useMemo(() => {
     return DiaryLibs.groupNotes(data);
@@ -67,6 +69,7 @@ export default function Page({ params }: { params: { id: number } }) {
     } else if (type === DiaryActionType.SHARE) {
       try {
         await shareNotes({ ids: Array.from(checkeds) });
+        await refetch();
       } catch (error) {
         toast.error("알 수 없는 오류가 발생했습니다.");
       } finally {
