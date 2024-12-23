@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import LogoutButton from "../_component/LogoutButton";
 import { useAiType } from "./_hooks/useAiType";
 import { useAlarm } from "./_hooks/useAlarm";
 import { useMy } from "./_hooks/useMy";
@@ -62,12 +63,19 @@ export default function MyPage() {
     alarmMutate(status);
   };
 
+  if (!alarmData || !alarmData || !shortlinkData) {
+    return null;
+  }
+
   return (
     <main className="w-full flex flex-col items-center gap-6 py-6 px-4">
       <section className="w-full flex flex-col gap-6">
         <h1 className="font-bold text-xl">MY</h1>
         <div className="flex flex-col gap-4">
-          <h1 className="font-bold text-xl">내 계정</h1>
+          <div className="flex justify-between items-center">
+            <h1 className="font-bold text-xl">내 계정</h1>
+            <LogoutButton text="로그아웃" />
+          </div>
           {data ? (
             <span>{data.email}</span>
           ) : (
@@ -96,7 +104,9 @@ export default function MyPage() {
             <div className="flex justify-center gap-2">
               <Button
                 className={`flex-1 h-12 bg-app-primary-200 hover:bg-app-primary-100 ${
-                  aiType === "PICTURE_NOVEL" ? "border border-white" : ""
+                  aiTypeData.aiType === "PICTURE_NOVEL"
+                    ? "border border-white"
+                    : ""
                 }`}
                 onClick={() => aiTypeMutate("novel")}
                 disabled={aiTypeIsPending}
@@ -119,12 +129,14 @@ export default function MyPage() {
           <div className="flex">
             <h1 className="text-xl">알림 설정</h1>
             <div className="flex items-center gap-2 ml-auto">
-              <Checkbox
-                className="w-5 h-5 rounded-full border-2 border-white"
-                onCheckedChange={onChangeAlarm}
-                defaultChecked={alarm}
-                disabled={alarmIsPending}
-              />
+              {alarmData.alarm && (
+                <Checkbox
+                  className="w-5 h-5 rounded-full border-2 border-white"
+                  onCheckedChange={onChangeAlarm}
+                  defaultChecked={alarmData.alarm}
+                  disabled={alarmIsPending}
+                />
+              )}
               <span className=" text-lg">알림 받기</span>
             </div>
           </div>

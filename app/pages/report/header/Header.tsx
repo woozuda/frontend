@@ -4,6 +4,7 @@ import { ArrowLeftSmallSvg, ArrowRightSmallSvg } from "@/app/assets/icons";
 import { ReportLibs } from "@/app/lib/report";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
+import { ManageSvg } from "@/app/assets/icons";
 
 const ReportHeader = () => {
   const searchParams = useSearchParams();
@@ -39,7 +40,9 @@ const ReportHeader = () => {
             <ArrowRightSmallSvg className="text-white" />
           </Link>
         </div>
-        <div className="w-10 h-10"></div>
+        <Link className="pr-6" href={`/report/eightlist/?start=${start}&end=${end}`}>
+          <ManageSvg className="w-8 h-8 text-white" />
+        </Link>
       </div>
     </div>
   );
