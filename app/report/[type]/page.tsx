@@ -26,8 +26,10 @@ export default function Page() {
   );
   if (param === ReportEnums.COMMON) {
     return (
-      <div className="w-full flex flex-col gap-y-3 pb-5 h-full items-center">
-        <ReportHeader />
+      <div className="w-full flex flex-col gap-y-3 pb-5 h-full">
+        <div className="flex items-center">
+          <ReportHeader />
+        </div>
         <div className="flex flex-col w-full px-5 py-4 h-full">
           <DiaryReport />
         </div>
@@ -37,7 +39,9 @@ export default function Page() {
   if (param === ReportEnums.CREATION) {
     return (
       <div className="w-full flex flex-col gap-y-3 pb-5 h-full">
-        <ReportHeader />
+        <div className="flex items-center">
+          <ReportHeader />
+        </div>
         <div className="flex flex-col w-full px-5 py-4 h-full">
           <AiCreation />
         </div>
@@ -46,7 +50,9 @@ export default function Page() {
   }
   return (
     <div className="w-full flex flex-col gap-y-3 pb-5 h-full">
-      <ReportHeader />
+        <div className="flex items-center">
+          <ReportHeader />
+        </div>
       <div className="flex flex-col w-full px-5">
         <ReportChipHeader />
       </div>
