@@ -5,12 +5,16 @@ import ArrowDownSvg from "@/app/assets/icons/ArrowDown.svg";
 import ArrowLeftSvg from "@/app/assets/icons/ArrowLeft.svg";
 import useDiaryNames from "@/app/hooks/useDiaryNames";
 import useImageUpload from "@/app/hooks/useImageUpload";
-import useNoteCommonCreate from "@/app/hooks/useNoteCreate";
+import useNoteCommonCreate, {
+  CreateNoteProps,
+} from "@/app/hooks/useNoteCreate";
+import { useNotification } from "@/app/hooks/useNotification";
 import { CalendarDayType, CalendarLibs } from "@/app/lib/calendar";
 import { ImageLibs } from "@/app/lib/image";
 import { Emoji, NoteLibs } from "@/app/lib/note";
 import { ReportLibs } from "@/app/lib/report";
 import { NoteType } from "@/app/models/diary";
+import { getAlarm } from "@/app/my/_lib/getAlarm";
 import AppCalendar from "@/components/AppCalendar";
 import AppCalendarDay from "@/components/AppCalendar/Day";
 import BottomSheetV2 from "@/components/BottomSheet/v2";
@@ -22,7 +26,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { addDays, endOfWeek, format, startOfWeek } from "date-fns";
 import { useRouter } from "next/navigation";
 import Quill from "quill";
@@ -30,6 +34,7 @@ import { isNil } from "ramda";
 import {
   ChangeEventHandler,
   MouseEventHandler,
+  useCallback,
   useMemo,
   useRef,
   useState,
@@ -50,7 +55,43 @@ export default function Page() {
   const editorRef = useRef<Quill | null>(null);
   const { mutateAsync, reset } = useImageUpload();
   const queryClient = useQueryClient();
-  const { mutateAsync: onNoteCreate } = useNoteCommonCreate({});
+  const { subscription } = useNotification();
+
+  const { data: alarmData } = useQuery({
+    queryKey: ["ALARM"],
+    queryFn: getAlarm,
+  });
+
+  const onSuccess = useCallback(
+    async (data: { id: number } | undefined, variables: CreateNoteProps) => {
+      const response = await NoteLibs.fetchCountOnSuccess(
+        queryClient,
+        variables.date
+      );
+      const hasReport = await NoteLibs.fetchReportDiaryOnSuccess(
+        queryClient,
+        variables
+      );
+      if (
+        response.nonRetroCount >= 3 &&
+        !hasReport &&
+        alarmData &&
+        alarmData.alarm
+      ) {
+        fetch("/api/web-push/notification", {
+          method: "POST",
+          body: JSON.stringify({
+            title: "레포트 작성 가능",
+            message: "일기 레포트를 작성해보세요",
+            subscription,
+          }),
+        });
+      }
+    },
+    [queryClient, subscription, alarmData]
+  );
+
+  const { mutateAsync: onNoteCreate } = useNoteCommonCreate({ onSuccess });
   const [emoji, setEmoji] = useState<Emoji>();
   const [weather, setWeather] = useState<Emoji>();
   const [title, setTitle] = useState<string>();

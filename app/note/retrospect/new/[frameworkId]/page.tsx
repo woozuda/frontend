@@ -6,12 +6,16 @@ import DiaryDrawer from "@/app/diary/_component/DiaryDrawer";
 import WriteRetrospectForm from "@/app/diary/_component/WriteRetrospectForm";
 import { RETROSPECT } from "@/app/diary/_component/retrospectData";
 import { useCreateRetrospect } from "@/app/diary/_hooks/useCreateRetrospect";
+import { useNotification } from "@/app/hooks/useNotification";
+import { NoteLibs } from "@/app/lib/note";
 import { ReportLibs } from "@/app/lib/report";
+import { getAlarm } from "@/app/my/_lib/getAlarm";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { addDays, endOfWeek, format, startOfWeek } from "date-fns";
 import { useParams } from "next/navigation";
+import { isNotNil } from "ramda";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -22,11 +26,17 @@ export default function CreateFrameworkPage() {
   const [title, setTitle] = useState<string>("");
   const [text, setText] = useState<{ [sectionName: string]: string }>({});
   const [content, setContent] = useState<string[]>([]);
+  const { subscription } = useNotification();
 
   const [isDiaryId, setIsDiaryId] = useState(true);
   const [isDate, setIsDate] = useState(true);
   const [isTitle, setIsTitle] = useState(true);
   const [isText, setIsText] = useState(true);
+
+  const { data: alarmData } = useQuery({
+    queryKey: ["ALARM"],
+    queryFn: getAlarm,
+  });
 
   const queryClient = useQueryClient();
 
@@ -103,6 +113,38 @@ export default function CreateFrameworkPage() {
     return isValid;
   };
 
+  const onSubmit = async () => {
+    if (checkRetrospectForm()) {
+      setRetrospectContent();
+      mutate();
+      await invalidate();
+
+      const count = await NoteLibs.fetchCountOnSuccess(queryClient, date);
+      const hasReport = await NoteLibs.fetchReportRetrospectiveOnSuccess(
+        queryClient,
+        date,
+        selectedRetrospect!.type
+      );
+
+      if (
+        count.nonRetroCount >= 3 &&
+        isNotNil(hasReport) &&
+        !hasReport &&
+        alarmData &&
+        alarmData.alarm
+      ) {
+        fetch("/api/web-push/notification", {
+          method: "POST",
+          body: JSON.stringify({
+            title: "레포트 작성 가능",
+            message: "회고 레포트를 작성해보세요",
+            subscription,
+          }),
+        });
+      }
+    }
+  };
+
   return (
     <main className="h-full min-h-screen w-full sm:min-w-[450px] sm:max-w-[500px] flex flex-col items-center gap-4 py-6 px-4">
       <section className="w-full h-12 sticky top-0 bg-white z-10">
@@ -112,13 +154,7 @@ export default function CreateFrameworkPage() {
           <Button
             className="ml-auto border-none font-bold text-lg"
             variant={"outline"}
-            onClick={() => {
-              if (checkRetrospectForm()) {
-                setRetrospectContent();
-                mutate();
-                invalidate();
-              }
-            }}
+            onClick={onSubmit}
             disabled={isPending}
           >
             완료
