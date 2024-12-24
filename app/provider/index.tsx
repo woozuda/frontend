@@ -4,6 +4,7 @@ import { NotificationProvider } from "../notification/Provider";
 import QueryProvider from "../query/Provider";
 import { CounterStoreProvider } from "../stores/counter/Provider";
 import { AuthProvider } from "./AuthProvider";
+import SSEProvider from "./SSEProvider";
 
 const AppProvider = (props: PropsWithChildren) => {
   const { children } = props;
@@ -13,7 +14,11 @@ const AppProvider = (props: PropsWithChildren) => {
       <QueryProvider>
         <AuthProvider>
           <NotificationProvider>
-            <CounterStoreProvider>{children}</CounterStoreProvider>
+            <SSEProvider
+              url={`${process.env.NEXT_PUBLIC_BASE_URL}/api/alarm/connect`}
+            >
+              <CounterStoreProvider>{children}</CounterStoreProvider>
+            </SSEProvider>
           </NotificationProvider>
         </AuthProvider>
       </QueryProvider>

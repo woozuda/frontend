@@ -103,6 +103,14 @@ export default function CreateFrameworkPage() {
     return isValid;
   };
 
+  const onSubmit = async () => {
+    if (checkRetrospectForm()) {
+      setRetrospectContent();
+      mutate();
+      await invalidate();
+    }
+  };
+
   return (
     <main className="h-full min-h-screen w-full sm:min-w-[450px] sm:max-w-[500px] flex flex-col items-center gap-4 py-6 px-4">
       <section className="w-full h-12 sticky top-0 bg-white z-10">
@@ -112,13 +120,7 @@ export default function CreateFrameworkPage() {
           <Button
             className="ml-auto border-none font-bold text-lg"
             variant={"outline"}
-            onClick={() => {
-              if (checkRetrospectForm()) {
-                setRetrospectContent();
-                mutate();
-                invalidate();
-              }
-            }}
+            onClick={onSubmit}
             disabled={isPending}
           >
             완료
