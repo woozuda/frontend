@@ -17,7 +17,6 @@ function createRangeYear(date: Date) {
   for (let index = initialYear; index <= getYear(date); index++) {
     array.push(index);
   }
-  array.push(2025);
   return array;
 }
 
