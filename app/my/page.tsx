@@ -133,7 +133,7 @@ export default function MyPage() {
                 <Checkbox
                   className="w-5 h-5 rounded-full border-2 border-white"
                   onCheckedChange={onChangeAlarm}
-                  defaultChecked={alarmData.alarm}
+                  defaultChecked={alarmData.alarm === "on"}
                   disabled={alarmIsPending}
                 />
               )}
