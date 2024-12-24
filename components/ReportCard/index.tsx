@@ -65,9 +65,11 @@ const ReportSuggestion = (props: ReportSuggestionProps) => {
       {suggestions?.map((suggestion) => {
         return (
           <div key={suggestion.type} className="flex flex-col gap-y-2">
-            <div className="flex items-center gap-x-2 h-4">
+            <div className="flex items-center gap-x-2">
               <div className="w-0.5 h-full bg-white"></div>
-              <h4 className="text-sub4 text-app-gray-300">{suggestion.type}</h4>
+              <h4 className="text-body2 font-bold text-app-gray-300">
+                {suggestion.type}
+              </h4>
             </div>
             <p className="text-body2 text-app-gray-500">{suggestion.content}</p>
           </div>

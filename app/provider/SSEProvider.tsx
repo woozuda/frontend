@@ -1,5 +1,6 @@
 "use client";
 
+import { EventSourcePolyfill } from "event-source-polyfill";
 import { useRouter } from "next/navigation";
 import { PropsWithChildren, useCallback, useEffect } from "react";
 import { Http, HttpLibs } from "../lib/http";
@@ -57,7 +58,8 @@ const SSEProvider = (props: SSEProviderProps) => {
     if (!url) {
       return;
     }
-    const source = new EventSource(url, { withCredentials: true });
+
+    const source = new EventSourcePolyfill(url, { withCredentials: true });
     source.onopen = function (event) {};
     source.onmessage = function (sse) {
       createSWHttp()
