@@ -9,6 +9,7 @@ import { Serwist } from "serwist";
 declare global {
   interface WorkerGlobalScope extends SerwistGlobalConfig {
     __SW_MANIFEST: (PrecacheEntry | string)[] | undefined;
+    EVENT_SOURCE: EventSource | undefined | null;
   }
 }
 
@@ -44,5 +45,9 @@ self.addEventListener("push", function (event) {
 self.addEventListener("notificationclick", function (event) {
   event.notification.close();
 
-  event.waitUntil(self.clients.openWindow("/"));
+  event.waitUntil(
+    self.clients.openWindow("/report").then((client) => {
+      client?.navigate("/report");
+    })
+  );
 });

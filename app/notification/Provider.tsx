@@ -46,6 +46,10 @@ export const NotificationProvider = (props: PropsWithChildren) => {
     });
   }, []);
 
+  useEffect(() => {
+    onSubscribe();
+  }, [onSubscribe]);
+
   return (
     <Context.Provider
       value={{
