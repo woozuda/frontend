@@ -1,9 +1,11 @@
 import { RetrospectEnums } from "@/app/models/report";
 import {
+  addDays,
   addWeeks,
   endOfWeek,
   format,
   getWeekOfMonth,
+  isThursday,
   isValid,
   startOfWeek,
   subWeeks,
@@ -55,8 +57,18 @@ export class ReportLibs {
     }
   }
 
+  static getThursday(start: Date, end: Date): Date {
+    for (let date = start; date <= end; date = addDays(date, 1)) {
+      if (isThursday(date)) {
+        return date;
+      }
+    }
+    throw new Error("Failed to get thurday from date range");
+  }
+
   static getWeekNumber(start: Date, end: Date): [Date, number] {
-    if (start.getMonth() === end.getMonth()) {
+    const thursday = ReportLibs.getThursday(start, end);
+    if (start.getMonth() === thursday.getMonth()) {
       return [start, getWeekOfMonth(start)];
     } else {
       return [end, 1];
