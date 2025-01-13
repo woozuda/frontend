@@ -1,6 +1,15 @@
-import { defaultCache } from "@serwist/next/worker";
-import type { PrecacheEntry, SerwistGlobalConfig } from "serwist";
-import { Serwist } from "serwist";
+import type {
+  PrecacheEntry,
+  RuntimeCaching,
+  SerwistGlobalConfig,
+} from "serwist";
+import {
+  CacheFirst,
+  ExpirationPlugin,
+  NetworkFirst,
+  Serwist,
+  StaleWhileRevalidate,
+} from "serwist";
 
 // This declares the value of `injectionPoint` to TypeScript.
 // `injectionPoint` is the string that will be replaced by the
@@ -15,16 +24,83 @@ declare global {
 
 declare const self: ServiceWorkerGlobalScope;
 
+const appCache: RuntimeCaching[] = [
+  {
+    matcher: /\.(?:jpg|jpeg|gif|png|svg|ico|webp)$/i,
+    handler: new CacheFirst({
+      cacheName: "offlineAsset",
+      plugins: [
+        new ExpirationPlugin({
+          maxEntries: 64,
+          maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
+          maxAgeFrom: "last-used",
+        }),
+      ],
+    }),
+  },
+  {
+    matcher: /\.(?:js)$/i,
+    handler: new StaleWhileRevalidate({
+      cacheName: "static-js-assets",
+      plugins: [
+        new ExpirationPlugin({
+          maxEntries: 48,
+          maxAgeSeconds: 24 * 60 * 60, // 24 hours
+          maxAgeFrom: "last-used",
+        }),
+      ],
+    }),
+  },
+  {
+    matcher: /\/_next\/static.+\.js$/i,
+    handler: new CacheFirst({
+      cacheName: "next-static-js-assets",
+      plugins: [
+        new ExpirationPlugin({
+          maxEntries: 64,
+          maxAgeSeconds: 24 * 60 * 60, // 24 hours
+          maxAgeFrom: "last-used",
+        }),
+      ],
+    }),
+  },
+  {
+    matcher: /\.(?:css|less)$/i,
+    handler: new StaleWhileRevalidate({
+      cacheName: "static-style-assets",
+      plugins: [
+        new ExpirationPlugin({
+          maxEntries: 32,
+          maxAgeSeconds: 24 * 60 * 60, // 24 hours
+          maxAgeFrom: "last-used",
+        }),
+      ],
+    }),
+  },
+  {
+    matcher: /^https?.*/,
+    handler: new NetworkFirst({
+      cacheName: "offlineCache",
+      plugins: [
+        new ExpirationPlugin({
+          maxEntries: 200,
+        }),
+      ],
+    }),
+  },
+];
+
 const serwist = new Serwist({
-  precacheEntries: self.__SW_MANIFEST,
   skipWaiting: true,
   clientsClaim: true,
   navigationPreload: false,
-  runtimeCaching: defaultCache,
+  runtimeCaching: appCache,
+
+  precacheEntries: self.__SW_MANIFEST,
   precacheOptions: {
     cleanupOutdatedCaches: true,
     concurrency: 10,
-    ignoreURLParametersMatching: [],
+    ignoreURLParametersMatching: [/.*/],
     matchOptions: {
       ignoreSearch: true,
     },
