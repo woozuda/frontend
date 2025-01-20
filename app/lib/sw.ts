@@ -107,8 +107,6 @@ const serwist = new Serwist({
   },
 });
 
-serwist.addEventListeners();
-
 self.addEventListener("push", function (event) {
   if (event.data) {
     const data = event.data.json();
@@ -135,3 +133,7 @@ self.addEventListener("notificationclick", function (event) {
     })
   );
 });
+
+self.addEventListener("install", serwist.handleInstall);
+self.addEventListener("activate", serwist.handleActivate);
+self.addEventListener("message", serwist.handleCache);
